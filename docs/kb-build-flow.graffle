@@ -60,6 +60,109 @@
 				<integer>54</integer>
 			</dict>
 			<key>ID</key>
+			<integer>70</integer>
+			<key>Points</key>
+			<array>
+				<string>{372.35897378726355, 349.46153847511124}</string>
+				<string>{638.64101804167524, 988.53846156578493}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>FilledArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>LineType</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>0</string>
+				</dict>
+			</dict>
+			<key>Tail</key>
+			<dict>
+				<key>ID</key>
+				<integer>68</integer>
+			</dict>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>Head</key>
+			<dict>
+				<key>ID</key>
+				<integer>68</integer>
+			</dict>
+			<key>ID</key>
+			<integer>69</integer>
+			<key>Points</key>
+			<array>
+				<string>{183, 209.5}</string>
+				<string>{291.5568255729782, 266.20878947842141}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>GapRatio</key>
+					<real>0.5</real>
+					<key>HeadArrow</key>
+					<string>FilledArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>LineType</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>0</string>
+					<key>Width</key>
+					<real>4</real>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Bounds</key>
+			<string>{{292, 245}, {117, 104}}</string>
+			<key>Class</key>
+			<string>ShapedGraphic</string>
+			<key>ID</key>
+			<integer>68</integer>
+			<key>Shape</key>
+			<string>Rectangle</string>
+			<key>Style</key>
+			<dict>
+				<key>shadow</key>
+				<dict>
+					<key>Draws</key>
+					<string>NO</string>
+				</dict>
+				<key>stroke</key>
+				<dict>
+					<key>CornerRadius</key>
+					<real>9</real>
+				</dict>
+			</dict>
+			<key>Text</key>
+			<dict>
+				<key>Text</key>
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
+
+\f0\fs24 \cf0 ontology-versions.ttl}</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>Head</key>
+			<dict>
+				<key>ID</key>
+				<integer>54</integer>
+			</dict>
+			<key>ID</key>
 			<integer>67</integer>
 			<key>Points</key>
 			<array>
@@ -671,7 +774,7 @@
 {\*\expandedcolortbl;;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 phenoscape-kb-tbox-hierarchy.ttl}</string>
+\f0\fs24 \cf0 phenoscape-kb-tbox-hierarchy.ofn}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -775,7 +878,7 @@
 {\*\expandedcolortbl;;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 phenoscape-kb-tbox-classified.ttl}</string>
+\f0\fs24 \cf0 phenoscape-kb-tbox-classified.ofn}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -860,8 +963,8 @@
 			<integer>42</integer>
 			<key>Points</key>
 			<array>
-				<string>{633.49791170708579, 466.59089198363284}</string>
-				<string>{733.50209836387387, 457.42220393919581}</string>
+				<string>{645.48060364067931, 409.92501298324891}</string>
+				<string>{733.51915170763118, 435.18846362775611}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -949,7 +1052,7 @@
 {\*\expandedcolortbl;;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 phenoscape-kb-tbox.ttl}</string>
+\f0\fs24 \cf0 phenoscape-kb-tbox.ofn}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -964,8 +1067,8 @@
 			<integer>39</integer>
 			<key>Points</key>
 			<array>
-				<string>{384.49769378259532, 453.68617799207641}</string>
-				<string>{515.50230738143853, 466.31235882977518}</string>
+				<string>{384.48929914861418, 435.59569977198367}</string>
+				<string>{527.51089675554158, 405.52104451396224}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -990,35 +1093,6 @@
 				<key>ID</key>
 				<integer>21</integer>
 			</dict>
-		</dict>
-		<dict>
-			<key>Bounds</key>
-			<string>{{429.5, 122}, {90, 47}}</string>
-			<key>Class</key>
-			<string>ShapedGraphic</string>
-			<key>ID</key>
-			<integer>36</integer>
-			<key>Shape</key>
-			<string>Speech Bubble</string>
-			<key>Style</key>
-			<dict/>
-			<key>Text</key>
-			<dict>
-				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 filter disjoints?}</string>
-				<key>VerticalPad</key>
-				<integer>0</integer>
-			</dict>
-			<key>TextPlacement</key>
-			<integer>0</integer>
-			<key>TextRelativeArea</key>
-			<string>{{0.14999999999999999, 0.14999999999999999}, {0.69999999999999996, 0.69999999999999996}}</string>
 		</dict>
 		<dict>
 			<key>Class</key>
@@ -1191,7 +1265,7 @@
 {\*\expandedcolortbl;;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 similarity-subsumers.ttl}</string>
+\f0\fs24 \cf0 similarity-subsumers.ofn}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -1225,7 +1299,7 @@
 {\*\expandedcolortbl;;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 query-subsumers.ttl}</string>
+\f0\fs24 \cf0 query-subsumers.ofn}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -1269,7 +1343,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{516, 420}, {117, 104}}</string>
+			<string>{{528, 341}, {117, 104}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -1298,7 +1372,7 @@
 {\*\expandedcolortbl;;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 phenoscape-data-tbox.ttl}</string>
+\f0\fs24 \cf0 phenoscape-data-tbox.ofn}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -1371,7 +1445,7 @@
 {\*\expandedcolortbl;;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 phenoscape-data-kb.ttl}</string>
+\f0\fs24 \cf0 phenoscape-data-kb.ofn}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -1480,7 +1554,7 @@
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
 \f0\fs24 \cf0 Phenoscape data as OWL\
-*.nexml.ttl}</string>
+*.nexml.ofn}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -1654,7 +1728,7 @@
 {\*\expandedcolortbl;;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 phenoscape-ontology-classified.ttl}</string>
+\f0\fs24 \cf0 phenoscape-ontology-classified.ofn}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -1795,7 +1869,7 @@
 {\*\expandedcolortbl;;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 phenoscape-ontology.ttl}</string>
+\f0\fs24 \cf0 phenoscape-ontology.ofn}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -1957,7 +2031,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2018-09-18 18:50:55 +0000</string>
+	<string>2018-09-19 01:04:24 +0000</string>
 	<key>Modifier</key>
 	<string>Jim Balhoff</string>
 	<key>NotesVisible</key>
@@ -1994,6 +2068,16 @@
 		<array>
 			<string>int</string>
 			<string>0</string>
+		</array>
+		<key>NSPrinter</key>
+		<array>
+			<string>coded</string>
+			<string>BAtzdHJlYW10eXBlZIHoA4QBQISEhAlOU1ByaW50ZXIAhIQITlNPYmplY3QAhZKEhIQITlNTdHJpbmcBlIQBKxpIUENPUC0xMTEuZXVyb3BhLnJlbmNpLm9yZ4aG</string>
+		</array>
+		<key>NSPrinterName</key>
+		<array>
+			<string>string</string>
+			<string>HPCOP-111.europa.renci.org</string>
 		</array>
 		<key>NSRightMargin</key>
 		<array>
@@ -2038,7 +2122,7 @@
 			</dict>
 		</array>
 		<key>Frame</key>
-		<string>{{318, 5}, {1554, 1412}}</string>
+		<string>{{0, 4}, {1280, 773}}</string>
 		<key>ListView</key>
 		<true/>
 		<key>OutlineWidth</key>
@@ -2052,7 +2136,7 @@
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{0, 2}, {1405, 1255}}</string>
+		<string>{{0, 0}, {1131, 616}}</string>
 		<key>Zoom</key>
 		<real>1</real>
 		<key>ZoomValues</key>
