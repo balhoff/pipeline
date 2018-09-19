@@ -33,7 +33,24 @@ $(BUILD_DIR)/phenoscape-ontology-classified.ofn: $(BUILD_DIR)/phenoscape-ontolog
 	remove --term 'owl:Nothing' --trim true \
 	reason --reasoner ELK -o $@
 
+$(BUILD_DIR)/phenoscape-data:
+	git clone https://github.com/phenoscape/phenoscape-data.git $@
 
+NEXMLS := $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/completed-phenex-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/fin_limb-incomplete-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/matrix-vs-monograph -type f -name "*.xml")
+
+NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
+
+$(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn 
+	echo "Build" $@ using $<
+# Use kb-owl-tools phenex-to-owl to convert
+
+$(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS)
+	echo "Merge data ontologies"
+
+blah:
+	echo $(NEXML_OWLS)
+	
+#$(wildcard $(BUILD_DIR)/phenoscape-data/curation-files/**/*.xml)
 
 #call phenoscape-kb.sh
 kb-init.sh:
