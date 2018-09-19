@@ -12,6 +12,29 @@ PROJECT_DIR:=/Users/shalkishrivastava/renci/Phenoscape/PhenoscapeOwlTools
 TARGET:=${PROJECT_DIR}/phenoscape-owl-tools/run/phenoscape-kb
 PIPELINE:=${PROJECT_DIR}/phenoscape-owl-tools/pipeline
 
+BUILD_DIR=build
+ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx12G
+ROBOT=$(ROBOT_ENV) robot
+
+all: $(BUILD_DIR)/phenoscape-ontology-classified.ofn
+
+clean:
+	rm -rf build
+
+$(BUILD_DIR)/mirror: ontologies.ofn
+	mkdir -p $(BUILD_DIR) && rm -rf $@ &&\
+	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
+
+$(BUILD_DIR)/phenoscape-ontology.ofn: ontologies.ofn $(BUILD_DIR)/mirror
+	$(ROBOT) merge --catalog $(BUILD_DIR)/mirror/catalog-v001.xml -i $< -o $@
+
+$(BUILD_DIR)/phenoscape-ontology-classified.ofn: $(BUILD_DIR)/phenoscape-ontology.ofn
+	$(ROBOT) remove -i $< --axioms 'disjoint' --trim true \
+	remove --term 'owl:Nothing' --trim true \
+	reason --reasoner ELK -o $@
+
+
+
 #call phenoscape-kb.sh
 kb-init.sh:
 	export JAVA_OPTS="-Xmx10G"; \
