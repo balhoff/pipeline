@@ -28,6 +28,9 @@ $(BUILD_DIR)/mirror: ontologies.ofn
 $(BUILD_DIR)/phenoscape-ontology.ofn: ontologies.ofn $(BUILD_DIR)/mirror
 	$(ROBOT) merge --catalog $(BUILD_DIR)/mirror/catalog-v001.xml -i $< -o $@
 
+# Compute inferred classification of just the input ontologies.
+# We need to remove axioms that can infer unsatisfiability, since
+# the input ontologies are not 100% compatible.
 $(BUILD_DIR)/phenoscape-ontology-classified.ofn: $(BUILD_DIR)/phenoscape-ontology.ofn
 	$(ROBOT) remove -i $< --axioms 'disjoint' --trim true \
 	remove --term 'owl:Nothing' --trim true \
