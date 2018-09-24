@@ -48,16 +48,13 @@ NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%
 # Convert a single NeXML file to its counterpart OFN
 $(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn 
 	echo "Build" $@ using $<
-# Use kb-owl-tools phenex-to-owl to convert
+# Use kb-owl-tools phenex-to-owl to convert using phenoscape-ontology.ofn ontology
 
 # Merge all NeXML OFN files into a single ontology of phenotype annotations
 $(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS)
 	echo "Merge data ontologies"
 
-blah:
-	echo $(NEXML_OWLS)
-	
-#$(wildcard $(BUILD_DIR)/phenoscape-data/curation-files/**/*.xml)
+
 
 #call phenoscape-kb.sh
 kb-init.sh:
