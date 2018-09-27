@@ -21,10 +21,17 @@ all: $(BUILD_DIR)/phenoscape-ontology-classified.ofn
 clean:
 	rm -rf build
 
+# Ontologies.ofn - list of ontologies to be imported
+# Mirror ontologies locally
 $(BUILD_DIR)/mirror: ontologies.ofn
 	mkdir -p $(BUILD_DIR) && rm -rf $@ &&\
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
+# Extract ontology metadata
+$(BUILD_DIR)/ontology-versions.ttl: ontologies.ofn
+
+
+# Merge imported ontologies
 $(BUILD_DIR)/phenoscape-ontology.ofn: ontologies.ofn $(BUILD_DIR)/mirror
 	$(ROBOT) merge --catalog $(BUILD_DIR)/mirror/catalog-v001.xml -i $< -o $@
 
@@ -36,6 +43,23 @@ $(BUILD_DIR)/phenoscape-ontology-classified.ofn: $(BUILD_DIR)/phenoscape-ontolog
 	remove --term 'owl:Nothing' --trim true \
 	reason --reasoner ELK -o $@
 
+
+# Extract Qualities from ontology
+$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn
+
+
+# Extract Anatomical-Entities from ontology
+$(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn
+
+
+# Create Query-Subsumers
+$(BUILD_DIR)/query-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
+
+
+# Create Similarity-Subsumers
+$(BUILD_DIR)/similarity-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
+
+# Download annotated data from Phenex
 $(BUILD_DIR)/phenoscape-data:
 	git clone https://github.com/phenoscape/phenoscape-data.git $@
 
@@ -46,13 +70,48 @@ NEXMLS := $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/completed-phe
 NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
 
 # Convert a single NeXML file to its counterpart OFN
-$(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn 
+$(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn
+	convert-nexml $(BUILD_DIR)/phenoscape-ontology.ofn $< $@
 	echo "Build" $@ using $<
 # Use kb-owl-tools phenex-to-owl to convert
 
 # Merge all NeXML OFN files into a single ontology of phenotype annotations
 $(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS)
+	$(ROBOT) merge $(addprefix -i , $<) -o $@
 	echo "Merge data ontologies"
+
+
+# Extract tbox from phenoscape-data.ofn
+$(BUILD_DIR)/phenoscape-data-tbox.ofn: $(BUILD_DIR)/phenoscape-data.ofn
+
+
+# Create Phenoscape KB Tbox
+$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(BUILD_DIR)/query-subsumers.ofn $(BUILD_DIR)/similarity-subsumers.ofn
+
+
+# Compute inferred classification of Phenoscpae KB Tbox
+$(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn: $(BUILD_DIR)/phenoscape-kb-tbox.ofn
+
+# Compute Tbox hierarchy
+$(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
+
+
+# Create Phenoscape data KB
+$(BUILD_DIR)/phenoscape-data-kb.ofn: $(BUILD_DIR)/phenoscape-data.ofn $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
+
+
+# Generate absences.ttl
+$(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn
+
+# Generate presences.ttl
+$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn
+
+# Generate taxon-profiles.ttl
+$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn
+
+# Monarch data
+#
+#
 
 blah:
 	echo $(NEXML_OWLS)
