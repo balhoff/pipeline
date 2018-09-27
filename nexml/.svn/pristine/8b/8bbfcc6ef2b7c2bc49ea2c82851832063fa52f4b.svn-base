@@ -1,0 +1,231 @@
+#NEXUS
+[written Mon Dec 31 15:44:38 CST 2012 by Mesquite  version 2.75 (build 566) at NI8137.local/192.168.0.15]
+
+BEGIN TAXA;
+	TITLE Taxa;
+	DIMENSIONS NTAX=38;
+	TAXLABELS
+		ancestor isodectes Acroplous Dvinosaurus Tupilakosaurus Trimerorhachis Neldasaurus Tersomius Trematopidae Dissorophus eryops Zatrachydidae Sclerocephalus Cheliderpeton Archegosaurus Platyoposaurus Konzhukovia Peltobrachus Rhinesuchidae Lydekkerina Luzocephalus Lapillopsis Capitosauridae Mastodonsaurus Benthosuchus Thoosuchus Trematosauridae Almasaurus Buettneria Laidleria Plagiosauridae Rhytidosteidae Xenobrachyops Batrachosuchus Siderops Keratobrachyops Pelorocephalus Undescribed_Genus 
+	;
+	BLOCKID 013bf2d7d8ae5;
+
+END;
+
+
+BEGIN CHARACTERS;
+	TITLE  Character_Matrix;
+	DIMENSIONS  NCHAR=121;
+	FORMAT DATATYPE = STANDARD GAP = - MISSING = ? SYMBOLS = "  0 1 2 3";
+	CHARSTATELABELS 
+		1 Intertemporal /  present 'absent with the resultant space occupied by a postfrontal-supratemporal suture' 'absent with a postorbital-parietal suture', 2 Ventrolateral /  border_of_the_orbit_formed_by_the_jugal_and_lachrymal lateral_edge_of_the_corpus_of_the_palatine_exposed_dorsally_in_the_lateral_margin_of_the_orbit, 3 Lachrymals /  present absent, 4 'Pre- and post-frontals`' /  form_a_suture fail_to_contact_so_that_the_frontal_contributes_to_the_orbital_margin, 5 Premaxilla /  with_a_triangular_posterior_process_medial_to_the_naris 'triangular process absent, posterior dorsal margin of the premaxilla forming a simple suture with the nasal', 6 Anterior_end /  of_the_jugal_posterior_to_the_anterior_orbital_margin jugal_extending_beyond_the_anterior_orbital_margin, 7 Prefrontal_and_jugal /  not_in_contact form_a_suture, 8 Maxilla_and_quadratojugal /  form_a_suture 'only make point contact, or do not contact at all', 9 Prefrontal /  without_a_ventral_process with_a_descending_ventral_flange_on_the_orbital_rim, 10 Nasal /  without_a_ventral_flange with_a_ventral_flange_forming_a_posterior_internal_wall_of_the_naris, 11 Postparietal_pair /  'less than 4 times wider, transversely, than anteroposteriorly long' greater_than_4_times_wider_than_long, 12 Maxilla_and_nasal /  not_in_contact forming_a_suture, 13 Septomaxilla /  'part of the skull roof forming the posterior nasal margin, or unossified' 'a large plate of bone forming the floor of the nasal cavity, with limited, if any, contact with the skull roof at the posterior nasal margin', 14 Squamosal_margin /  Straight_or_concave_posterior_squamosal_margin_in_dorsal_view 'convex squamosal margin in dorsal view, bulging posteromedially narrowing the otic notch' 'convex and overhanging squamosal^nmargin (falciform crest', 15 Length_of_the_posterior_skull_table /  between_90%_and_70%_of_its_width '65-50% of the width' less_than_46%_of_the_width greater_than_90%_of_the_width, 16 Supraorbital_laminae /  on_the_ventral_surface_of_the_skull_roof_flared_widely_on_the_frontals narrowly_placed_either_side_of_the_midline_on_the_frontals, 17 Sensory_sulci /  absent_from_the_skull_roof_of_adults extensive_sensory_sulci_present_on_the_skull_of_adults sensory_sulci_of_adults_restricted_to_a_single_circumorbital_sulcus, 18 Infraorbital_sulcus /  straight_or_gently_curved 'with a step-like flexure between the orbit and the naris' flexure_?Z?_shaped, 19 Squamosal /  without_a_descending_flange 'with a descending flange lying immediately^nin front, and parallel to, the anterolateral surface of the ascending ramus of the pterygoid', 20 Ornamentation /  'of the dorsal skull roof consisting of ridges enclosing depressions, which become^nelongated in areas of skull elongation' 'consisting of uniformly small pits enclosed^nby a network of ridges' consisting_of_regularly_spaced_pustules, 21 Snout /  margins_continually_converging_towards_tip 'tip of snout expanded so that the snout^nmargins run parallel, or are concave before the tip', 22 otic_notch /  Simple_rounded_or_sharp_edged_posterodorsal_margin_of_the_skull_roof_around_the_otic_notch 'smooth ?gutter? bordered above-and below by sharp ridges around the margin of the otic notch', 23 Tabulars /  are_well_developed_rectangular_to_triangular_bones 'reduced to thin slivers^nlying against the posterior margin of the skull roof', 24 Tabular_horn /  without_a_thin_ventrally_projecting_crest_of_bone 'with a thin^nventrally projecting crest of bone (frequently projecting posterior to the ornamented dorsal component^nof the horn)', 25 Orbits /  located_about_half_way_along_the_skull_length 'located in front of the midlength^nof the skull' located_behind_midlength_of_the_skull, 26 Tabular_horns /  terminate_anterior_to_the_posterolateral_corners_of_the_skull_roof extend_posteriorly_to_the_posterolateral_corners_of_the_skull_roof, 27 Prefrontal /  excluded_from_narial_margin contributing_to_the_narial_margin, 28 Otic_notch /  deep is_a_wide_shallow_embayment absent, 29 Tabular_horn /  _without_a_terminal_crest 'terminal crest lying^nlateral and parallel to the buttress of the paroccipital process', 30 Squamosal_and_tabular /  separated_by_the_supratemporal 'suture present^non the dorsal skull roof', 31 Skull_roof /  complete_between_the_nostrils medial_internarial_fenestra_at_the_junction_of_the_premaxillae_and_the_nasals, 32 Quadratojugal /  without_a_posterior_spike posteriorly_projecting_spike_on_the_quadratojugal, 33 Interorbital_distance /  less_than_50%_of_the_width_of_the_skull_at_mid_orbital_level greater_than_50%_of_the_width_of_the_skull_at_mid_orbital_level, 34 Occipital_condyle /  Single_occipital_condyle_with_the_basioccipital_forming_the_largest_contribution_to_the_articulating_surface bilobed_occipital_condyle_with_reduced_basioccipital_contribution double_occipital_condyles_with_no_basioccipital_contribution, 35 Quadratojugal /  forms_a_simple_corner_with_the_quadrate_in_occipital_view 'a sulcus present on the quadratojugal, lateral to the quadrate condyles, so that the quadratojugal forms an overhang in occipital view', 36 Ascending_ramus_of_the_pterygoid /  contacts_the_squamosal 'does not contact^nthe squamosal, creating a palatoquadrate fissure', 37 Ascending_ramus_of_the_pterygoid /  without_a_thickened_ascending_column_on_its_posterior_surface ascending_column_present, 38 Foramen /  passing_though_the_stapes stapedial_foramen_absent, 39 Pedicels_of_occipital_condyles /  not_covered_by_parasphenoid 'pedicels covered in ventral view^nby a posterior extension of the parasphenoid plate', 40 Posterior_face_of_quadrate_ramus_of_the_pterygoid /  without_an_oblique_ridge 'a low, rounded,^noblique ridge present' oblique_ridge_is_a_large_sharp_edged_crest, 41 Occipital_face_of_the_quadrate /  without_a_dorsal_process quadrate_with_a_dorsal_process, 42 Quadratojugal /  without_a_medial_process posterior_end_of_the_quadratojugal_with_a_medial_process_extending_behind_the_quadrate_condyle, 43 Occipital_face_of_the_quadratojugal /  quadratojugal_without_a_foramen paraquadrate_foramen_on_the_occipital_face_of_the_quadratojugal, 44 Tabular_and_exoccipital /  not_in_contact contacting_in_the_paroccipital_process, 45 Ascending_ramus_of_the_pterygoid /  'gently concave posteriorly, in horizontal section' medial_end_of_the_ascending_ramus_strongly_curved_posteriorly_in_horizontal_section, 46 Posttemporal_fenestrae_ /  large reduced_to_small_foramina_or_entirely_closed, 47 Ascending_ramus_of_the_pterygoid_ /  erect dorsal_end_of_ascending_ramus_posteriorly_curved, 48 Quadrate_ramus_of_the_pterygoid_ /  'twisted from the plane of the corpus and the palatine ramus,^nto form a subvertical plate' 'untwisted, forming a near horizontal plate, continuous^nwith the plane of the corpus and palatine ramus' 'quadrate ramus untwisted and strongly downturned,^ncreating a vaulted palate', 49 Dorsal_surface_of_the_corpus_of_the_pterygoid_ /  without_a_substapedial_ridge a_substapedial_ridge, 50 Anterior_palatal_fossa_ /  not_perforated 'perforated to form an anterior^npalatal vacuity', 51 Pterygoids_ /  extend_anteriorly_to_the_palatine_tusks 'not extending anterior to the^nlevel of the palatine tusks', 52 A_dorsal_process_of_the_palatine /  _underplating_the_lachrymal absent present_and_exposed_on_the_dorsal_skull_roof, 53 Palatine_ramus_of_the_pterygoid_ /  'extends anterior to the anterior-most ectopterygoid tooth' retracted_posterior_to_the_first_ectopterygoid_tooth, 54 Parasphenoid_ /  'articulates with depression in the corpus of the pterygoid, behind a short triangular^nmedial process of the pterygoid' 'an elongate cylindrical to hemicylindrical medial process^nof the pterygoid abuts the parasphenoid' 'corpus of the pterygoid forming a broad^ncontact along the lateral margins of the parasphenoid plate', 55 'Pterygoid-parasphenoid articulation' /  remaining_unsutured_throughout_life 'articulation suturing late in post-metamorphic ontogeny' sutured_by_the_end_of_metamorphosis, 56 Palatine_ramus_of_the_pterygoid_ /  bears_a_posterolateral_flange flange_absent, 57 The_width_of_the_cultriform_process_of_the_parasphenoid_at_its_mid_point /  ' is less than 10% of^nthe length of the process' more_than_10%_of_its_length, 58 Ectopterygoid /  _with_enlarged_tusks_at_its_anterior_end tusks_absent, 59 Ectopterygoid_ /  with_only_one_or_two_teeth with_a_toothrow_of_more_than_three_teeth, 60 Vomers_ /  form_a_large_sheet_of_bone_between_the_anterior_end_of_the_cultriform_process_and_the_posterior_edge_of_the_anterior_palatal_fossa 'forming a narrow bar between the anterior end^nof the cultriform process and the posterior edge of the anterior palatal fossa', 61 Pterygoid_ /  without_a_conical_recess 'a conical recess on the pterygoid above the pterygoidparasphenoid^narticulation', 62 Foramen_for_the_internal_carotid_artery /  ' on the ventral surface of the parasphenoid plate, medial^nto the articulation with the pterygoid. Palatine artery branch exiting the parasphenoid on the lateral^nedge of the parasphenoid plate, anterior to the pterygoid articulation. Intracranial branch of the^ncarotid remaining internal to the parasphenoid, extending up the cultriform process' 'located on the lateral side of the parasphenoid plate, posterior to the pterygoid^narticulation' 'Internal carotid and the palatine and intracranial branches pass through the dorsal^nsurface of the parasphenoid plate, either leaving foramina where they pass below the surface or grooves^nwhere they lie upon it' 'Internal carotid artery passing along the ventral surface of the parasphenoid^nplate, leaving a groove, with a foramen on the lateral side of the parasphenoid at the base of the^ncultriform process, where the intracranial branch enters the parasphenoid', 63 Vomers_ /  without_a_row_of_teeth_between_the_vomerine_fangs a_straight_toothrow_running_transversely_between_the_vomerine_fangs 'transverse vomerine toothrow  v-shaped', 64 Maxilla_and_vomer_ /  not_in_contact_or_in_point_contact forming_a_suture, 65 Width_of_interpterygoid_vacuity_pair /  _less_than_90%_of_the_length greater_than_90%_of_the_length, 66 Surface_of_the_cultriform_process /  Flat_ventral_surface_of_the_cultriform_process lateral_surfaces_of_cultriform_process_meet_to_form_a_midline_ventral_keel, 67 Posterior_end_of_the_ventral_surface_of_the_parasphenoid_plate_ /  without_sharp_rimmed_depressions 'rounded, widely separated, depressions (pockets) at the posterior end of the ventral surface of the^nparasphenoid plate, with sharp anterior rims', 68 Posterior_premaxillary_teeth /  _of_equal_size_or_smaller_than_the_anterior_premaxillary_teeth larger_than_anterior_premaxillary_and_maxillary_teeth, 69 Posteromedial_corner_of_the_palatine_ /  'simple, not extending posterior to the most anterior^nectopterygoid tooth' 'elongate, extending posterior to the most^nanterior ectopterygoid tooth', 70 Exoccipital_and_pterygoid_ /  not_in_contact_or_contact_not_visible_ventrally suture_visible_in_ventral_view, 71 Denticles_on_the_parasphenoid /  Round_patch_of_denticles_on_the_parasphenoid_at_the_base_of_the_cultriform_process 'parasphenoid denticle field enlarged to a transverse ?belt? extending between the pterygoid-parasphenoid^narticulations' parasphenoid_denticles_absent, 72 Parasphenoid_plate_ /  'subrectangular, without lateral ?wings?' 'expanded transversely, creating lateral "wings"', 73 Ventral_surface_of_the_cultriform_ /  process_flat_or_gently_convex process_with_a_median_keel, 74 Palatal_fossa /  Single_anterior_ 'paired, divided by a median ridge', 75 Lateral_margin_of_the_pterygoid /  _bordering_the_subtemporal_vacuity_concave straight_in_ventral_view, 76 Choanae /  Maxilla_forming_most_of_the_lateral_border_of_choanae lateral_processes_of_vomer_and_palatine_approach_one_another_so_as_to_reduce_the_maxillary_contribution 'vomer-palatine suture lateral to the choanae excludes maxilla entirely', 77 Vomers_ /  with_a_field_of_denticles without_a_field_of_denticles, 78 Toothrow_behind_the_palatine_tusks /  Absence_ four_to_six_palatine_teeth 'more than^neight palatine teeth', 79 Medial_margin_of_the_choana_ /  without_teeth with_a_row_of_teeth, 80 Sulcus_behind_the_pterygoid_articulation /  No_sulcus_behind_the_pterygoid_articulation_on_the_ventral_surface_the_parasphenoid_plate 'Short sulcus becoming wider and deeper postero-laterally, behind the pterygoid articulation', 81 Dorsal_surface_of_the_parasphenoid_plate_ /  without_parapterygoid_crests bears_parapterygoid_crests, 82 The_strut_of_bone_that_separates_the_interpterygoid_vacuity_from_the_subtemporal_fossa /  _consisting_entirely_of_the_palatine_ramus_of_the_pterygoid invasion_of_this_strut_by_the_ectopterygoid, 83 Posterior_edge_of_the_ectopterygoid_ /  contributes_to_the_anterior_margin_of_the_subtemporal_fossa 'separated from the subtemporal fossa by an alar process of the^njugal', 84 Posterolateral_ramus_of_the_vomer_ /  not_extending_posterior_to_the_palatine_tusks extending_posterior_to_the_palatine_tusks, 85 Ascending_ramus_of_the_epipterygoid_ /  is_a_slender_rod is_robust_, 86 Pterygoids /  _without_ornament ventral_surface_of_the_pterygoids_with_ornament, 87 Pterygoids_ /  with_denticles without_denticles, 88 Palatal_surface_of_the_premaxillae_ /  smooth 'rugose, medial tubercle', 89 Extension_of_the_mandible_ /  No_extension_of_the_mandible_behind_the_glenoid_fossa postglenoid_area_on_the_mandible, 90 Arcadian_groove /  'No arcadian ,groove at the posterior end of the mandible' arcadian_groove_present, 91 Prearticular /  'extending anteriorly, at least as far as the level of the mid point; of the middle coronoid' 'not extending anterior to the level of the suture of the middle and posterior^ncoronoids', 92 Posterior_coronoid_ /  not_visible_on_the_mandible_when_viewed_laterally raised_dorsally_so_that_it_is_visible_in_a_lateral_view_of_the_mandible, 93 Posterior_meckelian_foramen_ /  'bordered by the prearticular, postsplenial and the angular' bordered_by_the_prearticular_and_postsplenial_exclusively, 94 'Parasymphysial teeth (includes parasymphysial tusks)' /  _behind_the_marginal_toothrow absent, 95 Coronoids /  all_three_coronoids_with_field_of_small_denticles field_of_denticles_restricted_to_the_posterior_coronoid coronoids_without_any_denticle_fields, 96 Prearticular_ /  not_extending_posterior_to_the_level_of_the_glenoid 'extending posterior to the glenoid, covering the medial face of the articular', 97 Mandibular_sulcus_ /  shallow_or_absent_at_its_posterior_end deeply_incised_at_its_posterior_end, 98 'Postglenoid process (if present) on the posterior end of the mandible' /  ' no longer than the arcadian^nprocess' much_longer_than_the_arcadian_process, 99 Postglenoid_area_of_mandible_ /  'slopes ventrally away from the glenoid socket in lateral view, or^nis flat topped or with a gentle upward curvature' with_a_transverse_trough_behind_glenoid_socket_followed_by_a_dorsally_bulging_tip, 100 Chorda_tympanic_foramen_ /  located_on_the_suture_between_the_articular_and_the_prearticular located_on_the_prearticular_alone absent, 101 Coronoid_bones_ /  without_teeth_other_than_denticles posterior_coronoid_with_a_row_of_teeth all_coronoids_with_a_continuous_toothrow, 102 Mandible_ /  without_a_hamate_process 'tall hamate process projecting dorsally immediately in front of the antero-medial corner of the glenoid of the mandible', 103 Ventral_edges_of_adjacent_intercentra /  _in_contact prevented_from_contacting_by_intervening_pleurocentra, 104 Intercentra_ /  are_dorsally_open_crescents_of_bone are_dorsally_closed_disks_or_spools, 105 Height_of_neural_spines_ /  'is greater than the length between the pre- and postzygapophyses' 'less than or equal to the length between the pre- and postzygapophyses' 'height of neural spines less than 40"% of the length between the pre- and postzygapophyses', 106 Transverse_section_of_the_neural_spines /  Rounded_ 'lateral buttressing of the neural spines creating a cross-shaped transverse section', 107 Presacral_vertebrae /  Less_than_26_ more_than_28_, 108 Pleurocentra_ /  large reduced_or_absent, 109 Interclavicle_ /  less_than_1.3_times_longer_than_broad greater_than_1.3_times_longer_than_broad, 110 Clavicular_facets_ /  'on the ventral surface of the interclavicle separated by an intervening strip^nof ornament' in_contact_anteriorly, 111 Supraglenoid_buttress_of_the_scapulocoracoid_ /  'co-ossified with the coracoid plate, enclosing the^nsupraglenoid foramen' 'not co-ossified with the coracoid plate, changing the supraglenoid foramen into a ventrally open notch', 112 Dorsal_process_of_the_clavicle /  _is_a_simple_spike flange_with_thickened_central_rib_along_the_anterior_edge_of_the_dorsal_process, 113 Lateral_margin_of_the_clavicle /  Rounded_ 'sharp keel along the lateral margin of the clavicle, separating the ornamented ventral surface from the unornamented dorsal process', 114 Supinator_process_ /  part_of_a_crest_that_is_confluent_with_the_deltopectoral_crest is_a_discrete_projection_of_bone, 115 Ectepicondyle_of_humerus_ /  'is a tall and well-developed crest' is_a_low_rounded_bump, 116 Radial_articulation_ /  small_and_located_on_the_distal_end_of_the_humerus is_a_large_convex_capitellum_placed_on_the_ventral_surface_of_the_humerus, 117 Iliac_blade_ /  posterodorsally_inclined vertical, 118 Iliac_blade_ /  parallel_sided flared_at_its_proximal_end, 119 'Intercondylar fossa on the dorsal surface of the distal femur large, ' /  deep_and_sharply_defined a_small_shallow_vaguely_defined_depression, 120 Dorsal_osteoderms /  ' in the form of imbricating, thin, unornamented bony scales' bear_ornament_and_form_a_tessellating_mosaic_of_armour_plates, 121 Ceratobranchials /  _absent_or_unossified_in_adults ossified_ceratobranchials_present_in_adults ; 
+	MATRIX
+	ancestor           0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+	isodectes          0000100---10000-20-000101-1200?000010-0000-0-0020112-00-00011001-010002111121001-0-0-0101--1-0--001-00---0-011--00-0---00
+	Acroplous          10001001-010000-2--000101-12000000001-000010-002011200011001--010000002111121000-010-01010-1-0-000---0-0-0-01----------0-
+	Dvinosaurus        2010100--0100010110000101-20-0001010000001000020000200011011101100000020111010100011-010100100200010201000101000010000001
+	Tupilakosaurus     2010-00--011000-110000101-02010000011-00001100020-1212-1101-10-1000-00200112100000-0-01-10-1-0--001---01---0------------1
+	Trimerorhachis     000000000000003-11-000001001010000000-0100100000010000010111101100100020010012111001-0001010000010000010-0101000000011001
+	Neldasaurus        0000-000--01003-11-000000-01010000000-0-00-0-000010-000100101001001000200102-201-0-1-0-010-000-01000-01000101-0000001100-
+	Tersomius          11010000111010200-1000000000001001000000110000000011011000000000100000000000100000000010000110-0000000002000--0--1--00000
+	Trematopidae       11010000111010100-10000000100010010001001100000000010110000000000001000000000000-000-00000110100000000101000---0-101---10
+	Dissorophus        110110001-10-02-0--00000000000000100-1001-00000000---1100-0000---0000020000----00000000000-11-00000-001010000-00010111010
+	eryops             10000110001010200010000020000000010000000000000000010110000001000001000000000000-000000000011-000001001000000000010110000
+	Zatrachydidae      100001000010102-0---0000200001000100-000000--000010-0110-000000-1010000000000000-000-0000011-100000-001000-000--0---10-00
+	Sclerocephalus     100001100001000-10-000012000-0000100-000001--0-0000-0000011013000011001001001111-0-0-0001-111000000000--00-01000011000-00
+	Cheliderpeton      10000110--01000-10--100-2000-000010---0-001--0--000-00000110100000-1001011001101-0-0-0001-011000000000------10----------0
+	Archegosaurus      1000111-000100000-0010012000000001000-0000-00000000-0000011013010011000001000200-010-0011-0110-0000--0----0-1--0-------00
+	Platyoposaurus     1000111-001101000-0010012000-000010000000010-000010-0000011013010011000001010200-0100001111110000000001000-01000-------0-
+	Konzhukovia        10001111000101010-00000120000000010000000010-000010-01-001100-0100110000010011000010-001----------------------------01---
+	Peltobrachus       10-0--1-0-0-000-0--20000-0-000001100--00001000000-1--2-00--012---01--0100-0----000---10-11-----00000-01100-1--0--1--1011-
+	Rhinesuchidae      100011110001021-10-00001200000100100-00200110000000-02-10110-21100100010000?00210-010-000110100000000110-0001-0-010000000
+	Lydekkerina        100011110001011-11-10000010011000200-00100110000011-12210110-2110010101000001110-010-10011--00100100-110-0-011010------00
+	Luzocephalus       100011110001000-100100000001-1001201--0100110000011-12-10110-2110000101000001110-0100100---------------------------------
+	Lapillopsis        100101100001001-0-0100000100-1000-0-000100110000011-11200000-20-00100020000-1000-010-11-11-10--00101-1------1-0000----100
+	Capitosauridae     100111110001021112000000210011000200100200110000011-12210110121100201020000012101010110011-100200000111010001111001001100
+	Mastodonsaurus     100111110001020-12-00000210011000200-00200110000011-12-10110-2110020102001011210-000--101011001000011111--01110--010001--
+	Benthosuchus       1000111100010211120000002100110002001002001100000110122101101221002010100100121010101100111100200000111010-0111100100110-
+	Thoosuchus         100011110001010-100000002100110012011-1100110000011-12-10110-22101100010010111101010-1001111002000011010---011--0------0-
+	Trematosauridae    100011110001000-10000000210-11001201111100110000011012-10110120101000010010011101010010010110-200001101010-011-10------00
+	Almasaurus         10001--10001013-11010100010001001200-00000-10000011-12210110-2210100012001001010-1-0-0101-1-0-2-00012010-0-011-11110--10-
+	Buettneria         100011110001023112000100110001001200010000110001011-122111100211000001200101121001-00110101100210001001110011101111000100
+	Laidleria          10-110110001001-10-100002-0201000211-1000011-1010-1-12-10110-2-1000000200-021200-1-0-11-1------0000---1-2101-----------10
+	Plagiosauridae     100110010011002-100200001-02010002101-000011-101001012-1011012111000010000111110-1-0-0101001--20000120112101111100--10-11
+	Rhytidosteidae     10101111000100--10--00001101010012011-00001100010110122100101211100000-000010110-010010011-10000100000102--0111100101110-
+	Xenobrachyops      1110100-1011001-110000001-02010012000-0000110012011212-10000120100000110000110000110001010-100-10002-0----------0--------
+	Batrachosuchus     101010-1--01001-1--000001-0201001201-10000010012011-12-11000-211100001200-121000-1000010101100-10002-01010-----00100-----
+	Siderops           10101---00-10-1-1-000---1-0---0-1200110000111012111-12-10010-21-000-0120001-1110-1-000-01001101---0120101000111000100--00
+	Keratobrachyops    101011100001001-110000001101010102001-000011-012111012210010-2110000002010011110-1-0010010110010000100---------0---------
+	Pelorocephalus     101011110001001-1--00000110101011200--0000111012111012210010-21100000120101-1110-1-0-0-010111001000-001010-01110001000100
+	Undescribed_Genus  2010-00-1000000-1--000101-1201-000011-0000-10-020-1202-11110121-0000002001121-00-0-0-01-10--00-0001-2001-0-011-00------01
+
+;
+
+END;
+BEGIN ASSUMPTIONS;
+	TYPESET * UNTITLED   =  unord:  1 -  121;
+
+END;
+
+BEGIN MESQUITECHARMODELS;
+	ProbModelSet * UNTITLED   =  'Mk1 (est.)':  1 -  121;
+END;
+
+Begin MESQUITE;
+		MESQUITESCRIPTVERSION 2;
+		TITLE AUTO;
+		tell ProjectCoordinator;
+		timeSaved 1356990278646;
+		getEmployee #mesquite.minimal.ManageTaxa.ManageTaxa;
+		tell It;
+			setID 0 7521845368096045595 013bf2d7d8ae5;
+		endTell;
+		getEmployee #mesquite.charMatrices.ManageCharacters.ManageCharacters;
+		tell It;
+			setID 0 5497453207018833651;
+			mqVersion 275;
+			checksumv 0 3 1658800090 null  getNumChars 121 numChars 121 getNumTaxa 38 numTaxa 38   short true   bits 15   states 15   sumSquaresStatesOnly 10735.0 sumSquares 10735.0 longCompressibleToShort false usingShortMatrix true   NumFiles 1 NumMatrices 1;
+			mqVersion;
+		endTell;
+		getWindow;
+		tell It;
+			suppress;
+			setResourcesState false false 114;
+			setPopoutState 400;
+			setExplanationSize 0;
+			setAnnotationSize 0;
+			setFontIncAnnot 0;
+			setFontIncExp 0;
+			setSize 1280 670;
+			setLocation -49 22;
+			setFont SanSerif;
+			setFontSize 10;
+			getToolPalette;
+			tell It;
+			endTell;
+			desuppress;
+		endTell;
+		getEmployee  #mesquite.charMatrices.BasicDataWindowCoord.BasicDataWindowCoord;
+		tell It;
+			showDataWindow #5497453207018833651 #mesquite.charMatrices.BasicDataWindowMaker.BasicDataWindowMaker;
+			tell It;
+				getWindow;
+				tell It;
+					getTable;
+					tell It;
+						rowNamesWidth 110;
+					endTell;
+					setExplanationSize 30;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 1166 603;
+					setLocation -49 22;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+						setTool mesquite.charMatrices.BasicDataWindowMaker.BasicDataWindow.ibeam;
+					endTell;
+					setTool mesquite.charMatrices.BasicDataWindowMaker.BasicDataWindow.ibeam;
+					colorCells  #mesquite.charMatrices.NoColor.NoColor;
+					colorRowNames  #mesquite.charMatrices.TaxonGroupColor.TaxonGroupColor;
+					colorColumnNames  #mesquite.charMatrices.CharGroupColor.CharGroupColor;
+					colorText  #mesquite.charMatrices.NoColor.NoColor;
+					setBackground White;
+					toggleShowNames on;
+					toggleShowTaxonNames on;
+					toggleTight off;
+					toggleThinRows off;
+					toggleShowChanges on;
+					toggleSeparateLines off;
+					toggleShowStates on;
+					toggleAutoWCharNames on;
+					toggleAutoTaxonNames off;
+					toggleShowDefaultCharNames off;
+					toggleConstrainCW on;
+					toggleBirdsEye off;
+					toggleShowPaleGrid off;
+					toggleShowPaleCellColors off;
+					togglePaleInapplicable on;
+					toggleShowBoldCellText off;
+					toggleAllowAutosize on;
+					toggleColorsPanel off;
+					toggleDiagonal on;
+					setDiagonalHeight 80;
+					toggleLinkedScrolling on;
+					toggleScrollLinkedTables off;
+				endTell;
+				showWindow;
+				getWindow;
+				tell It;
+					forceAutosize;
+				endTell;
+				getEmployee #mesquite.charMatrices.ColorByState.ColorByState;
+				tell It;
+					setStateLimit 9;
+					toggleUniformMaximum on;
+				endTell;
+				getEmployee #mesquite.charMatrices.ColorCells.ColorCells;
+				tell It;
+					setColor Red;
+					removeColor off;
+				endTell;
+				getEmployee #mesquite.categ.StateNamesEditor.StateNamesEditor;
+				tell It;
+					makeWindow;
+					tell It;
+						getTable;
+						tell It;
+							rowNamesWidth 173;
+						endTell;
+						setExplanationSize 30;
+						setAnnotationSize 20;
+						setFontIncAnnot 0;
+						setFontIncExp 0;
+						setSize 1166 603;
+						setLocation -49 22;
+						setFont SanSerif;
+						setFontSize 10;
+						getToolPalette;
+						tell It;
+							setTool mesquite.categ.StateNamesEditor.StateNamesWindow.ibeam;
+						endTell;
+						setActive;
+						rowsAreCharacters on;
+						toggleConstrainChar on;
+						toggleConstrainCharNum 3;
+						togglePanel off;
+						toggleSummaryPanel off;
+					endTell;
+					showWindow;
+				endTell;
+				getEmployee #mesquite.categ.StateNamesStrip.StateNamesStrip;
+				tell It;
+					showStrip off;
+				endTell;
+				getEmployee #mesquite.charMatrices.AnnotPanel.AnnotPanel;
+				tell It;
+					togglePanel off;
+				endTell;
+				getEmployee #mesquite.charMatrices.CharReferenceStrip.CharReferenceStrip;
+				tell It;
+					showStrip off;
+				endTell;
+				getEmployee #mesquite.charMatrices.QuickKeySelector.QuickKeySelector;
+				tell It;
+					autotabOff;
+				endTell;
+				getEmployee #mesquite.charMatrices.SelSummaryStrip.SelSummaryStrip;
+				tell It;
+					showStrip off;
+				endTell;
+				getEmployee #mesquite.categ.SmallStateNamesEditor.SmallStateNamesEditor;
+				tell It;
+					panelOpen true;
+				endTell;
+			endTell;
+		endTell;
+		endTell;
+end;
+
+

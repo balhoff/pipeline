@@ -1,0 +1,208 @@
+#NEXUS
+[written Mon Oct 22 12:10:33 CDT 2012 by Mesquite  version 2.75 (build 564) at Jordan-Catletts-MacBook-Pro.local/172.21.82.178]
+
+BEGIN TAXA;
+	TITLE Taxa;
+	DIMENSIONS NTAX=25;
+	TAXLABELS
+		Liaoxitriton Jeholotriton Chunerpeton Valdotriton Iridotriton Pangerpeton Sirenidae Hynobiidae Cryptobranchidae Ambystomatidae Salamandra Dicamptodon Plethodontidae Rhyacotriton Stemfrogs Karaurus Amphiumidae Albanerpetontidae Marmorerpeton Proteidae Eocaecilia Batrachosauroidea Hylaeobatrachus Kokartus ancestor 
+	;
+
+END;
+
+
+BEGIN CHARACTERS;
+	TITLE  'Matrix in file "Wang_Evans_2006-authorversion.nex"';
+	DIMENSIONS  NCHAR=72;
+	FORMAT DATATYPE = STANDARD GAP = - MISSING = ? SYMBOLS = "  0 1 2 3 4 5";
+	CHARSTATELABELS 
+32  /  _ 2, 67 Character_67, 68 Character_68, 69 Character_69, 70 Character_70, 71 Character_71, 72 Character_72 ; 
+	MATRIX
+	Liaoxitriton       010?0?1?0???11??0000?1???????{1 2}000{1 2}0????01??????????????11110001??0??????
+	Jeholotriton       011?0?1?200??1???130?1?00????10000000???????????????????1110000??2??????
+	Chunerpeton        010?0?10100?01???030?1???????11201000??????????????????11111000??1??????
+	Valdotriton        010?0?12010?111??000?0210????20000011??????????????????{0 1}11100010?0??????
+	Iridotriton        0000???1010?01???000?1{1 2}10????200??011??????1????????????1?1?10?0?0??????
+	Pangerpeton        010?{0 1}?1000??11??0000?1?????????0?00?????????????????????1?1?100??2??????
+	Sirenidae          04(1 2)11110311210101120?0230101111122100?1?????11111000000?110-2?2202000000
+	Hynobiidae         010000(0 1)00100(0 1)1010000?12000000201010?1?0?????0000(0 1)010001?1110??10(0 1)(0 2)000000
+	Cryptobranchidae   010101101100011(0 1)0000?1200000111211000?0?????00000010001?1111211011000000
+	Ambystomatidae     020011120(0 1)0011(0 1)01000?02301100(1 2)02010(0 1)1?0?????22100111110?1110??1{0 1}(0 1)0111111
+	Salamandra         03011112010011001001102311101201000112011111220(0 1)001101021110{0 1}01002011101
+	Dicamptodon        0200001000001000100010220110020102001?0?????22100111010?11102011000111?1
+	Plethodontidae     (0 1)2(0 2)(0 1)(1 2)11241(0 1)2111010(0 1)1?(0 1)23(0 1)1100200(0 1)0(0 1)11?1?????22111001010?111(0 1)(0 1 2)?2{0 1}1(0 2)011111
+	Rhyacotriton       02002010000011001000?02201100?0000011?0?????22111101010?1111???000011111
+	Stemfrogs          ??0?0??0010?111????001140????1000-000??????????????????{0 1}?110100?????????
+	Karaurus           010?000?000?01???00000200????000000000??????????????????11100100?0??????
+	Amphiumidae        12011110300011101000?02101011?0001000?1?????22000001000?1110212012001101
+	Albanerpetontidae  010?0002??0??11?10?00120????0000001010?00000???????????2?1102122????????
+	Marmorerpeton      010??????????????0000(0 1)000????0?0??????????????????????????1??0?0?0??????
+	Proteidae          022121113012101010{2 3}0?0200101120222111?1?????22(0 1)11011010?111-2?2{0 1}01011111
+	Eocaecilia         01000102000?111??020002?-????102001?0??????????????????210002020?1??????
+	Batrachosauroidea  030?1112310?1110(0 1)02(0 1)00200????20(0 1)0(0 1)100??????????????????211102120?1??????
+	Hylaeobatrachus    0?0???1????????00??0?020?????2???????????????????????????11?0??1????????
+	Kokartus           011?1?1???0?00???0?00??0?????000000000???????????????????1?00?00????????
+	ancestor           00000000000000000000000000000000000000000000??????????0000?0000000??????
+
+;
+
+END;
+BEGIN ASSUMPTIONS;
+	OPTIONS DEFTYPE = UNORD POLYTCOUNT = MINSTEPS;
+	TYPESET * UNTITLED   =  unord:  1 -  72;
+
+END;
+
+BEGIN MESQUITECHARMODELS;
+	ProbModelSet * UNTITLED   =  'Mk1 (est.)':  1 -  72;
+END;
+
+Begin MESQUITE;
+		MESQUITESCRIPTVERSION 2;
+		TITLE AUTO;
+		tell ProjectCoordinator;
+		timeSaved 1350925833571;
+		getEmployee #mesquite.minimal.ManageTaxa.ManageTaxa;
+		tell It;
+			setID 0 5941197949389966710;
+		endTell;
+		getEmployee #mesquite.charMatrices.ManageCharacters.ManageCharacters;
+		tell It;
+			setID 0 6767068367027271015;
+			mqVersion 275;
+			checksumv 0 3 1361444718 null  getNumChars 72 numChars 72 getNumTaxa 25 numTaxa 25   short true   bits 2305843009213693983   states 31   sumSquaresStatesOnly 5997.0 sumSquares -5.995191823955604E19 longCompressibleToShort false usingShortMatrix true   NumFiles 1 NumMatrices 1;
+			mqVersion;
+		endTell;
+		getWindow;
+		tell It;
+			suppress;
+			setResourcesState false false 114;
+			setPopoutState 400;
+			setExplanationSize 0;
+			setAnnotationSize 0;
+			setFontIncAnnot 0;
+			setFontIncExp 0;
+			setSize 700 464;
+			setLocation 8 22;
+			setFont SanSerif;
+			setFontSize 10;
+			getToolPalette;
+			tell It;
+			endTell;
+			desuppress;
+		endTell;
+		getEmployee  #mesquite.charMatrices.BasicDataWindowCoord.BasicDataWindowCoord;
+		tell It;
+			showDataWindow #6767068367027271015 #mesquite.charMatrices.BasicDataWindowMaker.BasicDataWindowMaker;
+			tell It;
+				getWindow;
+				tell It;
+					setExplanationSize 30;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 586 397;
+					setLocation 8 22;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+					endTell;
+					setTool mesquite.charMatrices.BasicDataWindowMaker.BasicDataWindow.arrow;
+					colorCells  #mesquite.charMatrices.NoColor.NoColor;
+					colorRowNames  #mesquite.charMatrices.TaxonGroupColor.TaxonGroupColor;
+					colorColumnNames  #mesquite.charMatrices.CharGroupColor.CharGroupColor;
+					colorText  #mesquite.charMatrices.NoColor.NoColor;
+					setBackground White;
+					toggleShowNames on;
+					toggleShowTaxonNames on;
+					toggleTight off;
+					toggleThinRows off;
+					toggleShowChanges on;
+					toggleSeparateLines off;
+					toggleShowStates on;
+					toggleAutoWCharNames on;
+					toggleAutoTaxonNames off;
+					toggleShowDefaultCharNames off;
+					toggleConstrainCW on;
+					toggleBirdsEye off;
+					toggleShowPaleGrid off;
+					toggleShowPaleCellColors off;
+					togglePaleInapplicable on;
+					toggleShowBoldCellText off;
+					toggleAllowAutosize on;
+					toggleColorsPanel off;
+					toggleDiagonal on;
+					setDiagonalHeight 80;
+					toggleLinkedScrolling on;
+					toggleScrollLinkedTables off;
+				endTell;
+				showWindow;
+				getWindow;
+				tell It;
+					forceAutosize;
+				endTell;
+				getEmployee #mesquite.charMatrices.ColorByState.ColorByState;
+				tell It;
+					setStateLimit 9;
+					toggleUniformMaximum on;
+				endTell;
+				getEmployee #mesquite.charMatrices.ColorCells.ColorCells;
+				tell It;
+					setColor Red;
+					removeColor off;
+				endTell;
+				getEmployee #mesquite.categ.StateNamesEditor.StateNamesEditor;
+				tell It;
+					makeWindow;
+					tell It;
+						setExplanationSize 30;
+						setAnnotationSize 20;
+						setFontIncAnnot 0;
+						setFontIncExp 0;
+						setSize 586 397;
+						setLocation 8 22;
+						setFont SanSerif;
+						setFontSize 10;
+						getToolPalette;
+						tell It;
+						endTell;
+						setActive;
+						rowsAreCharacters on;
+						toggleConstrainChar on;
+						toggleConstrainCharNum 3;
+						togglePanel off;
+						toggleSummaryPanel off;
+					endTell;
+					showWindow;
+				endTell;
+				getEmployee #mesquite.categ.StateNamesStrip.StateNamesStrip;
+				tell It;
+					showStrip off;
+				endTell;
+				getEmployee #mesquite.charMatrices.AnnotPanel.AnnotPanel;
+				tell It;
+					togglePanel off;
+				endTell;
+				getEmployee #mesquite.charMatrices.CharReferenceStrip.CharReferenceStrip;
+				tell It;
+					showStrip off;
+				endTell;
+				getEmployee #mesquite.charMatrices.QuickKeySelector.QuickKeySelector;
+				tell It;
+					autotabOff;
+				endTell;
+				getEmployee #mesquite.charMatrices.SelSummaryStrip.SelSummaryStrip;
+				tell It;
+					showStrip off;
+				endTell;
+				getEmployee #mesquite.categ.SmallStateNamesEditor.SmallStateNamesEditor;
+				tell It;
+					panelOpen true;
+				endTell;
+			endTell;
+		endTell;
+		endTell;
+end;
+
+

@@ -21,10 +21,13 @@ all: $(BUILD_DIR)/phenoscape-ontology-classified.ofn
 clean:
 	rm -rf build
 
+# ontologies.ofn - list of ontologies to be imported
+# Mirror ontologies locally
 $(BUILD_DIR)/mirror: ontologies.ofn
 	mkdir -p $(BUILD_DIR) && rm -rf $@ &&\
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
+# Merge imported ontologies
 $(BUILD_DIR)/phenoscape-ontology.ofn: ontologies.ofn $(BUILD_DIR)/mirror
 	$(ROBOT) merge --catalog $(BUILD_DIR)/mirror/catalog-v001.xml -i $< -o $@
 
@@ -36,6 +39,7 @@ $(BUILD_DIR)/phenoscape-ontology-classified.ofn: $(BUILD_DIR)/phenoscape-ontolog
 	remove --term 'owl:Nothing' --trim true \
 	reason --reasoner ELK -o $@
 
+# Download annotated data from Phenex
 $(BUILD_DIR)/phenoscape-data:
 	git clone https://github.com/phenoscape/phenoscape-data.git $@
 
@@ -47,11 +51,13 @@ NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%
 
 # Convert a single NeXML file to its counterpart OFN
 $(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn 
+	convert-nexml $(BUILD_DIR)/phenoscape-ontology.ofn $< $@
 	echo "Build" $@ using $<
 # Use kb-owl-tools phenex-to-owl to convert
-
+b
 # Merge all NeXML OFN files into a single ontology of phenotype annotations
 $(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS)
+	$(ROBOT) merge $(addprefix -i , $<) -o $@
 	echo "Merge data ontologies"
 
 blah:

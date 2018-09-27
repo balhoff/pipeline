@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nexml xmlns="http://www.nexml.org/2009" xmlns:dc="http://purl.org/dc/terms/" xmlns:dwc="http://rs.tdwg.org/dwc/terms/" xmlns:obo="http://purl.obolibrary.org/obo/" xmlns:phen="http://www.bioontologies.org/obd/schema/pheno" xmlns:ps="http://vocab.phenoscape.org/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" generator="Phenex null" version="0.9" xsi:schemaLocation="http://www.nexml.org/2009 http://www.nexml.org/2009/nexml.xsd http://www.bioontologies.org/obd/schema/pheno http://purl.org/phenoscape/phenoxml.xsd">
+  <meta xsi:type="LiteralMeta" property="dc:creator">Laura Jackson</meta>
+  <meta xsi:type="LiteralMeta" property="dc:description">Britz, R. 2010. A new earthworm eel of the genus Chaudhuria from the Ayeyarwaddy River Drainage, Myanmar (Teleostei: Synbranchiformes: Chaudhuriidae). Zootaxa 2571: 62–68.</meta>
+  <meta xsi:type="ResourceMeta" rel="dc:source">
+    <meta xsi:type="LiteralMeta" property="dc:identifier">http://dx.doi.org/10.11646/%25x</meta>
+    <meta xsi:type="LiteralMeta" property="dc:bibliographicCitation">Britz, R. 2010. A new earthworm eel of the genus Chaudhuria from the Ayeyarwaddy River Drainage, Myanmar (Teleostei: Synbranchiformes: Chaudhuriidae). Zootaxa 2571: 62–68.</meta>
+    <meta xsi:type="LiteralMeta" property="dc:title">Britz (2010)</meta>
+  </meta>
+  <otus id="t86b4ec2f-9362-4e8f-ba51-d0e3ab9932c0">
+    <otu id="tf8d02055-9370-4879-a48d-0bc64f4df70f" label="" about="#tf8d02055-9370-4879-a48d-0bc64f4df70f">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0071673" />
+    </otu>
+    <otu id="tb450afab-dd6e-47a9-beb9-cba3c7694df0" label="" about="#tb450afab-dd6e-47a9-beb9-cba3c7694df0">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0071674" />
+    </otu>
+    <otu id="t1b2ccc68-1b89-4b51-bdca-30e557164824" label="" about="#t1b2ccc68-1b89-4b51-bdca-30e557164824">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0071664" />
+    </otu>
+    <otu id="t8f194e10-e5e3-40b4-ae3e-25681940c72b" label="" about="#t8f194e10-e5e3-40b4-ae3e-25681940c72b">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0071663" />
+    </otu>
+    <otu id="t66aa5a23-107d-4fcf-b27b-c0564cb22e45" label="" about="#t66aa5a23-107d-4fcf-b27b-c0564cb22e45">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0071666" />
+    </otu>
+    <otu id="tb13e51fa-3010-4629-8aa4-aaf65dfd48e4" label="" about="#tb13e51fa-3010-4629-8aa4-aaf65dfd48e4">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0071661" />
+    </otu>
+    <otu id="t5b789fec-03d9-4a3c-bf5a-1daf87bfd466" label="" about="#t5b789fec-03d9-4a3c-bf5a-1daf87bfd466">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0071671" />
+    </otu>
+    <otu id="t222f0a5a-839a-4b67-8ed3-e9c1f0a59f97" label="" about="#t222f0a5a-839a-4b67-8ed3-e9c1f0a59f97">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0071670" />
+    </otu>
+    <otu id="te105379e-d623-47a0-b0d8-c699cb5ca688" label="" about="#te105379e-d623-47a0-b0d8-c699cb5ca688">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0071668" />
+    </otu>
+  </otus>
+  <characters id="c93ac414-67b4-4701-a394-d1d1e737cab3" xsi:type="StandardCells" otus="t86b4ec2f-9362-4e8f-ba51-d0e3ab9932c0">
+    <format>
+      <states id="s957e7c98-4c17-4361-98ec-c21cfa94efce">
+        <state id="s3dae10c8-90b3-41c0-929f-475b4d2a77d2" label="absent" symbol="0" about="#s3dae10c8-90b3-41c0-929f-475b4d2a77d2">
+          <meta xsi:type="LiteralMeta" property="ps:describesPhenotype">
+            <phen:phenotype>
+              <phen:phenotype_character>
+                <phen:bearer>
+                  <phen:typeref about="UBERON:0000151" />
+                </phen:bearer>
+                <phen:quality>
+                  <phen:typeref about="PATO:0000462" />
+                </phen:quality>
+              </phen:phenotype_character>
+            </phen:phenotype>
+          </meta>
+        </state>
+        <state id="s646dd57b-eebe-455e-ac83-971b80e40006" label="present" symbol="1" about="#s646dd57b-eebe-455e-ac83-971b80e40006">
+          <meta xsi:type="LiteralMeta" property="ps:describesPhenotype">
+            <phen:phenotype>
+              <phen:phenotype_character>
+                <phen:bearer>
+                  <phen:typeref about="UBERON:0000151" />
+                </phen:bearer>
+                <phen:quality>
+                  <phen:typeref about="PATO:0000467" />
+                </phen:quality>
+              </phen:phenotype_character>
+            </phen:phenotype>
+          </meta>
+        </state>
+      </states>
+      <states id="s72ec656c-4579-4419-8f17-67ca9cf4c0a5">
+        <state id="sff9c732d-df5e-4187-8321-35aaf18b6158" label="absent" symbol="0" about="#sff9c732d-df5e-4187-8321-35aaf18b6158">
+          <meta xsi:type="LiteralMeta" property="ps:describesPhenotype">
+            <phen:phenotype>
+              <phen:phenotype_character>
+                <phen:bearer>
+                  <phen:typeref about="UBERON:0007831" />
+                </phen:bearer>
+                <phen:quality>
+                  <phen:typeref about="PATO:0000462" />
+                </phen:quality>
+              </phen:phenotype_character>
+            </phen:phenotype>
+          </meta>
+        </state>
+        <state id="s84d02e3c-5233-41d9-b946-b8d991610feb" label="present" symbol="1" about="#s84d02e3c-5233-41d9-b946-b8d991610feb">
+          <meta xsi:type="LiteralMeta" property="ps:describesPhenotype">
+            <phen:phenotype>
+              <phen:phenotype_character>
+                <phen:bearer>
+                  <phen:typeref about="UBERON:0007831" />
+                </phen:bearer>
+                <phen:quality>
+                  <phen:typeref about="PATO:0000467" />
+                </phen:quality>
+              </phen:phenotype_character>
+            </phen:phenotype>
+          </meta>
+        </state>
+      </states>
+      <char id="c25a4ddb7-1518-4ecc-96ab-e87ee2a69d00" label="pectoral fin" states="s957e7c98-4c17-4361-98ec-c21cfa94efce" />
+      <char id="cca687574-1557-4e5e-84fb-3ff4612e10f0" label="pectoral girdle" states="s72ec656c-4579-4419-8f17-67ca9cf4c0a5" />
+    </format>
+    <matrix>
+      <row id="rc77f05a0-942a-47fd-8390-d023215ccf4f" otu="tf8d02055-9370-4879-a48d-0bc64f4df70f">
+        <cell char="c25a4ddb7-1518-4ecc-96ab-e87ee2a69d00" state="s646dd57b-eebe-455e-ac83-971b80e40006" />
+        <cell char="cca687574-1557-4e5e-84fb-3ff4612e10f0" state="s84d02e3c-5233-41d9-b946-b8d991610feb" />
+      </row>
+      <row id="r42ee13d3-d8ba-4ae4-b546-c127e8f48043" otu="tb450afab-dd6e-47a9-beb9-cba3c7694df0">
+        <cell char="c25a4ddb7-1518-4ecc-96ab-e87ee2a69d00" state="s646dd57b-eebe-455e-ac83-971b80e40006" />
+        <cell char="cca687574-1557-4e5e-84fb-3ff4612e10f0" state="s84d02e3c-5233-41d9-b946-b8d991610feb" />
+      </row>
+      <row id="rbe66a754-f430-486d-9c7b-cbd262389dbf" otu="t1b2ccc68-1b89-4b51-bdca-30e557164824">
+        <cell char="c25a4ddb7-1518-4ecc-96ab-e87ee2a69d00" state="s646dd57b-eebe-455e-ac83-971b80e40006" />
+        <cell char="cca687574-1557-4e5e-84fb-3ff4612e10f0" state="s84d02e3c-5233-41d9-b946-b8d991610feb" />
+      </row>
+      <row id="re46b5f8b-2ed3-478c-a808-affb609d8c3a" otu="t8f194e10-e5e3-40b4-ae3e-25681940c72b">
+        <cell char="c25a4ddb7-1518-4ecc-96ab-e87ee2a69d00" state="s646dd57b-eebe-455e-ac83-971b80e40006" />
+        <cell char="cca687574-1557-4e5e-84fb-3ff4612e10f0" state="s84d02e3c-5233-41d9-b946-b8d991610feb" />
+      </row>
+      <row id="r2de4efa4-1f3f-409a-9367-6ca749c3a066" otu="t66aa5a23-107d-4fcf-b27b-c0564cb22e45">
+        <cell char="c25a4ddb7-1518-4ecc-96ab-e87ee2a69d00" state="s646dd57b-eebe-455e-ac83-971b80e40006" />
+        <cell char="cca687574-1557-4e5e-84fb-3ff4612e10f0" state="s84d02e3c-5233-41d9-b946-b8d991610feb" />
+      </row>
+      <row id="r0590e5a5-7701-47f0-a89f-9f08d86aec7a" otu="tb13e51fa-3010-4629-8aa4-aaf65dfd48e4">
+        <cell char="c25a4ddb7-1518-4ecc-96ab-e87ee2a69d00" state="s646dd57b-eebe-455e-ac83-971b80e40006" />
+        <cell char="cca687574-1557-4e5e-84fb-3ff4612e10f0" state="s84d02e3c-5233-41d9-b946-b8d991610feb" />
+      </row>
+      <row id="r26c86359-14a8-4a0e-b1bb-e94676a1fe15" otu="t5b789fec-03d9-4a3c-bf5a-1daf87bfd466">
+        <cell char="c25a4ddb7-1518-4ecc-96ab-e87ee2a69d00" state="s646dd57b-eebe-455e-ac83-971b80e40006" />
+        <cell char="cca687574-1557-4e5e-84fb-3ff4612e10f0" state="s84d02e3c-5233-41d9-b946-b8d991610feb" />
+      </row>
+      <row id="r7733daec-e07f-49b7-b75a-3d2d30301d28" otu="t222f0a5a-839a-4b67-8ed3-e9c1f0a59f97">
+        <cell char="c25a4ddb7-1518-4ecc-96ab-e87ee2a69d00" state="s646dd57b-eebe-455e-ac83-971b80e40006" />
+        <cell char="cca687574-1557-4e5e-84fb-3ff4612e10f0" state="s84d02e3c-5233-41d9-b946-b8d991610feb" />
+      </row>
+      <row id="r1e4c1c8e-4597-4d22-847d-202d680c2efd" otu="te105379e-d623-47a0-b0d8-c699cb5ca688">
+        <cell char="c25a4ddb7-1518-4ecc-96ab-e87ee2a69d00" state="s646dd57b-eebe-455e-ac83-971b80e40006" />
+        <cell char="cca687574-1557-4e5e-84fb-3ff4612e10f0" state="s84d02e3c-5233-41d9-b946-b8d991610feb" />
+      </row>
+    </matrix>
+  </characters>
+  <trees id="tfa161575-ec0f-4a50-8106-62c2f4552cc2" otus="t86b4ec2f-9362-4e8f-ba51-d0e3ab9932c0" />
+  <trees id="t4d95dc4f-94eb-4412-b52f-c7aaf3df4493" otus="t86b4ec2f-9362-4e8f-ba51-d0e3ab9932c0" />
+  <trees id="t185df5c4-f3da-45f0-ba9e-c0e3f8476517" otus="t86b4ec2f-9362-4e8f-ba51-d0e3ab9932c0" />
+  <trees id="t4786de93-dc41-4932-b5a7-aa4adbf4726f" otus="t86b4ec2f-9362-4e8f-ba51-d0e3ab9932c0" />
+  <trees id="t1d351a00-39ed-4889-be81-0bb25772a7cc" otus="t86b4ec2f-9362-4e8f-ba51-d0e3ab9932c0" />
+</nexml>

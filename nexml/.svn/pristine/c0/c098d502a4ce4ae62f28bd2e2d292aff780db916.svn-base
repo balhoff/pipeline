@@ -1,0 +1,228 @@
+#NEXUS
+[written Wed Jan 16 10:22:58 CST 2013 by Mesquite  version 2.75 (build 564) at Jordan-Catletts-MacBook-Pro.local/172.21.81.127]
+
+BEGIN TAXA;
+	TITLE Taxa;
+	DIMENSIONS NTAX=44;
+	TAXLABELS
+		Acanthostega Archeria Asaphestera Balanerpeton Baphetes Barameda Caerorhachis Catskill_humerus Crassigyrinus Dendrerpeton Eoherpeton Eucritta Eusthenopteron Glyptolepis Gogonasus Greererpeton Hynerpeton Ichthyostega Marsdenichthys Medoevia Megalichthys Onychodus Ossinodus Panderichthys Pederpes Pholiderpeton Proterogyrinus Ptyonius Rhizodopsis Rhizodus Sauripterus Sauropleura Saxonerpeton Scincosaurus Silvanerpeton Sterropterygion Strepsodus Tiktaalik Trimerorhachis Tuditanus Tulerpeton Urocordylus Westlothiana Whatcheeria 
+	;
+
+END;
+
+
+BEGIN CHARACTERS;
+	TITLE  Character_Matrix;
+	DIMENSIONS  NCHAR=157;
+	FORMAT DATATYPE = STANDARD GAP = - MISSING = ? SYMBOLS = "  0 1 2 3 4 5 6 7";
+	CHARSTATELABELS 
+		1 postbranchial_lamina_projecting_from_the_anterior_edge_of_the_cleithrum /  present absent, 2 Cleithrum_attachment_to_scapulocoracoid /  'tripodal, via three processes of the scapulocoracoid ' via_a_single_dorsal_process_of_the_scapulocorocoid_that_lies_flush_against_the_internal_surface_of_the_cleithrum complete_fusion_between_surfaces_of_the_scapula_and_cleithrum separate_bones_, 3 'Cleithrum anterior margin, in lateral aspect, inclined posteriorly ' /  for_less_ or_more_than_10_degrees_relative_to_the_horizontal_plane, 4 cleithrum_ornamentation /  present absent, 5 Cleithrum_ /  with_smoothly_broadening_to_spatulate_dorsal_end_ distal_expansion_marked_from_narrow_stem_by_notch_or_process_or_decrease_in_thickness_ simply_tapering_end_, 6 Contact_margin_for_clavicle_on_cleithrum /  straight_to_gently_convex_ strongly_concave_, 7 Cleithrum_narrow_waisted_region /  _without_ or_with_, 8 Cleithrum_depressed_posterior_flange /  without or_with, 9 Cleithrum_anteroventral_process /  with_ without, 10 Cleithrum_lateral_ridge /  with without, 11 Cleithrum_distinct_shaft /  with_ without, 12 'Cleithrum-clavicle pattern of overlap' /  'rhizodont-like ' 'not rhizodont-like ', 13 Clavicle_anterolateral_groove_on_its_plate /  without with, 14 Clavicle_plate_morphology_in_ventral_aspect_and_mesiolateral_orientation /  approximately_elongate_subtrapezoidal_ subrectangular equilateral_triangular_ elongate_curved_wedge_ 'stout and spoon-shaped ' elongate_triangular_with_drawn_out_anterior_margin_ narrow_and_spatulate_ 'elongate lozenge-shaped ', 15 Clavicles_meet_anteriorly /  yes no, 16 Clavicles_distinct_ascending_process /  without with, 17 Clavicles_lying_flush_ /  with_the_cleithrum_ or_not, 18 Interclavicle_posterior_margin_ /  not_drawn_out_into_parasternal_process_ 'with parasternal process that is not parallel-sided' 'with elongate, slender process that is parallel-sided for most of its length ', 19 Interclavicle /  unornamented_ densely_and_finely_perforated_with_fine_striations_ densely_and_coarsely_perforated_with_ridges punctate_with_widely_spaced_perforations_ cancellose_ with_deep_circular_pits_, 20 Interclavicle_ /  wider_than_long_ or_not_, 21 Interclavicle /  rhomboidal_with_posterior_part_longer_ 'or shorter than anterior part, the boundary between the anterior and posterior parts delimited by a transverse line running through its lateral corners', 22 'Transversely elongate area of transversely oriented, subparallel, and interwoven grooves and ridges on central part of interclavicle ventral surface' /  absent present, 23 Interclavicle_ /  'small and scute-like ' enlarged, 24 Separate_scapular_ossification /  absent present, 25 'Glenoid subterminal, i.e. the scapulocoracoid does not extend ventral and slightly posterior to its posteroventral margin, and does not form a distinct ?wall? of bone, visible in lateral aspect' /  yes no, 26 Supraglenoid_foramen /  'present and funnel-shaped' 'present, subcircular or subelliptical, and small-sized' 'present, subcircular or subelliptical, and medium-sized' 'present, subcircular or subelliptical, and large-sized ' absent, 27 'Ventromesially extended infraglenoid buttress, i.e. a thickening jutting out on the visceral (internal) side of the scapular blade, occurring posterior to the subscapular fossa, and sweeping mesioventrally towards the floor of the coracoid region of the scapulocoracoid' /  absent present, 28 Glenoid_oriented_ /  'mostly posteriorly/ventrally ' or_with_lateral_component_, 29 Subscapular_fossa /  absent present, 30 scapular_blade /  Absence_ or_presence_of_poorly_developed_ _or_well_developed_, 31 Glenoid /  situated_dorsal_to_the_level_of_the_clavicles_ or_offset_ventrally_at_the_same_level_as_the_clavicles_, 32 Scapulocoracoid /  mostly_concealed_by_cleithrum_in_lateral_view_ or_mostly_exposed_, 33 Scapulocoracoid /  without or_with_expanded_coracoid_plate_extending_ventromedially, 34 Scapulocoracoid /  without or_with_supraglenoid_excavation, 35 Glenoid /  greater_axis_oriented_mostly_horizontally_ or_obliquely_, 36 Anocleithrum /  present_subdermal_ present_exposed_ absent, 37 Supracleithrum /  'present, enlarged, bigger than scales ' ' present, small, scale-like bone ' absent_, 38 Latissimus_dorsi_process_of_humerus_ /  offset_anteriorly_relative_to_the_ectepicondyle_ or_aligned_with_the_latter_, 39 Distinct_supinator_process_projecting_anteriorly /  absent present, 40 Ventral_humeral_ridge /  present_oblique_ present_transverse_ absent, 41 Latissimus_dorsi_process_ /  absent_as_recognisable_structure_ confluent_with_deltopectoral_crest_ distinct_from_deltopectoral_crest, 42 Entepicondyle_foramen /  present_subcircular_or_elliptical_ 'present slit-like ' absent, 43 Ectepicondyle_foramen /  present absent, 44 Distinct_ectepicondyle_ridge /  present absent, 45 Ectepicondyle_ridge_reaching_distal_humeral_end /  no yes, 46 Distal_extremity_of_ectepicondyle_ridge /  aligned_with_ulnar_condyle_ between_ulnar_and_radial_condyles_ aligned_with_radial_condyle_, 47 Humerus_waisted_shaft /  without_ or_with, 48 Position_of_radial_condyle /  terminal anteroventral ventral, 49 Humerus_length /  up_to_and_no_more_than_twice_its_width_ or_more_than_twice_its_width_, 50 Posterolateral_margin_of_entepicondyle_lying_distal_relative_to_plane_of_radial_and_ulnar_facets /  yes no, 51 Posterolateral_margin_of_entepicondyle_markedly_concave /  yes no, 52 Width_of_entepicondyle_ /  greater or_smaller_than_half_humerus_length, 53 Portion_of_humerus_shaft_length_proximal_to_entepicondyle_ /  smaller or_greater_than_humerus_head_width, 54 Accessory_foramina_on_humerus /  present_three_or_more_ present_two_or_one_ absent, 55 Humerus_length /  greater_ 'or smaller than combined length of two and a half mid-trunk vertebrae', 56 Process_?2?_on_humerus /  absent present, 57 Dorsoventrally_flattened_humerus /  absent present, 58 Broad_shallow_proximal_depression_for_scapulohumeral_muscle_insertionCharacter_58 /  absent present, 59 Enlarged_area_for_muscle_insertion_above_the_radial_condyle /  absent present, 60 Entepicondyle /  'blunt- round-ended' truncated_ 'with posterior margin smoothly convex and elongate, merging indistinctly into humerus shaft', 61 Caput_humeri /  rounded_to_hemispherical_shaped_ 'subrectangular, much wider than high ' 'elongate (bifid or strap - shaped)', 62 Radial_and_ulnar_facets_ /  not_separated_ _or_separated_by_finished_bone, 63 ventral_process_on_entepicondyle /  absent present, 64 Humerus_anterior_margin /  smooth_finished_bone_forming_convex_margin_ anterior_keel_with_finished_margin_ 'cartilage-finished ' smooth_concave_margin, 65 Humerus_ends /  untorted or_offset_, 66 Length_of_posterior_margin_of_entepicondyle_ /  smaller_than_ subequal_to_ or_larger_than_humerus_anteroposterior_length_at_the_level_of_proximal_insertion_of_entepicondyle_onto_humerus_shaf, 67 neck?_below_humeral_head /  absent present, 68 distinct_recess_and_incipient_crest_at_proximal_junction_between_ectepicondyle_and_entepicondyle_processes /  absent present, 69 dorsal_thickening_running_along_the_posterior_margin_of_the_entepicondyle /  absent present, 70 Ventral_humeral_ridge_ /  extending_to_posteromedial_rim_of_entepicondyle_ or_not, 71 distinct_entepicondyle /  absent present, 72 distinct_articular_facets_on_proximal_mesomere /  absent present, 73 processes_3_and_4_on_entepicondyle /  absent present, 74 Latissimus_dorsi_process_ /  a_swelling_ or_a_spike_, 75 Pectoral_process_ /  absent_ present_as_a_thin_triangular_thickening_ present_as_a_slightly_protruding_triangular_process_buttressed_posteriorly present_as_a_strong_process_with_wide_buttressing_, 76 Deltoid_process_ /  absent_or_indistinct forming_round_bulge_at_top_of_a_crest_ associated_with_dorsal_ridge_and_slightly_buttressed_posteroproximally conspicuous_buttressed_thickening_, 77 ectepicondylar_depression /  absent present, 78 Radius /  longer_than_ as_long_as_ or_shorter_than_humerus, 79 Radius /  longer_than_ as_long_as_ or_shorter_than_ulna., 80 Radius_distal_end_ /  'blade-like ' 'dagger-like ' tapering_smoothly_ truncated flared, 81 Radius /  absent present_and_less_than_twice_as_long_as_wide_at_its_midlength_ at_least_twice_as_long_as_wide_at_its_midlength, 82 Radius /  without or_with_distinctly_expanded_proximal_extremity, 83 Olecranon_process /  absent present, 84 Ulna /  wider_at_its_distal_extremity_ of_about_the_same_width_at_proximal_and_distal_extremities_ wider_at_its_proximal_extremity_, 85 Ulna_ /  maximum_width_greater_than_maximum_bone_length_ between_100_and_50_percent_of_maximum_bone_length_ less_than_50_percent_of_maximum_bone_length_, 86 Posterior_margin_of_ulna_ /  drawn_out_ or_not_into_small_round_process, 87 Postaxial_process_of_ulnare /  present absent, 88 Intermedium /  absent present_and_longer_than_ulna_ or_about_as_long_as_ulna_ or_shorter_than_ulna_, 89 Intermedium_ /  'waisted and spool-shaped ' 'dagger-like ' 'splinter-shaped and tapering distally ' simple_rod_ bulbous_, 90 Anterior_profile_of_ilium /  with_distinct_step_in_lateral_aspect_ 'or straight/shallowly concave ', 91 Dorsal_iliac_process /  absent present_and_with_dorsalmost_part_oriented_vertically_with_posteror_half_of_iliac_neck present_and_with_dorsalmost_part_oriented_vertically_with_anterior_half_of_iliac_neck_, 92 Ventral_margin_of_posterodorsal_process_of_ilium /  forming_acute_angle_with_posterodorsal_margin_of_ilium_ oriented_horizontally_ forming_right_angle_with_posterodorsal_margin_of_ilium_ forming_obtuse_angle_with_posterodorsal_margin_of_ilium_, 93 Dorsal_iliac_process_ /  oblique_and_flared_ 'fan-shaped ' subrectangular_and_truncated_ blunt_and_digitiform_ low_elongate_, 94 Supraacetabular_iliac_buttress_ /  less or_more_prominent_than_postacetabular_buttress, 95 Transverse_pelvic_ridge /  absent present, 96 Dorsal_and_posterodorsal_iliac_processes_ /  overlapping_in_lateral_view_ separated_by_distinct_space_, 97 Mesial_pelvic_ridge_ /  offset_anteriorly_ aligned_with_iliac_neck_ absent, 98 Acetabulum_directed /  'posteriorly/posterolaterally ' or_laterally_, 99 Acetabulum /  unfinished or_finished_anteriorly, 100 distinct_change_in_curvature_or_?step?_along_ventral_margin_of_posterodorsal_process_of_ilium /  absent present, 101 Posterodorsal_process_of_ilium_ /  less or_more_than_three_times_as_long_as_wide, 102 pelvic_sutures /  absent present, 103 dorsal_iliac_ridge /  absent present, 104 Ischium_contributing_to_pelvic_symphysis /  no yes, 105 Number_of_pubic_obturator_foraminaCharacter_105 /  multiple single absent, 106 Sacral_rib_distinguishable_by_size /  shorter_than_trunk_ribs_and_longer_than_presacrals same_length_as_presacrals, 107 Sacral_rib_distinguishable_by_shape /  'broader than immediate presacrals but not broader than mid-trunk proximal shafts' 'broader than mid-trunk proximal shafts ', 108 Internal_trochanter_raised_as_a_distinct_protuberance /  absent present, 109 'Internal trochanter separated from the general surface of the femur shaft by a distinct, trough-like space' /  absent present, 110 Fourth_trochanter_of_femur_with_distinct_rugose_area /  no yes, 111 Proximal_end_of_femur_adductor_crest_reaching_midshaft_length /  no yes, 112 Femur_ /  shorter_than_ as_long_as_ or_longer_than_humerus_, 113 Anterior_distal_condyle_ /  wider as_wide_as_ or_less_wide_than_posterior_distal_condyle_in_extensor_aspect, 114 Femur_adductor_blade /  distinguished_distally_from_shaft_by_angle_or_notch_ or_fading_into_shaft_distally_, 115 Femur_ /  without_ or_with_distinctly_expanded_proximal_head., 116 Femur /  without 'distinct intercondylar groove on distal part of extensor surface; with groove, the length of which is less than ' or_more_than_the_distal_width_of_the_femur, 117 Anteroposterior /  maximum_distance_between_femur_distal_condyles_in_extensor_view_55_pecent_or_more_of_femur_length_ between_55_and_40_percent_of_femur_length_ 40_percent_or_less_than_femur_length_, 118 Tibia_waisted /  no yes, 119 Tibia_ /  without_cnemial_crest_ crest_present_and_running_distally_ present_and_running_mesiolaterally_while_subsiding_distally, 120 Tibia /  less_than_half_ or_more_than_half_ of_femur_length, 121 Tibia_ /  without or_with_flange_along_its_posterior_edge, 122 Tibia_distal_articular_surface_ /  absent 'present and with L-shaped outline ' present_and_with_subelliptical_outline_, 123 'Tibia width at mid-length of bone ' /  less_than_ comparable_to_ 'or greater than width of fibula at mid-length of bone', 124 Tibia /  width_at_narrowest_point_50_percent_or_more_than_bone_length_ or_30_percent_or_less_than_bone_length_, 125 Tibia_and_fibula /  without_interepipodial_space_ 'with interepipodial space that is elongate and spindle-shaped ' 'with broad interepipodial space to which the tibia contributes in the form of a subsemicircular embayment, the diameter of which is less than one-third of the tibia length.', 126 Tibia_proximal_extremity_ /  wider or_as_wide_as_its_distal_extremity, 127 Fibula_waisted /  no yes, 128 Fibula /  without or_with_oblique_distal_extremity, 129 Ridge_near_posterior_edge_fibula_flexor_surface /  absent present, 130 Rows_of_tubercles_near_posterior_edge_fibula_flexor_surface /  absent present, 131 Postaxial_process_of_fibula /  present absent, 132 'Posterior (lateral) surface of fibula ' /  concave straight_ convex_in_its_proximal_half, 133 sulcus_on_anterodistal_part_of_flexor_surface_of_fibula /  present absent, 134 Fibula_width_at_narrowest_point /  50_percent_or_more_of_bone_length_ 30_percent_or_less_of_bone_length_, 135 Proximal_tarsal_ossifications /  absent presence_of_single_ossification_ presence_of_more_than_two_ossifications, 136 'L-shaped proximal tarsal element' /  absent present, 137 Distal_tarsal_ossifications_between_fibulare_and_digits /  absent present, 138 Distal_tarsal_ossifications_between_tibiale_and_digits /  absent, 139 Manus_digits /  absent 'present, eight ' 'present, six ' 'present, five ' 'present, four ', 140 Metacarpals /  absent present_and_proximally_symmetrical_ proximally_asymmetrical_, 141 Length_of_longest_metacarpal_ /  less_than_width_of_distal_extremity_of_radius_ as_long_as_maximum_oblique_width_of_distal_extremity_of_radius or_longer_than_maximum_oblique_width_of_distal_extremity_of_radius_, 142 Length_of_longest_metacarpal_ /  less_than_twice_its_maximum_width_ at_least_twice_as_wide_as_long_ more_than_twice_as_long, 143 Length_of_longest_metacarpal_ /  no_more_than_half_length_of_radius_ between_half_and_total_length_of_radius_, 144 Pes_digits /  absent 'present, eight ' 'present, seven ' 'present, six ' 'present, five ' 'present, four ', 145 Metatarsals /  absent present_and_proximally_symmetrical_ proximally_asymmetrical_, 146 Length_of_longest_metatarsal /  not_greater_than_maximum_oblique_width_of_distal_extremity_of_tibia_ '); up to 33 per cent longer ' _at_least_twice_as_long_, 147 Length_of_longest_metatarsal /  less_than_twice_its_maximum_width_ at_least_twice_as_wide_as_long_ more_than_twice_as_long_, 148 Length_of_longest_metatarsal_ /  no_more_than_half_of_the_length_of_the_tibia_ between_half_and_total_length_of_the_tibia_, 149 Basal_scutes /  present absent, 150 Radials /  present_unjointed_ present_jointed_ absent, 151 Radials_at_pectoral_level_ /  do_not_bifurcate_ or_bifurcate, 152 Lepidotrichia /  present_jointed_ present_unjointed_ absent, 153 Lepidotrichia_basal_segments_at_pectoral_level /  long short, 154 Mesomere_4_ /  narrow_or_tapered_ 'short, relatively broad ' absent, 155 Mesomere_5 /  'narrow and/or tapered' broadens_posteriorly_ absent, 156 Distal_developmental_domain_of_anterior_appendage_ /  expanded_across_the_anteroposterior_axis_ or_not, 157 Distal_developmental_domain_of_posterior_appendage_ /  expanded_across_the_anteroposterior_axis_ or_not ; 
+	MATRIX
+	Acanthostega      02110000000002111100001001011111100120011100100001100111111121010001011110220204200210?340100000011100110101110100112011011001001010000000110001100002?2?2211
+	Archeria          13111000111004111230001003111201111221012010120011101211111?20010201101100330224211220???1202111110001011111011211121120021110111010112111321004201102?2?2211
+	Asaphestera       ????????????0611?13100101411?201110?2?0??110121?1?1??21011112003120?0?110?330?????0220???1203?01?1?01101??????(1 2)??1(1 2)????????????????????????(1 2)????????02?2?221?
+	Balanerpeton      131110001010021110400010?????2?1???22?02?011??1011100210111?2003120?0?110?330214211220?34100?10?11?10101?1011?021012{1 2}1000?{1 2}11011001{1 2}112011421104211102?2?2211
+	Baphetes          ????1?00111003???????????????????????00120101200011002?01111200210000?11013302?421???????010(0 1)100?1???1?1?????????????12?0(1 2)21101110101???????????????02??????1
+	Barameda          ?000??11???1???1??????0????0000?0??????000?0001000100??001100000021000110?111000100000120?????????????????????????????????????????????????00????????01110??1?
+	Caerorhachis      ??????????????????????????????????????????????????????????????????????????????????1??????1124111?1100?01???11?1?121221?10??11011??1??12111?????42(1 2)210??2????1
+	Catskill_humerus  ??????????????????????????????????????010000100{0 2}011100?011112001000101110?100????????????????????????????????????????????????????????????????????????????????
+	Crassigyrinus     ?311100011101{3 5}?11120001?????????????210120001(1 2)00011000001111200201010011003?0204210010???0102?0021?01101???11112(0 1)111111112211011101001??????????????02?2?2211
+	Dendrerpeton      1311100010100711104000100211120111022?02?01012101110021011112003120?0?110?330214211220???100?11?110101011??11?12{1 2}01{1 2}110001211011??1111201142110?211102?2?2211
+	Eoherpeton        ????????????04?1???????01111120?110??10120101100111012?1111120010201101100330????????????1202111010???011?????121112112102211011101011??????????????02?2?22??
+	Eucritta          ?31110001?100{2 3}111{0 1}200010?????2?1???22?0??0101?00011002?01111200200000?110???0213211220???010(0 2)????1???1?1???????2??1?11??0?(1 2)11111??11?1?????????4210002?2?22??
+	Eusthenopteron    0000010000000001000000000000000000010?00000000000000000000000010000000110?110001200010011000?00??0000000???0?0000?000100000110100000?000??00???00???100000000
+	Glyptolepis       ?00000001000???10?????0?0??0000?00000???0???????0???????000?000?0?0???100?000???0??????0??????????????????????????????????????????????????00????????01001??0?
+	Gogonasus         ?000?000??00???00?????0????0000?0???1??0?0??(0 1)0?{0 2}??0??0?0001?1010000000110??10002200010012?????????????????????????????????????????????????00?????????1001110?
+	Greererpeton      03111000101005011040101004111211100221012{0 1}10110001100200111120010100001100330224211220???100?10?0101010110111112001{1 2}21210221101100111120?1(3 4)(1 2)1004(1 2)00002?2?2211
+	Hynerpeton        12110?000010???????????002111101100??????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+	Ichthyostega      02110000001003111211001012111101110121011000100111100110111121110201011110220224(1 2)11210?341112101011000110??1010?0?111010012001000011101000?????2200002?2?2211
+	Marsdenichthys    ??00?000?000???00??????????????????10???????????????????????????????????????????????????????????????????????????????????????????????????????????????10?0?????
+	Medoevia          00000010000000010?0000000000000000010?000000??0?0?0000?000?01?000000001?0?100???????????????????????????????????????????????????????????????????????10?0?????
+	Megalichthys      00000000000000?10??????00000000000010?000?000?0000100??0000?000?00?0??110??100?020????0???????????????????????????????????????????????????00????????10001??0?
+	Onychodus         0000010010100510????????0??0000000000???00??0??0???????0000?10?00?0???000?000???(1 2)???????????????????????????????????????????????????????????????????0????????
+	Ossinodus         13?110001?101?011221111?031?12?1?10????????????????????????????????????????????421???????1{1 2}0??1001????1????0100?101211(1 2)011?011???????????????????????2???????
+	Panderichthys     01100100000001000000000001?1111010011?000000100000???000111020?1000000110?120102200111122?0???????????????????????0?00?000010000??1210????00???00???00010??11
+	Pederpes          13111000111003111(1 2)210111?3???2?1?10?21022010110001100200111120020{1 2}010?1101330214210210???0111?001??0111????00002111101?00?202111101011????(1 2 3 4)????4200002?2?2211
+	Pholiderpeton     13??1000101004?11(1 2)2????0031???011110???0?0?01(1 2)??011112??????????020?10110?3?0124211220???????????????????11???????????????????????????????(1 2 3 4)?????????0??????1?
+	Proterogyrinus    13111000111004111130001003111201111221012010120211100211111120021201101100330214211220???110211101010101011101121112112102211011101011211132(1 2)004201102?2?2211
+	Ptyonius          131100001010051110201010??1??2?11??22?0??21???0211111100111120030(1 2)0???110???0114211120???103??0??1000101200????21?12210002211?10??12?1????422215222102?2?2211
+	Rhizodopsis       ????????0000?????????????????????0????1?0000110(0 1)?10???000000??0?00?00?110??1000?2000100(1 2 3)(1 2 3)?????????????????????????????????????????????????00????????10?01????
+	Rhizodus          00000011101100?10??????000000000000(0 1)??000001??10001000?0000100000(0 1)0?00110?301104100000110?????????????????????????????????????????????????00???????????????1?
+	Sauripterus       0010001010010??10??????0000001000000(0 1)?0000?1??00011000?0000(0 1)0000000??111??100000100000110?????????????????????????????????????????????????00????????01?10??1?
+	Sauropleura       131100001010051110201010??1??2?11??22?1??21???021111110011112003020???110???01142112201??103??0??1000101201????21?12210002111?11??12?120?1422214222102?2?2211
+	Saxonerpeton      1311200010100611120100101??112011?022?02?111??121111121011122003120?0?110?3302242112201341233101?1001101?111001{1 2}{1 2}11(1 2)210102111011001111201142???4222102?2?2211
+	Scincosaurus      131100001110020110500010?4?1?20111022?12?0????121111120011112003120???110?330224211220???103??0??100110120110012??1?210102111011??1211????(3 4)22214222102?2?2211
+	Silvanerpeton     ?311?0001?10041111200010?????2?1????2?0??0101?00011112001111200?02011?110???0224210220???1112??1?1?00101?11????21?1211?0??111011??1(0 1)11201132(1 2)(0 1)04211102?2?2211
+	Sterropterygion   ?0?0???????????????????0001010??000???00??00??01000000?00?102?00100??1110?12?00(2 3)2000100(1 2)(0 1 2)?????????????????????????????????????????????????00???????????01(0 1)?1?
+	Strepsodus        00000011100100?10??????00100000000000?0000?0000200101(0 1)?000010000021000110?320?????00001????????????????????????????????????????????????????????????????????1?
+	Tiktaalik         0110010000000(1 2)?00????????111111010011??000??11?{0 2}0?0??0?011102111000000110?120103200111123?????????????????????????????????????????????????00????????01110111?
+	Trimerorhachis    ????????????0511?0401011?3111211?0?221102210121{0 1}101102001111200112010011003302(1 2)4211220???10{0 2}?11?11?01101???111122111212102111011001101????42???42???02?2?2211
+	Tuditanus         13111?00101016111201001?????????????2?0??11???101111121011122003120???110?3302(1 2)421?220???1133101?10011011??1001?1112210002111011001111(1 2)(0 1)1?421204222102?2?2211
+	Tulerpeton        ?3110?00111015011(1 2)100010131112011001210110101101011000??1111200102010011003302142112201340100??12?????1????111020?1221101121111101100121112220032111?2?2?2211
+	Urocordylus       13111?001010051110101010???1?20111022?0??21???021110020011102001000?0?110???0214211220???103??0??1001101211101121?12210002111011??12?1????322214222102?2?2211
+	Westlothiana      ???????????????????????0??1?12??1????1122010121?111112001111200312010?11003302242112201341104101110001011??11012(0 1)1122101122110110011112111(3 4)22114222102?2?2211
+	Whatcheeria       03111?001110?3011221001(0 1)?(2 3)1?12?1110220022010110{0 2}0{0 1}1002?11111200?02010?1101330?????12?????11(0 1)1100?1001{0 1}110110??0?011201?00?202110011100??????????????02?2?2211
+
+;
+
+END;
+BEGIN ASSUMPTIONS;
+	TYPESET * UNTITLED   =  unord:  1 -  157;
+
+END;
+
+BEGIN MESQUITECHARMODELS;
+	ProbModelSet * UNTITLED   =  'Mk1 (est.)':  1 -  157;
+END;
+
+Begin MESQUITE;
+		MESQUITESCRIPTVERSION 2;
+		TITLE AUTO;
+		tell ProjectCoordinator;
+		timeSaved 1358353378653;
+		getEmployee #mesquite.minimal.ManageTaxa.ManageTaxa;
+		tell It;
+			setID 0 1598650547659012221;
+		endTell;
+		getEmployee #mesquite.charMatrices.ManageCharacters.ManageCharacters;
+		tell It;
+			setID 0 3758229203706696036;
+			mqVersion 275;
+			checksumv 0 3 4167251166 null  getNumChars 157 numChars 157 getNumTaxa 44 numTaxa 44   short true   bits 2305843009213694207   states 255   sumSquaresStatesOnly 85954.0 sumSquares -9.223372036854771E19 longCompressibleToShort false usingShortMatrix true   NumFiles 1 NumMatrices 1;
+			mqVersion;
+		endTell;
+		getWindow;
+		tell It;
+			suppress;
+			setResourcesState false false 114;
+			setPopoutState 400;
+			setExplanationSize 0;
+			setAnnotationSize 0;
+			setFontIncAnnot 0;
+			setFontIncExp 0;
+			setSize 1263 662;
+			setLocation 8 22;
+			setFont SanSerif;
+			setFontSize 10;
+			getToolPalette;
+			tell It;
+			endTell;
+			desuppress;
+		endTell;
+		getEmployee  #mesquite.charMatrices.BasicDataWindowCoord.BasicDataWindowCoord;
+		tell It;
+			showDataWindow #3758229203706696036 #mesquite.charMatrices.BasicDataWindowMaker.BasicDataWindowMaker;
+			tell It;
+				getWindow;
+				tell It;
+					setExplanationSize 30;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 1149 595;
+					setLocation 8 22;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+						setTool mesquite.charMatrices.BasicDataWindowMaker.BasicDataWindow.ibeam;
+					endTell;
+					setTool mesquite.charMatrices.BasicDataWindowMaker.BasicDataWindow.ibeam;
+					colorCells  #mesquite.charMatrices.NoColor.NoColor;
+					colorRowNames  #mesquite.charMatrices.TaxonGroupColor.TaxonGroupColor;
+					colorColumnNames  #mesquite.charMatrices.CharGroupColor.CharGroupColor;
+					colorText  #mesquite.charMatrices.NoColor.NoColor;
+					setBackground White;
+					toggleShowNames off;
+					toggleShowTaxonNames on;
+					toggleTight off;
+					toggleThinRows off;
+					toggleShowChanges on;
+					toggleSeparateLines off;
+					toggleShowStates on;
+					toggleAutoWCharNames on;
+					toggleAutoTaxonNames off;
+					toggleShowDefaultCharNames off;
+					toggleConstrainCW on;
+					toggleBirdsEye off;
+					toggleShowPaleGrid off;
+					toggleShowPaleCellColors off;
+					togglePaleInapplicable on;
+					toggleShowBoldCellText off;
+					toggleAllowAutosize on;
+					toggleColorsPanel off;
+					toggleDiagonal on;
+					setDiagonalHeight 80;
+					toggleLinkedScrolling on;
+					toggleScrollLinkedTables off;
+				endTell;
+				showWindow;
+				getWindow;
+				tell It;
+					forceAutosize;
+				endTell;
+				getEmployee #mesquite.charMatrices.ColorByState.ColorByState;
+				tell It;
+					setStateLimit 9;
+					toggleUniformMaximum on;
+				endTell;
+				getEmployee #mesquite.charMatrices.ColorCells.ColorCells;
+				tell It;
+					setColor Red;
+					removeColor off;
+				endTell;
+				getEmployee #mesquite.categ.StateNamesEditor.StateNamesEditor;
+				tell It;
+					makeWindow;
+					tell It;
+						setExplanationSize 30;
+						setAnnotationSize 20;
+						setFontIncAnnot 0;
+						setFontIncExp 0;
+						setSize 1149 595;
+						setLocation 8 22;
+						setFont SanSerif;
+						setFontSize 10;
+						getToolPalette;
+						tell It;
+							setTool mesquite.categ.StateNamesEditor.StateNamesWindow.ibeam;
+						endTell;
+						setActive;
+						rowsAreCharacters on;
+						toggleConstrainChar on;
+						toggleConstrainCharNum 3;
+						togglePanel off;
+						toggleSummaryPanel off;
+					endTell;
+					showWindow;
+				endTell;
+				getEmployee #mesquite.categ.StateNamesStrip.StateNamesStrip;
+				tell It;
+					showStrip off;
+				endTell;
+				getEmployee #mesquite.charMatrices.AnnotPanel.AnnotPanel;
+				tell It;
+					togglePanel off;
+				endTell;
+				getEmployee #mesquite.charMatrices.CharReferenceStrip.CharReferenceStrip;
+				tell It;
+					showStrip off;
+				endTell;
+				getEmployee #mesquite.charMatrices.QuickKeySelector.QuickKeySelector;
+				tell It;
+					autotabOff;
+				endTell;
+				getEmployee #mesquite.charMatrices.SelSummaryStrip.SelSummaryStrip;
+				tell It;
+					showStrip off;
+				endTell;
+				getEmployee #mesquite.categ.SmallStateNamesEditor.SmallStateNamesEditor;
+				tell It;
+					panelOpen true;
+				endTell;
+			endTell;
+		endTell;
+		endTell;
+end;
+
+

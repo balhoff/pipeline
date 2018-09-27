@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nexml xmlns="http://www.nexml.org/2009" xmlns:dc="http://purl.org/dc/terms/" xmlns:dwc="http://rs.tdwg.org/dwc/terms/" xmlns:obo="http://purl.obolibrary.org/obo/" xmlns:ps="http://vocab.phenoscape.org/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" generator="Phenex null" version="0.9" xsi:schemaLocation="http://www.nexml.org/2009 http://www.nexml.org/2009/nexml.xsd http://www.bioontologies.org/obd/schema/pheno http://purl.org/phenoscape/phenoxml.xsd">
+  <meta xsi:type="LiteralMeta" property="dc:creator" />
+  <meta xsi:type="ResourceMeta" rel="dc:source">
+    <meta xsi:type="LiteralMeta" property="dc:identifier">https://doi.org/10.5479/si.00810282.533</meta>
+    <meta xsi:type="LiteralMeta" property="dc:bibliographicCitation">Vari, R. P. 1992b. Systematics of the Neotropical curimatid genus Curimatella Eigenmann and Eigenmann (Pisces, Ostariophysi), with summary comments on the Curimatidae. Smithsonian Contributions to Zoology 533:iii+1-48</meta>
+    <meta xsi:type="LiteralMeta" property="dc:title">Vari (1992b)</meta>
+  </meta>
+  <meta xsi:type="LiteralMeta" property="dc:description" />
+  <otus id="t9d1f32ac-7df8-45fa-96af-f1f791ed609e">
+    <otu id="tddc409ff-2a25-4fa0-b701-63545e3d9efb" label="Curimatella alburna" about="#tddc409ff-2a25-4fa0-b701-63545e3d9efb">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0065958" />
+      <meta xsi:type="ResourceMeta" rel="dwc:individualID">
+        <meta xsi:type="LiteralMeta" property="dwc:catalogNumber">6309</meta>
+        <meta xsi:type="ResourceMeta" rel="dwc:collectionID" href="http://purl.obolibrary.org/obo/COLLECTION_0000263" />
+      </meta>
+      <meta xsi:type="ResourceMeta" rel="dwc:individualID">
+        <meta xsi:type="LiteralMeta" property="dwc:catalogNumber">278580</meta>
+        <meta xsi:type="ResourceMeta" rel="dwc:collectionID" href="http://purl.obolibrary.org/obo/COLLECTION_0000417" />
+      </meta>
+    </otu>
+    <otu id="ta551060a-ca91-4b01-a3d2-d85c9f617804" label="Curimatella dorsalis" about="#ta551060a-ca91-4b01-a3d2-d85c9f617804">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0038516" />
+      <meta xsi:type="ResourceMeta" rel="dwc:individualID">
+        <meta xsi:type="LiteralMeta" property="dwc:catalogNumber">260159</meta>
+        <meta xsi:type="ResourceMeta" rel="dwc:collectionID" href="http://purl.obolibrary.org/obo/COLLECTION_0000417" />
+      </meta>
+      <meta xsi:type="ResourceMeta" rel="dwc:individualID">
+        <meta xsi:type="LiteralMeta" property="dwc:catalogNumber">258284</meta>
+        <meta xsi:type="ResourceMeta" rel="dwc:collectionID" href="http://purl.obolibrary.org/obo/COLLECTION_0000417" />
+      </meta>
+      <meta xsi:type="ResourceMeta" rel="dwc:individualID">
+        <meta xsi:type="LiteralMeta" property="dwc:catalogNumber">243235</meta>
+        <meta xsi:type="ResourceMeta" rel="dwc:collectionID" href="http://purl.obolibrary.org/obo/COLLECTION_0000417" />
+      </meta>
+      <meta xsi:type="ResourceMeta" rel="dwc:individualID">
+        <meta xsi:type="LiteralMeta" property="dwc:catalogNumber">181642</meta>
+        <meta xsi:type="ResourceMeta" rel="dwc:collectionID" href="http://purl.obolibrary.org/obo/COLLECTION_0000417" />
+      </meta>
+      <meta xsi:type="ResourceMeta" rel="dwc:individualID">
+        <meta xsi:type="LiteralMeta" property="dwc:catalogNumber">243234</meta>
+        <meta xsi:type="ResourceMeta" rel="dwc:collectionID" href="http://purl.obolibrary.org/obo/COLLECTION_0000417" />
+      </meta>
+    </otu>
+    <otu id="tbfa571b5-bd1c-442f-bd44-1014e9afafaf" label="Curimatella immaculata" about="#tbfa571b5-bd1c-442f-bd44-1014e9afafaf">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0065956" />
+      <meta xsi:type="ResourceMeta" rel="dwc:individualID">
+        <meta xsi:type="LiteralMeta" property="dwc:catalogNumber">257565</meta>
+        <meta xsi:type="ResourceMeta" rel="dwc:collectionID" href="http://purl.obolibrary.org/obo/COLLECTION_0000417" />
+      </meta>
+      <meta xsi:type="ResourceMeta" rel="dwc:individualID">
+        <meta xsi:type="LiteralMeta" property="dwc:catalogNumber">235524</meta>
+        <meta xsi:type="ResourceMeta" rel="dwc:collectionID" href="http://purl.obolibrary.org/obo/COLLECTION_0000417" />
+      </meta>
+    </otu>
+    <otu id="tf7f6c6f6-25d5-4cf6-b584-a3ccf8069706" label="Curimatella lepidura" about="#tf7f6c6f6-25d5-4cf6-b584-a3ccf8069706">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0038517" />
+      <meta xsi:type="ResourceMeta" rel="dwc:individualID">
+        <meta xsi:type="LiteralMeta" property="dwc:catalogNumber">302934</meta>
+        <meta xsi:type="ResourceMeta" rel="dwc:collectionID" href="http://purl.obolibrary.org/obo/COLLECTION_0000417" />
+      </meta>
+    </otu>
+    <otu id="t50243fc8-aeda-4a8f-9676-53db90374b99" label="Curimatella meyeri" about="#t50243fc8-aeda-4a8f-9676-53db90374b99">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0065957" />
+      <meta xsi:type="ResourceMeta" rel="dwc:individualID">
+        <meta xsi:type="LiteralMeta" property="dwc:catalogNumber">261508</meta>
+        <meta xsi:type="ResourceMeta" rel="dwc:collectionID" href="http://purl.obolibrary.org/obo/COLLECTION_0000417" />
+      </meta>
+    </otu>
+  </otus>
+  <characters id="u34107609-ddd7-4c2d-9b8e-ff5921d87a62" xsi:type="StandardCells" otus="t9d1f32ac-7df8-45fa-96af-f1f791ed609e">
+    <format>
+      <states id="s2e26d804-d3b0-444c-a36b-cdfaaf592080">
+        <state id="s79919bc9-6ed0-4cff-a8b0-d8d02bdee8b5" label="Four of the species of Curimatella (alburna, dorsalis, immaculata, and meyeri) retain this generalized condition of the mesopterygoid" symbol="0" />
+        <state id="s4777578f-9fd8-4072-b1ba-8932a7d1142f" label="Curimatella lepidura, although having a fully developed ligament, has the dorsomedial process on the mesopterygoid notably much less developed (Figure 3), a hypothesized autapomorphy for the species. " symbol="1" />
+      </states>
+      <states id="sdc7141b0-22d2-4305-bb61-3b10f906b6e1">
+        <state id="se6cc6096-d23c-4251-84f9-7bf019f7d04c" label="The metapterygoid in all members of Curimatella with the exception of C. lepidura is relatively wide in the region dorsal to the metapterygoid-quadrate fenestra" symbol="0" />
+        <state id="s842c41a5-3274-4d79-bf34-28abe09da4a0" label="Curimatella lepidura differs from the generalized condition in the genus in having the central portion of the metapterygoid reduced to a narrow bar-like structure (Figure 3). " symbol="1" />
+      </states>
+      <states id="saf9a58bf-4887-4cd4-86ee-e4d43cd6dea3">
+        <state id="s717f7ae7-51c9-457c-b0cc-a0535eac6f17" label="All species of Curimatella, other than C. lepidura, retain the form of the medial bony spur generalized for the other members of the terminal polytomy within the Curimatidae defined by Vari (1989a:50)" symbol="0" />
+        <state id="se72bd8b0-f0b6-4b64-ab5f-e10efeaf8393" label="Curimatella lepidura, in contrast, has the distal portion of the process expanded ventrally into a broad, bowl-like process (Figure 2) that contacts the ventral surface of the epibranchial organ" symbol="1" />
+      </states>
+      <states id="s2d8a5d64-173c-414f-877c-dcd4554daf16">
+        <state id="s8171c6b9-b225-4452-95fb-170f1672ae27" label="" symbol="0" />
+        <state id="s197c2f53-c8ec-4004-9403-091a8264fd6b" label="" symbol="1" />
+        <state id="s91103133-631d-4248-919e-d908e5198f45" label="" symbol="2" />
+        <state id="s943b3ef5-b8b9-429a-b731-0762619959f1" label="" symbol="3" />
+      </states>
+      <states id="sbe97045d-6f17-4d84-9eb9-2881810555ec" />
+      <states id="sabf2155b-5acf-457c-8995-d5aa692b993a" />
+      <char id="c578144ac-91b4-4b16-8f9e-f529bb9196f9" label="The dorsomedial region of the mesopterygoid onto which this ligament attaches is typically expanded into dorsomedial process" states="s2e26d804-d3b0-444c-a36b-cdfaaf592080" about="#c578144ac-91b4-4b16-8f9e-f529bb9196f9">
+        <meta xsi:type="LiteralMeta" property="rdfs:comment">page 6</meta>
+      </char>
+      <char id="c308ce20f-7d81-4ae2-880d-90a188740c33" label="The metapterygoid in all members of Curimatella with the exception of C. lepidura is relatively wide in the region dorsal to the metapterygoid-quadrate fenestra. Curimatella lepidura differs from the generalized condition in the genus in having the central portion of the metapterygoid reduced to a narrow bar-like structure (Figure 3). " states="sdc7141b0-22d2-4305-bb61-3b10f906b6e1" about="#c308ce20f-7d81-4ae2-880d-90a188740c33">
+        <meta xsi:type="LiteralMeta" property="rdfs:comment">page 6</meta>
+      </char>
+      <char id="cfeccf0a9-0914-4e13-b993-02bc5446b284" label="The fourth epibranchial demonstrates the largest number of modifications of any component of the gill-arches in the Curimatidae. One of the most distinctive features is the development of a bony spur (Vari, 1989a:15) that extends medially from the main body of the bone in all curimatids other than the species of Curimatopsis" states="saf9a58bf-4887-4cd4-86ee-e4d43cd6dea3" about="#cfeccf0a9-0914-4e13-b993-02bc5446b284">
+        <meta xsi:type="LiteralMeta" property="rdfs:comment">pages 5-6</meta>
+      </char>
+      <char id="cf61d4a59-b3ba-49e6-8cf0-ac1498c403e9" label="Modal number of vertebrae -- Dillmann 394" states="s2d8a5d64-173c-414f-877c-dcd4554daf16" about="#cf61d4a59-b3ba-49e6-8cf0-ac1498c403e9">
+        <meta xsi:type="LiteralMeta" property="rdfs:comment">page 7, Table 2</meta>
+      </char>
+      <char id="c6164a67b-a3d7-4a67-9aff-825b9376e294" label="scales on caudal fin..." about="#c6164a67b-a3d7-4a67-9aff-825b9376e294" states="sbe97045d-6f17-4d84-9eb9-2881810555ec">
+        <meta xsi:type="LiteralMeta" property="rdfs:comment">pages 4-5</meta>
+      </char>
+      <char id="c2e422859-60f2-40bc-ab89-529e4307a695" label="pigmentation on caudal peduncle" about="#c2e422859-60f2-40bc-ab89-529e4307a695" states="sabf2155b-5acf-457c-8995-d5aa692b993a">
+        <meta xsi:type="LiteralMeta" property="rdfs:comment">pages 6-7</meta>
+      </char>
+    </format>
+    <matrix>
+      <row id="r953969a4-bf89-4460-9f4c-0e30c9796f2b" otu="tddc409ff-2a25-4fa0-b701-63545e3d9efb">
+        <cell char="c578144ac-91b4-4b16-8f9e-f529bb9196f9" state="s79919bc9-6ed0-4cff-a8b0-d8d02bdee8b5" />
+        <cell char="c308ce20f-7d81-4ae2-880d-90a188740c33" state="se6cc6096-d23c-4251-84f9-7bf019f7d04c" />
+        <cell char="cfeccf0a9-0914-4e13-b993-02bc5446b284" state="s717f7ae7-51c9-457c-b0cc-a0535eac6f17" />
+      </row>
+      <row id="r792cd3fd-acfb-4b44-be4a-5d52882bc121" otu="ta551060a-ca91-4b01-a3d2-d85c9f617804">
+        <cell char="c578144ac-91b4-4b16-8f9e-f529bb9196f9" state="s79919bc9-6ed0-4cff-a8b0-d8d02bdee8b5" />
+        <cell char="c308ce20f-7d81-4ae2-880d-90a188740c33" state="se6cc6096-d23c-4251-84f9-7bf019f7d04c" />
+        <cell char="cfeccf0a9-0914-4e13-b993-02bc5446b284" state="s717f7ae7-51c9-457c-b0cc-a0535eac6f17" />
+      </row>
+      <row id="r0d758c85-daf3-4258-b3a2-de157f6903a9" otu="tbfa571b5-bd1c-442f-bd44-1014e9afafaf">
+        <cell char="c578144ac-91b4-4b16-8f9e-f529bb9196f9" state="s79919bc9-6ed0-4cff-a8b0-d8d02bdee8b5" />
+        <cell char="c308ce20f-7d81-4ae2-880d-90a188740c33" state="se6cc6096-d23c-4251-84f9-7bf019f7d04c" />
+        <cell char="cfeccf0a9-0914-4e13-b993-02bc5446b284" state="s717f7ae7-51c9-457c-b0cc-a0535eac6f17" />
+      </row>
+      <row id="rf0f49846-b7e5-4a91-836f-108a0e83e9a3" otu="tf7f6c6f6-25d5-4cf6-b584-a3ccf8069706">
+        <cell char="c578144ac-91b4-4b16-8f9e-f529bb9196f9" state="s4777578f-9fd8-4072-b1ba-8932a7d1142f" />
+        <cell char="c308ce20f-7d81-4ae2-880d-90a188740c33" state="s842c41a5-3274-4d79-bf34-28abe09da4a0" />
+        <cell char="cfeccf0a9-0914-4e13-b993-02bc5446b284" state="se72bd8b0-f0b6-4b64-ab5f-e10efeaf8393" />
+      </row>
+      <row id="r3d3fe298-a6f4-4dec-a13e-18a11aa93010" otu="t50243fc8-aeda-4a8f-9676-53db90374b99">
+        <cell char="c578144ac-91b4-4b16-8f9e-f529bb9196f9" state="s79919bc9-6ed0-4cff-a8b0-d8d02bdee8b5" />
+        <cell char="c308ce20f-7d81-4ae2-880d-90a188740c33" state="se6cc6096-d23c-4251-84f9-7bf019f7d04c" />
+        <cell char="cfeccf0a9-0914-4e13-b993-02bc5446b284" state="s717f7ae7-51c9-457c-b0cc-a0535eac6f17" />
+      </row>
+    </matrix>
+  </characters>
+  <trees id="tae61f43f-6280-493f-8865-cf4859994429" otus="t9d1f32ac-7df8-45fa-96af-f1f791ed609e" />
+  <trees id="tfaff5bcb-f004-4f82-a7d2-93a7486ca164" otus="t9d1f32ac-7df8-45fa-96af-f1f791ed609e" />
+  <trees id="t8cd6002a-9433-472d-9cf5-c9b7b0dd0917" otus="t9d1f32ac-7df8-45fa-96af-f1f791ed609e" />
+  <trees id="t8ced5756-2a73-4672-93a2-dda86d334f53" otus="t9d1f32ac-7df8-45fa-96af-f1f791ed609e" />
+</nexml>
