@@ -1,0 +1,14 @@
+@prefix: http://www.w3.org/2000/01/rdf-schema#
+
+CONSTRUCT {?taxon <http://purl.org/phenoscape/vocab.owl#has_presence_of> ?entity}
+
+WHERE {
+
+?taxon <http://purl.org/phenoscape/vocab.owl#exhibits_state>/<http://purl.org/phenoscape/vocab.owl#describes_phenotype>/(<http://www.w3.org/2000/01/rdf-schema#subClassOf>*)/<http://purl.org/phenoscape/vocab.owl#implies_presence_of_some> ?entity .
+
+?entity <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.obolibrary.org/obo/uberon.owl> .
+
+?taxon rdfs:subClassOf* <http://purl.obolibrary.org/obo/VTO_0000001> .
+
+?entity rdfs:subClassOf* <http://purl.obolibrary.org/obo/UBERON_0001062>
+}
