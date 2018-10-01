@@ -28,7 +28,9 @@ $(BUILD_DIR)/mirror: ontologies.ofn
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
 # Extract ontology metadata
-$(BUILD_DIR)/ontology-versions.ttl: ontologies.ofn
+$(BUILD_DIR)/ontology-metadata: ontologies.ofn ontology-versions.sparql
+	mkdir -p (BUILD_DIR)/ontology-metadata \
+	$(ROBOT) query -i $< --use-graphs true --queries ontology-versions.sparql --output-dir $@
 
 
 # Merge imported ontologies
@@ -45,12 +47,12 @@ $(BUILD_DIR)/phenoscape-ontology-classified.ofn: $(BUILD_DIR)/phenoscape-ontolog
 
 
 # Extract Qualities from ontology
-$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn
-
+$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn qualities.sparql
+	$(ROBOT) query -i $< --use-graphs true --query qualities.sparql $@
 
 # Extract Anatomical-Entities from ontology
-$(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn
-
+$(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn anatomicalEntities.sparql
+	$(ROBOT) query -i $< --use-graphs true --query anatomicaEntities.sparql $@
 
 # Create Query-Subsumers
 $(BUILD_DIR)/query-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
