@@ -1,0 +1,6 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+CONSTRUCT {
+?ont a owl:Ontology
+?ont owl:versionIRI ?version .
+}
