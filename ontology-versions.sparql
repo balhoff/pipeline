@@ -4,3 +4,7 @@ CONSTRUCT {
 ?ont a owl:Ontology
 ?ont owl:versionIRI ?version .
 }
+
+WHERE {
+?s ?p ?o
+}
