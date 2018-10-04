@@ -1,10 +1,7 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
-CONSTRUCT {
+CONSTRUCT WHERE{
 ?ont a owl:Ontology
 ?ont owl:versionIRI ?version .
 }
 
-WHERE {
-?s ?p ?o
-}
