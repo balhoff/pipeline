@@ -98,6 +98,8 @@ $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUI
 
 # Compute inferred classification of Phenoscpae KB Tbox
 $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn: $(BUILD_DIR)/phenoscape-kb-tbox.ofn
+	$(ROBOT) reason --reasoner ELK --i $< --o $@
+
 
 # Compute Tbox hierarchy
 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
