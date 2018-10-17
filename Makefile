@@ -117,9 +117,10 @@ $(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(BUILD_DIR)/abse
 # Generate presences.ttl
 $(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(BUILD_DIR)/presencesQuery.sparql
 	$(ROBOT) query -i $< --query $(BUILD_DIR)/presencesQuery.sparql $@
-	
+
 # Generate taxon-profiles.ttl
-$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn
+$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(BUILD_DIR)/taxonProfilesQuery.sparql
+	$(ROBOT) query -i $< --query $(BUILD_DIR)/taxonProfilesQuery.sparql $@
 
 # Monarch data
 
