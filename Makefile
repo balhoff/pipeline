@@ -107,6 +107,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-c
 
 # Create Phenoscape data KB
 $(BUILD_DIR)/phenoscape-data-kb.ofn: $(BUILD_DIR)/phenoscape-data.ofn $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
+	$(ROBOT) merge -i $(BUILD_DIR)/phenoscape-data.ofn -i $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn -o $@
 
 
 # Generate absences.ttl
