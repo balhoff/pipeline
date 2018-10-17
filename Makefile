@@ -111,11 +111,13 @@ $(BUILD_DIR)/phenoscape-data-kb.ofn: $(BUILD_DIR)/phenoscape-data.ofn $(BUILD_DI
 
 
 # Generate absences.ttl
-$(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn
+$(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(BUILD_DIR)/absencesQuery.sparql
+	$(ROBOT) query -i $< --query $(BUILD_DIR)/absencesQuery.sparql $@
 
 # Generate presences.ttl
-$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn
-
+$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(BUILD_DIR)/presencesQuery.sparql
+	$(ROBOT) query -i $< --query $(BUILD_DIR)/presencesQuery.sparql $@
+	
 # Generate taxon-profiles.ttl
 $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn
 
