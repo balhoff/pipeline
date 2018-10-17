@@ -83,12 +83,17 @@ $(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS)
 	echo "Merge data ontologies"
 
 
-# Extract tbox from phenoscape-data.ofn
+# Extract tbox and rbox from phenoscape-data.ofn
 $(BUILD_DIR)/phenoscape-data-tbox.ofn: $(BUILD_DIR)/phenoscape-data.ofn
-
+	$(ROBOT) filter -i $< --axioms tbox --axioms rbox -o $@
 
 # Create Phenoscape KB Tbox
 $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(BUILD_DIR)/query-subsumers.ofn $(BUILD_DIR)/similarity-subsumers.ofn
+	$(ROBOT) merge -i $< \
+	-i $(BUILD_DIR)/phenoscape-ontology-classified.ofn \
+	-i $(BUILD_DIR)/query-subsumers.ofn \
+	-i $(BUILD_DIR)/similarity-subsumers.ofn \
+	-o $@
 
 
 # Compute inferred classification of Phenoscpae KB Tbox
