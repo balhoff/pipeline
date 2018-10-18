@@ -119,8 +119,23 @@ $(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn
 $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn
 
 # Monarch data
-#
-#
+
+# Download mgi_slim.ttl
+$(BUILD_DIR)/mgi_slim.ttl:
+	curl -O https://data.monarchinitiative.org/ttl/mgi_slim.ttl
+
+# Download zfin_slim.ttl
+$(BUILD_DIR)/zfin_slim.ttl:
+	curl -O https://data.monarchinitiative.org/ttl/zfin_slim.ttl
+
+# Download hpoa.ttl
+$(BUILD_DIR)/hpoa.ttl:
+	curl -O https://data.monarchinitiative.org/ttl/hpoa.ttl
+
+# Merge monarch data files
+$(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfin_slim.ttl $(BUILD_DIR)/hpoa.ttl
+	$(ROBOT) merge -i $(BUILD_DIR)/mgi_slim.ttl -i $(BUILD_DIR)/zfin_slim.ttl -i $(BUILD_DIR)/hpoa.ttl -o $@
+
 
 blah:
 	echo $(NEXML_OWLS)
