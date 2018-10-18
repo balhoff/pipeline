@@ -1,8 +1,0 @@
-@prefix: http://www.w3.org/2000/01/rdf-schema#
-
-SELECT DISTINCT ?anatomical_entities
-
-WHERE
-{
-?anatomical_entities rdfs:subClassOf* <http://purl.obolibrary.org/obo/UBERON_0001062>
-}
