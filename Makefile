@@ -13,6 +13,7 @@ TARGET:=${PROJECT_DIR}/phenoscape-owl-tools/run/phenoscape-kb
 PIPELINE:=${PROJECT_DIR}/phenoscape-owl-tools/pipeline
 
 BUILD_DIR=build
+SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx12G
 ROBOT=$(ROBOT_ENV) robot
 
@@ -28,9 +29,9 @@ $(BUILD_DIR)/mirror: ontologies.ofn
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
 # Extract ontology metadata
-$(BUILD_DIR)/ontology-metadata: ontologies.ofn ontology-versions.sparql
+$(BUILD_DIR)/ontology-metadata: ontologies.ofn $(SPARQL)/ontology-versions.sparql
 	mkdir -p (BUILD_DIR)/ontology-metadata \
-	$(ROBOT) query -i $< --use-graphs true --queries ontology-versions.sparql --output-dir $@
+	$(ROBOT) query -i $< --use-graphs true --queries $(SPARQL)/ontology-versions.sparql --output-dir $@
 
 
 # Merge imported ontologies
@@ -47,12 +48,12 @@ $(BUILD_DIR)/phenoscape-ontology-classified.ofn: $(BUILD_DIR)/phenoscape-ontolog
 
 
 # Extract Qualities from ontology
-$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn qualities.sparql
-	$(ROBOT) query -i $< --use-graphs true --query qualities.sparql $@
+$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SPARQL)/qualities.sparql
+	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/qualities.sparql $@
 
 # Extract Anatomical-Entities from ontology
-$(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn anatomicalEntities.sparql
-	$(ROBOT) query -i $< --use-graphs true --query anatomicaEntities.sparql $@
+$(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SPARQL)/anatomicalEntities.sparql
+	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/anatomicaEntities.sparql $@
 
 # Create Query-Subsumers
 $(BUILD_DIR)/query-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
@@ -98,7 +99,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUI
 
 # Compute inferred classification of Phenoscpae KB Tbox
 $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn: $(BUILD_DIR)/phenoscape-kb-tbox.ofn
-	$(ROBOT) reason --reasoner ELK --i $< --o $@
+	$(ROBOT) reason --reasoner ELK --i $< -o $@
 
 
 # Compute Tbox hierarchy
@@ -111,16 +112,16 @@ $(BUILD_DIR)/phenoscape-data-kb.ofn: $(BUILD_DIR)/phenoscape-data.ofn $(BUILD_DI
 
 
 # Generate absences.ttl
-$(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(BUILD_DIR)/absencesQuery.sparql
-	$(ROBOT) query -i $< --query $(BUILD_DIR)/absencesQuery.sparql $@
+$(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/absencesQuery.sparql
+	$(ROBOT) query -i $< --query $(SPARQL)/absencesQuery.sparql $@
 
 # Generate presences.ttl
-$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(BUILD_DIR)/presencesQuery.sparql
-	$(ROBOT) query -i $< --query $(BUILD_DIR)/presencesQuery.sparql $@
+$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/presencesQuery.sparql
+	$(ROBOT) query -i $< --query $(SPARQL)/presencesQuery.sparql $@
 
 # Generate taxon-profiles.ttl
-$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(BUILD_DIR)/taxonProfilesQuery.sparql
-	$(ROBOT) query -i $< --query $(BUILD_DIR)/taxonProfilesQuery.sparql $@
+$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/taxonProfilesQuery.sparql
+	$(ROBOT) query -i $< --query $(SPARQL)/taxonProfilesQuery.sparql $@
 
 # Monarch data
 
@@ -140,6 +141,8 @@ $(BUILD_DIR)/hpoa.ttl:
 $(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfin_slim.ttl $(BUILD_DIR)/hpoa.ttl
 	$(ROBOT) merge -i $(BUILD_DIR)/mgi_slim.ttl -i $(BUILD_DIR)/zfin_slim.ttl -i $(BUILD_DIR)/hpoa.ttl -o $@
 
+# Generate gene-profiles.ttl
+$(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProfilesQuery.sparql
 
 blah:
 	echo $(NEXML_OWLS)
