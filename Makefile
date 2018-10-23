@@ -83,20 +83,27 @@ $(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS)
 	echo "Merge data ontologies"
 
 
-# Extract tbox from phenoscape-data.ofn
+# Extract tbox and rbox from phenoscape-data.ofn
 $(BUILD_DIR)/phenoscape-data-tbox.ofn: $(BUILD_DIR)/phenoscape-data.ofn
-
+	$(ROBOT) filter -i $< --axioms tbox --axioms rbox -o $@
 
 # Create Phenoscape KB Tbox
 $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(BUILD_DIR)/query-subsumers.ofn $(BUILD_DIR)/similarity-subsumers.ofn
+	$(ROBOT) merge -i $< \
+	-i $(BUILD_DIR)/phenoscape-ontology-classified.ofn \
+	-i $(BUILD_DIR)/query-subsumers.ofn \
+	-i $(BUILD_DIR)/similarity-subsumers.ofn \
+	-o $@
 
 
 # Compute inferred classification of Phenoscpae KB Tbox
 $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn: $(BUILD_DIR)/phenoscape-kb-tbox.ofn
+	$(ROBOT) reason --reasoner ELK --i $< -o $@
+
 
 # Compute Tbox hierarchy
 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
-
+	$(ROBOT) filter -i $< --axioms subclass -o $@
 
 # Create Phenoscape data KB
 $(BUILD_DIR)/phenoscape-data-kb.ofn: $(BUILD_DIR)/phenoscape-data.ofn $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
@@ -112,8 +119,23 @@ $(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn
 $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn
 
 # Monarch data
-#
-#
+
+# Download mgi_slim.ttl
+$(BUILD_DIR)/mgi_slim.ttl:
+	curl -O https://data.monarchinitiative.org/ttl/mgi_slim.ttl
+
+# Download zfin_slim.ttl
+$(BUILD_DIR)/zfin_slim.ttl:
+	curl -O https://data.monarchinitiative.org/ttl/zfin_slim.ttl
+
+# Download hpoa.ttl
+$(BUILD_DIR)/hpoa.ttl:
+	curl -O https://data.monarchinitiative.org/ttl/hpoa.ttl
+
+# Merge monarch data files
+$(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfin_slim.ttl $(BUILD_DIR)/hpoa.ttl
+	$(ROBOT) merge -i $(BUILD_DIR)/mgi_slim.ttl -i $(BUILD_DIR)/zfin_slim.ttl -i $(BUILD_DIR)/hpoa.ttl -o $@
+
 
 blah:
 	echo $(NEXML_OWLS)
