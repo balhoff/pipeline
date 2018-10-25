@@ -1,4 +1,4 @@
-PERFIX OBAN: <http://purl.org/oban/>
+PREFIX OBAN: <http://purl.org/oban/>
 
 CONSTRUCT {?geneProfile ?association ?phenotype}
 
