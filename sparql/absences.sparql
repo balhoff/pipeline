@@ -1,4 +1,4 @@
-@prefix: http://www.w3.org/2000/01/rdf-schema#
+@prefix rdfs: http://www.w3.org/2000/01/rdf-schema#
 
 CONSTRUCT {?taxon <http://purl.org/phenoscape/vocab.owl#has_absence_of> ?entity}
 
