@@ -100,16 +100,16 @@ $(BUILD_DIR)/phenoscape-data-kb.ofn: $(BUILD_DIR)/phenoscape-data.ofn $(BUILD_DI
 
 
 # Generate absences.ttl
-$(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/absencesQuery.sparql
-	$(ROBOT) query -i $< --query $(SPARQL)/absencesQuery.sparql $@
+$(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/absences.sparql
+	$(ROBOT) query -i $< --query $(SPARQL)/absences.sparql $@
 
 # Generate presences.ttl
-$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/presencesQuery.sparql
-	$(ROBOT) query -i $< --query $(SPARQL)/presencesQuery.sparql $@
+$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/presences.sparql
+	$(ROBOT) query -i $< --query $(SPARQL)/presences.sparql $@
 
 # Generate taxon-profiles.ttl
-$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/taxonProfilesQuery.sparql
-	$(ROBOT) query -i $< --query $(SPARQL)/taxonProfilesQuery.sparql $@
+$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/taxonProfiles.sparql
+	$(ROBOT) query -i $< --query $(SPARQL)/taxonProfiles.sparql $@
 
 # Monarch data
 
@@ -130,5 +130,5 @@ $(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfin_slim.
 	$(ROBOT) merge -i $(BUILD_DIR)/mgi_slim.ttl -i $(BUILD_DIR)/zfin_slim.ttl -i $(BUILD_DIR)/hpoa.ttl -o $@
 
 # Generate gene-profiles.ttl
-$(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProfilesQuery.sparql
-
+$(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProfiles.sparql
+	$(ROBOT) query -i $< --query $(SPARQL)/geneProfiles.sparql $@

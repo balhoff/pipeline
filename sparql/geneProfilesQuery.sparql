@@ -1,9 +1,0 @@
-SELECT DISTINCT {
-?gene ?phenotype_class
-}
-
-WHERE {
-?annotation a http://purl.org/phenoscape/vocab.owl#AnnotatedPhenotype
-?annotation http://purl.org/phenoscape/vocab.owl#associated_with_gene ?gene
-?annotation a ?phenotype_class
-}
