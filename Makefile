@@ -55,10 +55,10 @@ $(BUILD_DIR)/phenoscape-data:
 	git clone https://github.com/phenoscape/phenoscape-data.git $@
 
 # Store paths to all needed NeXML files in NEXMLS variable
-NEXMLS := $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/completed-phenex-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/fin_limb-incomplete-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/matrix-vs-monograph -type f -name "*.xml")
+NEXMLS = $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/completed-phenex-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/fin_limb-incomplete-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/matrix-vs-monograph -type f -name "*.xml")
 
 # Store paths to all OFN files which will be produced from NeXML files in NEXML_OWLS variable
-NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
+NEXML_OWLS = $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
 
 # Convert a single NeXML file to its counterpart OFN
 $(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn
