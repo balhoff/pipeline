@@ -1,30 +1,28 @@
 #JAVA_OPTS="-Xmx70G"
-#TARGET=/scratch/balhoff/phenoscape-kb
-#get KB sources
-#KB_SOURCES: get_sources.sh
-#	$HOME/phenoscape-owl-tools/get_sources.sh
-#building KB
-#semantic similarity processing
-#BUILD_KB: KB_SOURCES
-#	$HOME/phenoscape-owl-tools/target/universal/stage/bin/kb-owl-tools build-kb $TARGET $HOME/phenoscape-owl-tools/blazegraph.properties
-
-PROJECT_DIR:=/Users/shalkishrivastava/renci/Phenoscape/PhenoscapeOwlTools
-TARGET:=${PROJECT_DIR}/phenoscape-owl-tools/run/phenoscape-kb
-PIPELINE:=${PROJECT_DIR}/phenoscape-owl-tools/pipeline
 
 BUILD_DIR=build
+SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx12G
 ROBOT=$(ROBOT_ENV) robot
 
 all: $(BUILD_DIR)/phenoscape-ontology-classified.ofn
 
 clean:
-	rm -rf build
+	rm -rf $(BUILD_DIR)
 
+# Ontologies.ofn - list of ontologies to be imported
+# Mirror ontologies locally
 $(BUILD_DIR)/mirror: ontologies.ofn
 	mkdir -p $(BUILD_DIR) && rm -rf $@ &&\
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
+# Extract ontology metadata
+$(BUILD_DIR)/ontology-metadata: ontologies.ofn $(SPARQL)/ontology-versions.sparql
+	mkdir -p (BUILD_DIR)/ontology-metadata \
+	$(ROBOT) query -i $< --use-graphs true --queries $(SPARQL)/ontology-versions.sparql --output-dir $@
+
+
+# Merge imported ontologies
 $(BUILD_DIR)/phenoscape-ontology.ofn: ontologies.ofn $(BUILD_DIR)/mirror
 	$(ROBOT) merge --catalog $(BUILD_DIR)/mirror/catalog-v001.xml -i $< -o $@
 
@@ -36,6 +34,23 @@ $(BUILD_DIR)/phenoscape-ontology-classified.ofn: $(BUILD_DIR)/phenoscape-ontolog
 	remove --term 'owl:Nothing' --trim true \
 	reason --reasoner ELK -o $@
 
+
+# Extract Qualities from ontology
+$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SPARQL)/qualities.sparql
+	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/qualities.sparql $@
+
+# Extract Anatomical-Entities from ontology
+$(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SPARQL)/anatomicalEntities.sparql
+	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/anatomicaEntities.sparql $@
+
+# Create Query-Subsumers
+$(BUILD_DIR)/query-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
+
+
+# Create Similarity-Subsumers
+$(BUILD_DIR)/similarity-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
+
+# Download annotated data from Phenex
 $(BUILD_DIR)/phenoscape-data:
 	git clone https://github.com/phenoscape/phenoscape-data.git $@
 
@@ -46,55 +61,73 @@ NEXMLS := $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/completed-phe
 NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
 
 # Convert a single NeXML file to its counterpart OFN
-$(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn 
+$(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn
+	convert-nexml $(BUILD_DIR)/phenoscape-ontology.ofn $< $@
 	echo "Build" $@ using $<
 # Use kb-owl-tools phenex-to-owl to convert using phenoscape-ontology.ofn ontology
 
 # Merge all NeXML OFN files into a single ontology of phenotype annotations
 $(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS)
+	$(ROBOT) merge $(addprefix -i , $<) -o $@
 	echo "Merge data ontologies"
 
+# Extract tbox and rbox from phenoscape-data.ofn
+$(BUILD_DIR)/phenoscape-data-tbox.ofn: $(BUILD_DIR)/phenoscape-data.ofn
+	$(ROBOT) filter -i $< --axioms tbox --axioms rbox -o $@
+
+# Create Phenoscape KB Tbox
+$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(BUILD_DIR)/query-subsumers.ofn $(BUILD_DIR)/similarity-subsumers.ofn
+	$(ROBOT) merge -i $< \
+	-i $(BUILD_DIR)/phenoscape-ontology-classified.ofn \
+	-i $(BUILD_DIR)/query-subsumers.ofn \
+	-i $(BUILD_DIR)/similarity-subsumers.ofn \
+	-o $@
 
 
-#call phenoscape-kb.sh
-kb-init.sh:
-	export JAVA_OPTS="-Xmx10G"; \
-	export PROJECT_DIR=/Users/shalkishrivastava/renci/Phenoscape/PhenoscapeOwlTools; \
-	export TARGET=$$PROJECT_DIR/phenoscape-owl-tools/run/phenoscape-kb; \
-	export PIPELINE=$$PROJECT_DIR/phenoscape-owl-tools/pipeline; \
-	\
-	$$PROJECT_DIR/phenoscape-owl-tools/get_sources.sh; \
-	$$PROJECT_DIR/phenoscape-owl-tools/target/universal/stage/bin/kb-owl-tools build-kb $$TARGET $PROJECT_DIR/phenoscape-owl-tools/blazegraph.properties
+# Compute inferred classification of Phenoscpae KB Tbox
+$(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn: $(BUILD_DIR)/phenoscape-kb-tbox.ofn
+	$(ROBOT) reason --reasoner ELK --i $< -o $@
 
 
+# Compute Tbox hierarchy
+$(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
+	$(ROBOT) filter -i $< --axioms subclass -o $@
 
-kb-owlsim-taxa.sh: kb-init.sh
-	#${PIPELINE}/kb-owlsim-taxa.sh
-	export PROJECT_DIR=/Users/shalkishrivastava/renci/Phenoscape/PhenoscapeOwlTools; \
-    export TARGET=$$PROJECT_DIR/phenoscape-owl-tools/run/phenoscape-kbOUTPUT=$$TARGET/owlsim-taxa; \
-    \
-    mkdir $$OUTPUT; \
-    cd $$OUTPUT; \
-	\
-    export JAVA_OPTS="-Xmx5G"; \
-    \
-    $$PROJECT_DIR/phenoscape-owl-tools/target/universal/stage/bin/kb-owl-tools pairwise-sim 1 1 $$TARGET/kb/tbox-hierarchy-only.owl $$TARGET/kb/profiles.ttl taxa
+# Create Phenoscape data KB
+$(BUILD_DIR)/phenoscape-data-kb.ofn: $(BUILD_DIR)/phenoscape-data.ofn $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
+	$(ROBOT) merge -i $(BUILD_DIR)/phenoscape-data.ofn -i $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn -o $@
 
 
+# Generate absences.ttl
+$(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/absences.sparql
+	$(ROBOT) query -i $< --query $(SPARQL)/absences.sparql $@
 
-kb-owlsim-genes.sh: kb-init.sh
-	#${PIPELINE}/kb-owlsim-genes.sh
-	export PROJECT_DIR=/Users/shalkishrivastava/renci/Phenoscape/PhenoscapeOwlTools; \
-    export TARGET=$$PROJECT_DIR/phenoscape-owl-tools/run/phenoscape-kb; \
-    \
-    OUTPUT=$$TARGET/owlsim-genes; \
-    mkdir $$OUTPUT; \
-    cd $$OUTPUT; \
-    \
-    export JAVA_OPTS="-Xmx5G"; \
-    $$PROJECT_DIR/phenoscape-owl-tools/target/universal/stage/bin/kb-owl-tools pairwise-sim 1 1 $$TARGET/kb/tbox-hierarchy-only.owl $$TARGET/kb/profiles.ttl genes
+# Generate presences.ttl
+$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/presences.sparql
+	$(ROBOT) query -i $< --query $(SPARQL)/presences.sparql $@
 
+# Generate taxon-profiles.ttl
+$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/taxonProfiles.sparql
+	$(ROBOT) query -i $< --query $(SPARQL)/taxonProfiles.sparql $@
 
+# Monarch data
 
-kb-similarity.sh: kb-owlsim-genes.sh kb-owlsim-taxa.sh
-	${PIPELINE}/kb-similarity.sh
+# Download mgi_slim.ttl
+$(BUILD_DIR)/mgi_slim.ttl:
+	curl -O -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl
+
+# Download zfin_slim.ttl
+$(BUILD_DIR)/zfin_slim.ttl:
+	curl -O -L https://data.monarchinitiative.org/ttl/zfin_slim.ttl
+
+# Download hpoa.ttl
+$(BUILD_DIR)/hpoa.ttl:
+	curl -O -L https://data.monarchinitiative.org/ttl/hpoa.ttl
+
+# Merge monarch data files
+$(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfin_slim.ttl $(BUILD_DIR)/hpoa.ttl
+	$(ROBOT) merge -i $(BUILD_DIR)/mgi_slim.ttl -i $(BUILD_DIR)/zfin_slim.ttl -i $(BUILD_DIR)/hpoa.ttl -o $@
+
+# Generate gene-profiles.ttl
+$(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProfiles.sparql
+	$(ROBOT) query -i $< --query $(SPARQL)/geneProfiles.sparql $@

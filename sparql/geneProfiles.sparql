@@ -1,0 +1,15 @@
+PREFIX OBAN: <http://purl.org/oban/>
+
+CONSTRUCT {
+?geneProfile a ?phenotype .
+?gene <http://purl.org/phenoscape/vocab.owl#has_phenotypic_profile> ?geneProfile
+}
+
+WHERE {
+?association a OBAN:association .
+?association OBAN:association_has_predicate OBO:RO_0002200 .
+?association OBAN:association_has_subject ?gene .
+?association OBAN:association_has_object ?phenotype .
+
+BIND(IRI(CONCAT(STR(?gene),"#profile")) AS ?geneProfile)
+}
