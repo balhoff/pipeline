@@ -132,3 +132,8 @@ $(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfin_slim.
 # Generate gene-profiles.ttl
 $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProfiles.sparql
 	$(ROBOT) query -i $< --query $(SPARQL)/geneProfiles.sparql $@
+
+#Create Phenoscape KB
+$(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl
+	$(ROBOT) merge  -i $(BUILD_DIR)/gene-profiles.ttl -i $(BUILD_DIR)/absences.ttl -i $(BUILD_DIR)/presences.ttl -i $(BUILD_DIR)/taxon-profiles.ttl -o $@
+
