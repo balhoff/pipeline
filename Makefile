@@ -3,7 +3,7 @@
 BUILD_DIR=build
 SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx12G
-ROBOT=$(ROBOT_ENV) ./robot
+ROBOT=$(ROBOT_ENV) robot
 
 all: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
 
@@ -122,21 +122,18 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/t
 
 # Download mgi_slim.ttl
 $(BUILD_DIR)/mgi_slim.ttl: $(BUILD_DIR)
-	cd $(BUILD_DIR) \
-	curl -O -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl \
-	cd ..
+	curl -O -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl ; \
+	mv mgi_slim.ttl $(BUILD_DIR)
 
 # Download zfin_slim.ttl
 $(BUILD_DIR)/zfin_slim.ttl: $(BUILD_DIR)
-	cd $(BUILD_DIR) \
-	curl -O -L https://data.monarchinitiative.org/ttl/zfin_slim.ttl \
-	cd ..
+	curl -O -L https://data.monarchinitiative.org/ttl/zfin_slim.ttl ; \
+	mv zfin_slim.ttl $(BUILD_DIR)
 
 # Download hpoa.ttl
 $(BUILD_DIR)/hpoa.ttl: $(BUILD_DIR)
-	cd $(BUILD_DIR) \
-	curl -O -L https://data.monarchinitiative.org/ttl/hpoa.ttl \
-	cd ..
+	curl -O -L https://data.monarchinitiative.org/ttl/hpoa.ttl ; \
+	mv hpoa.ttl $(BUILD_DIR)
 
 # Merge monarch data files
 $(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfin_slim.ttl $(BUILD_DIR)/hpoa.ttl
