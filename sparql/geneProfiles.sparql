@@ -1,5 +1,5 @@
 PREFIX OBAN: <http://purl.org/oban/>
-
+PREFIX OBO: <http://purl.obolibrary.org/obo/> 
 CONSTRUCT {
 ?geneProfile a ?phenotype .
 ?gene <http://purl.org/phenoscape/vocab.owl#has_phenotypic_profile> ?geneProfile
