@@ -17,7 +17,7 @@ $(BUILD_DIR)/mirror: ontologies.ofn
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
 # Extract ontology metadata
-$(BUILD_DIR)/ontology-metadata: ontologies.ofn $(SPARQL)/ontology-versions.sparql
+$(BUILD_DIR)/ontology-versions.ttl: ontologies.ofn $(SPARQL)/ontology-versions.sparql
 	mkdir -p (BUILD_DIR)/ontology-metadata \
 	$(ROBOT) query -i $< --use-graphs true --queries $(SPARQL)/ontology-versions.sparql --output-dir $@
 
@@ -134,6 +134,6 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProf
 	$(ROBOT) query -i $< --query $(SPARQL)/geneProfiles.sparql $@
 
 #Create Phenoscape KB
-$(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/monarch-data.ttl
-	$(ROBOT) merge  -i $(BUILD_DIR)/gene-profiles.ttl -i $(BUILD_DIR)/absences.ttl -i $(BUILD_DIR)/presences.ttl -i $(BUILD_DIR)/taxon-profiles.ttl -i $(BUILD_DIR)/monarch-data.ttl -o $@
+$(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/monarch-data.ttl $(BUILD_DIR)/ontology-versions.ttl
+	$(ROBOT) merge  -i $(BUILD_DIR)/gene-profiles.ttl -i $(BUILD_DIR)/absences.ttl -i $(BUILD_DIR)/presences.ttl -i $(BUILD_DIR)/taxon-profiles.ttl -i $(BUILD_DIR)/monarch-data.ttl -i $(BUILD_DIR)/ontology-versions.ttl -o $@
 
