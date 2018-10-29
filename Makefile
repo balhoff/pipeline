@@ -20,10 +20,12 @@ $(BUILD_DIR)/mirror: ontologies.ofn
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
 # Extract ontology metadata
-$(BUILD_DIR)/ontology-versions.ttl: ontologies.ofn $(SPARQL)/ontology-versions.sparql
-	mkdir -p (BUILD_DIR)/ontology-metadata \
-	$(ROBOT) query -i $< --use-graphs true --queries $(SPARQL)/ontology-versions.sparql --output-dir $@
+$(BUILD_DIR)/ontology-metadata: ontologies.ofn $(SPARQL)/ontology-versions.sparql
+	mkdir -p $@ \
+	$(ROBOT) query --format ttl -i $< --use-graphs true --queries $(SPARQL)/ontology-versions.sparql --output-dir $@ \
 
+$(BUILD_DIR)/ontology-versions.ttl: $(BUILD_DIR)/ontology-metadata
+	$(ROBOT) merge -inputs $(BUILD_DIR)/ontology-metadata/*.ttl -o $@
 
 # Merge imported ontologies
 $(BUILD_DIR)/phenoscape-ontology.ofn: ontologies.ofn $(BUILD_DIR)/mirror
