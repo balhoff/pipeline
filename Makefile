@@ -10,10 +10,13 @@ all: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.of
 clean:
 	rm -rf $(BUILD_DIR)
 
+# Create build directory
+$(BUILD_DIR): clean
+	mkdir -p $@
+
 # Ontologies.ofn - list of ontologies to be imported
 # Mirror ontologies locally
 $(BUILD_DIR)/mirror: ontologies.ofn
-	mkdir -p $(BUILD_DIR) && rm -rf $@ &&\
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
 # Extract ontology metadata
