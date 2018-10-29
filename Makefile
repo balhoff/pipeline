@@ -120,15 +120,21 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/t
 
 # Download mgi_slim.ttl
 $(BUILD_DIR)/mgi_slim.ttl: $(BUILD_DIR)
-	curl -O -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl
+	cd $(BUILD_DIR) \
+	curl -O -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl \
+	cd ..
 
 # Download zfin_slim.ttl
 $(BUILD_DIR)/zfin_slim.ttl: $(BUILD_DIR)
-	curl -O -L https://data.monarchinitiative.org/ttl/zfin_slim.ttl
+	cd $(BUILD_DIR) \
+	curl -O -L https://data.monarchinitiative.org/ttl/zfin_slim.ttl \
+	cd ..
 
 # Download hpoa.ttl
 $(BUILD_DIR)/hpoa.ttl: $(BUILD_DIR)
-	curl -O -L https://data.monarchinitiative.org/ttl/hpoa.ttl
+	cd $(BUILD_DIR) \
+	curl -O -L https://data.monarchinitiative.org/ttl/hpoa.ttl \
+	cd ..
 
 # Merge monarch data files
 $(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfin_slim.ttl $(BUILD_DIR)/hpoa.ttl
