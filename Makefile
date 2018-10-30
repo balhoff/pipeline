@@ -11,21 +11,18 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 # Create build directory
-$(BUILD_DIR): clean
+$(BUILD_DIR): $(BUILD_DIR)
 	mkdir -p $@
 
 # Ontologies.ofn - list of ontologies to be imported
 # Mirror ontologies locally
 $(BUILD_DIR)/mirror: ontologies.ofn
+	rm -rf $@ ; \
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
 # Extract ontology metadata
-$(BUILD_DIR)/ontology-metadata: ontologies.ofn $(SPARQL)/ontology-versions.sparql
-	mkdir -p $@ \
-	$(ROBOT) query --format ttl -i $< --use-graphs true --queries $(SPARQL)/ontology-versions.sparql --output-dir $@ \
-
-$(BUILD_DIR)/ontology-versions.ttl: $(BUILD_DIR)/ontology-metadata
-	$(ROBOT) merge -inputs $(BUILD_DIR)/ontology-metadata/*.ttl -o $@
+$(BUILD_DIR)/ontology-versions.ttl: ontologies.ofn $(SPARQL)/ontology-versions.sparql
+	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/ontology-versions.sparql $@
 
 # Merge imported ontologies
 $(BUILD_DIR)/phenoscape-ontology.ofn: ontologies.ofn $(BUILD_DIR)/mirror
@@ -122,22 +119,19 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/t
 
 # Download mgi_slim.ttl
 $(BUILD_DIR)/mgi_slim.ttl: $(BUILD_DIR)
-	curl -O -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl ; \
-	mv mgi_slim.ttl $(BUILD_DIR)
+	curl -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl -o $@
 
-# Download zfin_slim.ttl
-$(BUILD_DIR)/zfin_slim.ttl: $(BUILD_DIR)
-	curl -O -L https://data.monarchinitiative.org/ttl/zfin_slim.ttl ; \
-	mv zfin_slim.ttl $(BUILD_DIR)
+# Download zfinslim.ttl
+$(BUILD_DIR)/zfinslim.ttl: $(BUILD_DIR)
+	curl -L https://data.monarchinitiative.org/ttl/zfinslim.ttl -o $@
 
 # Download hpoa.ttl
 $(BUILD_DIR)/hpoa.ttl: $(BUILD_DIR)
-	curl -O -L https://data.monarchinitiative.org/ttl/hpoa.ttl ; \
-	mv hpoa.ttl $(BUILD_DIR)
+	curl -L https://data.monarchinitiative.org/ttl/hpoa.ttl -o $@
 
 # Merge monarch data files
-$(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfin_slim.ttl $(BUILD_DIR)/hpoa.ttl
-	$(ROBOT) merge -i $(BUILD_DIR)/mgi_slim.ttl -i $(BUILD_DIR)/zfin_slim.ttl -i $(BUILD_DIR)/hpoa.ttl -o $@
+$(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfinslim.ttl $(BUILD_DIR)/hpoa.ttl
+	$(ROBOT) merge -i $(BUILD_DIR)/mgi_slim.ttl -i $(BUILD_DIR)/zfinslim.ttl -i $(BUILD_DIR)/hpoa.ttl -o $@
 
 # Generate gene-profiles.ttl
 $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProfiles.sparql
