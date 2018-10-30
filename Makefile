@@ -116,9 +116,9 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/t
 $(BUILD_DIR)/mgi_slim.ttl:
 	curl -O -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl
 
-# Download zfin_slim.ttl
-$(BUILD_DIR)/zfin_slim.ttl:
-	curl -O -L https://data.monarchinitiative.org/ttl/zfin_slim.ttl
+# Download zfinslim.ttl
+$(BUILD_DIR)/zfinslim.ttl:
+	curl -O -L https://data.monarchinitiative.org/ttl/zfinslim.ttl
 
 # Download hpoa.ttl
 $(BUILD_DIR)/hpoa.ttl:
