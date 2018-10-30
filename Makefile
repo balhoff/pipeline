@@ -5,22 +5,24 @@ SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx12G
 ROBOT=$(ROBOT_ENV) robot
 
-all: $(BUILD_DIR)/phenoscape-ontology-classified.ofn
+all: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
 
 clean:
 	rm -rf $(BUILD_DIR)
 
+# Create build directory
+$(BUILD_DIR): $(BUILD_DIR)
+	mkdir -p $@
+
 # Ontologies.ofn - list of ontologies to be imported
 # Mirror ontologies locally
 $(BUILD_DIR)/mirror: ontologies.ofn
-	mkdir -p $(BUILD_DIR) && rm -rf $@ &&\
+	rm -rf $@ ; \
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
 # Extract ontology metadata
-$(BUILD_DIR)/ontology-metadata: ontologies.ofn $(SPARQL)/ontology-versions.sparql
-	mkdir -p (BUILD_DIR)/ontology-metadata \
-	$(ROBOT) query -i $< --use-graphs true --queries $(SPARQL)/ontology-versions.sparql --output-dir $@
-
+$(BUILD_DIR)/ontology-versions.ttl: ontologies.ofn $(SPARQL)/ontology-versions.sparql
+	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/ontology-versions.sparql $@
 
 # Merge imported ontologies
 $(BUILD_DIR)/phenoscape-ontology.ofn: ontologies.ofn $(BUILD_DIR)/mirror
@@ -55,10 +57,12 @@ $(BUILD_DIR)/phenoscape-data:
 	git clone https://github.com/phenoscape/phenoscape-data.git $@
 
 # Store paths to all needed NeXML files in NEXMLS variable
-NEXMLS := $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/completed-phenex-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/fin_limb-incomplete-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/matrix-vs-monograph -type f -name "*.xml")
+NEXMLS: $(BUILD_DIR)/phenoscape-data
+	NEXMLS = $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/completed-phenex-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/fin_limb-incomplete-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/matrix-vs-monograph -type f -name "*.xml")
 
 # Store paths to all OFN files which will be produced from NeXML files in NEXML_OWLS variable
-NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
+NEXML_OWLS: NEXMLS
+	NEXML_OWLS = $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
 
 # Convert a single NeXML file to its counterpart OFN
 $(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn
@@ -113,21 +117,25 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/t
 # Monarch data
 
 # Download mgi_slim.ttl
-$(BUILD_DIR)/mgi_slim.ttl:
-	curl -O -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl
+$(BUILD_DIR)/mgi_slim.ttl: $(BUILD_DIR)
+	curl -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl -o $@
 
 # Download zfinslim.ttl
-$(BUILD_DIR)/zfinslim.ttl:
-	curl -O -L https://data.monarchinitiative.org/ttl/zfinslim.ttl
+$(BUILD_DIR)/zfinslim.ttl: $(BUILD_DIR)
+	curl -L https://data.monarchinitiative.org/ttl/zfinslim.ttl -o $@
 
 # Download hpoa.ttl
-$(BUILD_DIR)/hpoa.ttl:
-	curl -O -L https://data.monarchinitiative.org/ttl/hpoa.ttl
+$(BUILD_DIR)/hpoa.ttl: $(BUILD_DIR)
+	curl -L https://data.monarchinitiative.org/ttl/hpoa.ttl -o $@
 
 # Merge monarch data files
-$(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfin_slim.ttl $(BUILD_DIR)/hpoa.ttl
-	$(ROBOT) merge -i $(BUILD_DIR)/mgi_slim.ttl -i $(BUILD_DIR)/zfin_slim.ttl -i $(BUILD_DIR)/hpoa.ttl -o $@
+$(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfinslim.ttl $(BUILD_DIR)/hpoa.ttl
+	$(ROBOT) merge -i $(BUILD_DIR)/mgi_slim.ttl -i $(BUILD_DIR)/zfinslim.ttl -i $(BUILD_DIR)/hpoa.ttl -o $@
 
 # Generate gene-profiles.ttl
 $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProfiles.sparql
 	$(ROBOT) query -i $< --query $(SPARQL)/geneProfiles.sparql $@
+
+#Create Phenoscape KB
+$(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/monarch-data.ttl $(BUILD_DIR)/ontology-versions.ttl
+	$(ROBOT) merge  -i $(BUILD_DIR)/gene-profiles.ttl -i $(BUILD_DIR)/absences.ttl -i $(BUILD_DIR)/presences.ttl -i $(BUILD_DIR)/taxon-profiles.ttl -i $(BUILD_DIR)/monarch-data.ttl -i $(BUILD_DIR)/ontology-versions.ttl -o $@
