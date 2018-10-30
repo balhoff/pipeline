@@ -68,13 +68,12 @@ NEXML_OWLS: NEXMLS
 $(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn
 	convert-nexml $(BUILD_DIR)/phenoscape-ontology.ofn $< $@
 	echo "Build" $@ using $<
-# Use kb-owl-tools phenex-to-owl to convert
+# Use kb-owl-tools phenex-to-owl to convert using phenoscape-ontology.ofn ontology
 
 # Merge all NeXML OFN files into a single ontology of phenotype annotations
 $(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS)
 	$(ROBOT) merge $(addprefix -i , $<) -o $@
 	echo "Merge data ontologies"
-
 
 # Extract tbox and rbox from phenoscape-data.ofn
 $(BUILD_DIR)/phenoscape-data-tbox.ofn: $(BUILD_DIR)/phenoscape-data.ofn
@@ -140,4 +139,3 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProf
 #Create Phenoscape KB
 $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/monarch-data.ttl $(BUILD_DIR)/ontology-versions.ttl
 	$(ROBOT) merge  -i $(BUILD_DIR)/gene-profiles.ttl -i $(BUILD_DIR)/absences.ttl -i $(BUILD_DIR)/presences.ttl -i $(BUILD_DIR)/taxon-profiles.ttl -i $(BUILD_DIR)/monarch-data.ttl -i $(BUILD_DIR)/ontology-versions.ttl -o $@
-
