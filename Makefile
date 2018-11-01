@@ -66,7 +66,10 @@ NEXML_OWLS: NEXMLS
 
 # Convert a single NeXML file to its counterpart OFN
 $(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn
-	convert-nexml $(BUILD_DIR)/phenoscape-ontology.ofn $< $@
+	mkdir -p $(dir $@)
+	echo $(NEXMLS)
+	echo $(NEXML_OWLS)
+	kb-owl-tools convert-nexml $(BUILD_DIR)/phenoscape-ontology.ofn $< $@
 	echo "Build" $@ using $<
 # Use kb-owl-tools phenex-to-owl to convert using phenoscape-ontology.ofn ontology
 
