@@ -43,7 +43,7 @@ $(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SP
 
 # Extract Anatomical-Entities from ontology
 $(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SPARQL)/anatomicalEntities.sparql
-	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/anatomicaEntities.sparql $@
+	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/anatomicalEntities.sparql $@
 
 # Create Query-Subsumers
 $(BUILD_DIR)/query-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
@@ -61,12 +61,13 @@ NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%
 
 # Convert a single NeXML file to its counterpart OFN
 $(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn
+	mkdir -p $(dir $@)
 	kb-owl-tools convert-nexml $(BUILD_DIR)/phenoscape-ontology.ofn $< $@
 	echo "Build" $@ using $<
 # Use kb-owl-tools phenex-to-owl to convert using phenoscape-ontology.ofn ontology
 
 # Merge all NeXML OFN files into a single ontology of phenotype annotations
-$(BUILD_DIR)/phenoscape-data.ofn: $(BUILD_DIR) $(NEXML_OWLS)
+$(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS) $(BUILD_DIR)
 	$(ROBOT) merge $(addprefix -i , $<) -o $@
 	echo "Merge data ontologies"
 
