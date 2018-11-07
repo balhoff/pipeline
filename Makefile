@@ -3,7 +3,7 @@
 BUILD_DIR=build
 SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx12G
-ROBOT=$(ROBOT_ENV) robot
+ROBOT=$(ROBOT_ENV) ./robot
 
 all: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
 
