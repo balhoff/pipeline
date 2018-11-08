@@ -40,3 +40,17 @@ To successfully build and run the project, you need to have the following softwa
 Execute `./init.sh` to run it as a slurm job.
 
 If you want to run it on a single node, execute `./kb_init.sh`.
+
+# Documentation
+
+The build workflow can be found [here](https://github.com/phenoscape/pipeline/blob/master/docs/kb-build-flow.pdf).
+
+The build process involves 
+
+1. Importing/mirroring ontologies given in [ontologies.ofn](https://github.com/phenoscape/pipeline/blob/master/ontologies.ofn)
+2. Downloading data annotated by curators using Phenex (NeXML files)
+3. Downloading ontologies developed by the [MONARCH Initiative](https://monarchinitiative.org/) - MGI, ZFIN, HPOA
+
+All these ontologies are merged into a single ontology, reasoned over to generate tbox and abox axioms and finally combined together to form the Phenoscape-KB.
+
+ontology-versions.ttl contains metadata about the ontologies used in a particular kb build.
