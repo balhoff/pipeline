@@ -25,3 +25,18 @@ Current version of the [pipeline](https://github.com/phenoscape/phenoscape-owl-t
     * SPARQL Queries
     
     
+***
+
+## Deployment
+
+### Dependencies
+To successfully build and run the project, you need to have the following softwares installed:
+
+1. [Robot](https://github.com/ontodev/robot)
+2. [Phenoscape OWL tools](https://github.com/phenoscape/phenoscape-owl-tools) 
+
+### Usage
+
+Execute `./init.sh` to run it as a slurm job.
+
+If you want to run it on a single node, execute `./kb_init.sh`.
