@@ -135,3 +135,15 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProf
 #Create Phenoscape KB
 $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/monarch-data.ttl $(BUILD_DIR)/ontology-versions.ttl
 	$(ROBOT) merge  -i $(BUILD_DIR)/gene-profiles.ttl -i $(BUILD_DIR)/absences.ttl -i $(BUILD_DIR)/presences.ttl -i $(BUILD_DIR)/taxon-profiles.ttl -i $(BUILD_DIR)/monarch-data.ttl -i $(BUILD_DIR)/ontology-versions.ttl -o $@
+
+
+# Generate profiles.ttl for genes and taxa
+$(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/gene-profiles.ttl
+	$(ROBOT) merge -i $(BUILD_DIR)/taxon-profiles.ttl -i $(BUILD_DIR)/gene-profiles.ttl -o $@
+
+# Pairwise similarity for genes and taxa
+$(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
+	kb-owl-tools pairwise-sim 100 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< genes $@
+
+$(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
+	kb-owl-tools pairwise-sim 100 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
