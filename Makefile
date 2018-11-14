@@ -147,3 +147,30 @@ $(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
 
 $(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
 	kb-owl-tools pairwise-sim 100 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
+
+
+# Querying subclass closure
+$(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb.ttl $(SPARQL)/subclass-closure-construct.sparql
+	kb-owl-tools sparql-construct $< $(SPARQL)/subclass-closure-construct.sparql $@
+
+
+# Querying profile instance closure
+$(BUILD_DIR)/instance-closure.ttl: $(BUILD_DIR)/phenoscape-kb.ttl $(SPARQL)/profile-instance-closure-construct.sparql
+	kb-owl-tools sparql-construct $< $(SPARQL)/profile-instance-closure-construct.sparql $@
+
+
+# Outputting ICs
+
+$(BUILD_DIR)/corpus-ics-taxa.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
+	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
+
+$(BUILD_DIR)/corpus-ics-genes.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
+	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< genes $@
+
+
+# Output profile sizes
+$(BUILD_DIR)/profiles-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn$(BUILD_DIR)/profiles.ttl
+	kb-owl-tools output-profile-sizes $< $(BUILD_DIR)/profiles.ttl $@
+
+
+
