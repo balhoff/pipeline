@@ -173,4 +173,13 @@ $(BUILD_DIR)/profiles-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn$(
 	kb-owl-tools output-profile-sizes $< $(BUILD_DIR)/profiles.ttl $@
 
 
+# Generate expect scores
+
+$(BUILD_DIR)/taxa-expect-scores.ttl: rank-statistics.txt
+python regression.py `grep -v 'VTO_' profile-sizes.txt | wc -l` kb-owl-tools expects-to-triples $< $@
+
+$(BUILD_DIR)/gene-expect-scores.ttl: rank-statistics.txt
+python regression.py `grep -v 'VTO_' profile-sizes.txt | wc -l` kb-owl-tools expects-to-triples $< $@
+
+
 
