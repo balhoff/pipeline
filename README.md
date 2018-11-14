@@ -37,9 +37,8 @@ To successfully build and run the project, you need to have the following softwa
 
 ### Usage
 
-Execute `./init.sh` to run it as a slurm job.
+Execute `make all` on commandline to build the pipeline.
 
-If you want to run it on a single node, execute `./kb_init.sh`.
 
 # Documentation
 
