@@ -2,6 +2,7 @@ from __future__ import division
 
 def main():
 	size_of_corpus=int(sys.argv[1])
+	scores_file = sys.argv[2]
 
 	get_scores()
 
@@ -69,7 +70,7 @@ def load_profiles():
 
 def query_parse_results(size):
 	scorefile = open("Scores_Sizes.txt", 'w')
-	infile = open("Scores.tsv")
+	infile = open(scores_file)
 	scorefile.write("Query Profile\tQuery Profile Size\tQuery Name\tCorpus Profile\tCorpus Profile Size\tCorpus Profile Name\tOverall Similarity\tURI\n")
 	for line in infile:
 		if "corpusprofile_label" not in line:
