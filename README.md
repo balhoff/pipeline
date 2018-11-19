@@ -50,6 +50,6 @@ The build process involves
 2. Downloading data annotated by curators using Phenex (NeXML files)
 3. Downloading ontologies developed by the [MONARCH Initiative](https://monarchinitiative.org/) - MGI, ZFIN, HPOA
 
-All these ontologies are merged into a single ontology, reasoned over to generate tbox and abox axioms and finally combined together to form the Phenoscape-KB.
+All these ontologies are merged into a single ontology, reasoned over to generate tbox and abox axioms, and finally combined together to form the Phenoscape-KB.
 
-ontology-versions.ttl contains metadata about the ontologies used in a particular kb build.
+`ontology-versions.ttl` contains metadata about the ontologies used in a particular kb build.
