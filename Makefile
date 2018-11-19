@@ -1,6 +1,7 @@
 #JAVA_OPTS="-Xmx70G"
 
 BUILD_DIR=build
+RESOURCES=resources
 SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx12G
 ROBOT=$(ROBOT_ENV) robot
@@ -143,10 +144,10 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/gene-pro
 
 # Pairwise similarity for genes and taxa
 $(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
-	kb-owl-tools pairwise-sim 100 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< genes $@
+	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< genes $@
 
 $(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
-	kb-owl-tools pairwise-sim 100 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
+	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
 
 
 # Querying subclass closure
@@ -173,13 +174,27 @@ $(BUILD_DIR)/profiles-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn$(
 	kb-owl-tools output-profile-sizes $< $(BUILD_DIR)/profiles.ttl $@
 
 
-# Generate expect scores
+# Generate expect scores for taxa and genes
 
-$(BUILD_DIR)/taxa-expect-scores.ttl: rank-statistics.txt
-python regression.py `grep -v 'VTO_' profile-sizes.txt | wc -l` kb-owl-tools expects-to-triples $< $@
+# taxa-expect-scores
 
-$(BUILD_DIR)/gene-expect-scores.ttl: rank-statistics.txt
-python regression.py `grep -v 'VTO_' profile-sizes.txt | wc -l` kb-owl-tools expects-to-triples $< $@
+$(BUILD_DIR)/taxa-scores.tsv: $(RESOURCES)/get-scores.rq $(RESOURCES)/blazegraph.properties blazegraph-loaded-all.jnl
+	kb-owl-tools sparql-select $(RESOURCES)/blazegraph.properties blazegraph-loaded-all.jnl $< $@
+
+$(BUILD_DIR)/taxa-rank-statistics.txt: $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt $(BUILD_DIR)/taxa-scores.tsv
+	python $< `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $(BUILD_DIR)/taxa-scores.tsv $@
+
+(BUILD_DIR)/taxa-expect-scores.ttl: $(BUILD_DIR)/taxa-rank-statistics.txt
+	kb-owl-tools expects-to-triples $< $@
 
 
+# gene-expect-scores
 
+$(BUILD_DIR)/gene-scores.tsv: $(RESOURCES)/get-scores.rq $(RESOURCES)/blazegraph.properties blazegraph-loaded-all.jnl
+	kb-owl-tools sparql-select $(RESOURCES)/blazegraph.properties blazegraph-loaded-all.jnl $< $@
+
+$(BUILD_DIR)/gene-rank-statistics.txt: $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt $(BUILD_DIR)/gene-scores.tsv
+	python $< `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $(BUILD_DIR)/gene-scores.tsv $@
+
+(BUILD_DIR)/gene-expect-scores.ttl: $(BUILD_DIR)/gene-rank-statistics.txt
+	kb-owl-tools expects-to-triples $< $@
