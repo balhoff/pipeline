@@ -3,6 +3,7 @@ from __future__ import division
 def main():
 	size_of_corpus=int(sys.argv[1])
 	scores_file = sys.argv[2]
+	RankStatistics.txt = sys.argv[3]
 
 	get_scores()
 
@@ -70,7 +71,7 @@ def load_profiles():
 
 def query_parse_results(size):
 	scorefile = open("Scores_Sizes.txt", 'w')
-	infile = open(scores_file)
+	infile = open(scores_file, 'w')
 	scorefile.write("Query Profile\tQuery Profile Size\tQuery Name\tCorpus Profile\tCorpus Profile Size\tCorpus Profile Name\tOverall Similarity\tURI\n")
 	for line in infile:
 		if "corpusprofile_label" not in line:
@@ -89,7 +90,7 @@ def studentize(results):
 def compute_expect_scores(studentizedresiduals,size_of_corpus):
 	print "Computing p-values"
 	outfile = open("SemanticSimilarityResults.tsv",'w')
-	ranks = open("RankStatistics.txt",'w')
+	ranks = open(RankStatistics.txt,'w')
 	ranks.write("URI\tStudentized Residuals\tp-value\tExpect Score\n")
 	outfile.write("Query Profile ID\tQuery Profile Name\tCorpus Profile ID\tCorpus Profile Name\tOverall Similarity\tExpect Value\n")
 	i=0
