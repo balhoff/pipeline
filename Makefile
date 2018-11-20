@@ -178,8 +178,8 @@ $(BUILD_DIR)/profiles-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn$(
 
 # taxa-expect-scores
 
-$(BUILD_DIR)/taxa-scores.tsv: $(RESOURCES)/get-scores.rq $(RESOURCES)/blazegraph.properties blazegraph-loaded-all.jnl
-	kb-owl-tools sparql-select $(RESOURCES)/blazegraph.properties blazegraph-loaded-all.jnl $< $@
+$(BUILD_DIR)/taxa-scores.tsv: $(RESOURCES)/get-scores.rq $(BUILD_DIR)/corpus-ics-taxa.ttl
+	sparql --data=$(BUILD_DIR)/corpus-ics-taxa.ttl --query=$< --results=TSV > $@
 
 $(BUILD_DIR)/taxa-rank-statistics.txt: $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt $(BUILD_DIR)/taxa-scores.tsv
 	python $< `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $(BUILD_DIR)/taxa-scores.tsv $@
@@ -190,8 +190,8 @@ $(BUILD_DIR)/taxa-rank-statistics.txt: $(RESOURCES)/regression.py $(BUILD_DIR)/p
 
 # gene-expect-scores
 
-$(BUILD_DIR)/gene-scores.tsv: $(RESOURCES)/get-scores.rq $(RESOURCES)/blazegraph.properties blazegraph-loaded-all.jnl
-	kb-owl-tools sparql-select $(RESOURCES)/blazegraph.properties blazegraph-loaded-all.jnl $< $@
+$(BUILD_DIR)/gene-scores.tsv: $(RESOURCES)/get-scores.rq $(BUILD_DIR)/corpus-ics-genes.ttl
+	sparql --data=$(BUILD_DIR)/corpus-ics-genes.ttl --query=$< --results=TSV > $@
 
 $(BUILD_DIR)/gene-rank-statistics.txt: $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt $(BUILD_DIR)/gene-scores.tsv
 	python $< `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $(BUILD_DIR)/gene-scores.tsv $@
