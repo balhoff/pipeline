@@ -30,10 +30,11 @@ Current version of the [pipeline](https://github.com/phenoscape/phenoscape-owl-t
 ## Deployment
 
 ### Dependencies
-To successfully build and run the project, you need to have the following softwares installed:
+To successfully build and run the project, you need to have the following softwares installed and added to `PATH`:
 
 1. [Robot](https://github.com/ontodev/robot)
 2. [Phenoscape OWL tools](https://github.com/phenoscape/phenoscape-owl-tools) 
+3. [Jena ARQ](http://jena.apache.org/)
 
 ### Usage
 
