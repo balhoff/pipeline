@@ -6,6 +6,8 @@ SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx12G
 ROBOT=$(ROBOT_ENV) robot
 
+ONTOLOGIES=ontologies.ofn
+
 all: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
 
 clean:
@@ -15,18 +17,18 @@ clean:
 $(BUILD_DIR):
 	mkdir -p $@
 
-# Ontologies.ofn - list of ontologies to be imported
+# $(ONTOLOGIES) - list of ontologies to be imported
 # Mirror ontologies locally
-$(BUILD_DIR)/mirror: ontologies.ofn
+$(BUILD_DIR)/mirror: $(ONTOLOGIES)
 	rm -rf $@ ; \
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
 # Extract ontology metadata
-$(BUILD_DIR)/ontology-versions.ttl: ontologies.ofn $(SPARQL)/ontology-versions.sparql
+$(BUILD_DIR)/ontology-versions.ttl: $(ONTOLOGIES) $(SPARQL)/ontology-versions.sparql
 	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/ontology-versions.sparql $@
 
 # Merge imported ontologies
-$(BUILD_DIR)/phenoscape-ontology.ofn: ontologies.ofn $(BUILD_DIR)/mirror
+$(BUILD_DIR)/phenoscape-ontology.ofn: $(ONTOLOGIES) $(BUILD_DIR)/mirror
 	$(ROBOT) merge --catalog $(BUILD_DIR)/mirror/catalog-v001.xml -i $< -o $@
 
 # Compute inferred classification of just the input ontologies.
@@ -53,22 +55,32 @@ $(BUILD_DIR)/query-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatom
 # Create Similarity-Subsumers
 $(BUILD_DIR)/similarity-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
 
-# Store paths to all needed NeXML files in NEXMLS variable
-# Cloning the data repo happens in here
-NEXMLS := $(shell mkdir -p $(BUILD_DIR); if [ ! -d $(BUILD_DIR)/phenoscape-data ]; then git clone https://github.com/phenoscape/phenoscape-data.git $(BUILD_DIR)/phenoscape-data >&2; fi; find $(BUILD_DIR)/phenoscape-data/curation-files/completed-phenex-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/fin_limb-incomplete-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/matrix-vs-monograph -type f -name "*.xml")
+# Download Phenex files
+$(BUILD_DIR)/phenoscape-data:
+	mkdir -p $@; \
+	git clone https://github.com/phenoscape/phenoscape-data.git $@
 
-# Store paths to all OFN files which will be produced from NeXML files in NEXML_OWLS variable
-NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
 
-# Convert a single NeXML file to its counterpart OFN
-$(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn
-	mkdir -p $(dir $@)
-	kb-owl-tools convert-nexml $(BUILD_DIR)/phenoscape-ontology.ofn $< $@
-	echo "Build" $@ using $<
-# Use kb-owl-tools phenex-to-owl to convert using phenoscape-ontology.ofn ontology
+# Convert Phenex files to owl format
+$(BUILD_DIR)/phenoscape-data-owl: $(BUILD_DIR)/phenoscape-ontology.ofn $(BUILD_DIR)/phenoscape-data
+	NEXMLS=$(find $(BUILD_DIR)/phenoscape-data/curation-files/completed-phenex-files -type f -name "*.xml"; \
+	find $(BUILD_DIR)/phenoscape-data/curation-files/fin_limb-incomplete-files -type f -name "*.xml"; \
+	find $(BUILD_DIR)/phenoscape-data/curation-files/Jackson_Dissertation_Files -type f -name "*.xml"; \
+	find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml"; \
+	find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml"; \
+	find $(BUILD_DIR)/phenoscape-data/curation-files/matrix-vs-monograph -type f -name "*.xml"); \
+	\
+	mkdir $@; \
+	\
+	for file in $(NEXMLS); do \
+		outfile=$$(echo $f | sed 's/\(\).xml$/\1\.ofn/')
+		kb-owl-tools convert-nexml $$file $< $$outfile; \
+		mv $outfile $@; \
+	done
+
 
 # Merge all NeXML OFN files into a single ontology of phenotype annotations
-$(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS) $(BUILD_DIR)
+$(BUILD_DIR)/phenoscape-data.ofn: $(BUILD_DIR)/phenoscape-data-owl
 	$(ROBOT) merge $(addprefix -i , $<) -o $@
 	echo "Merge data ontologies"
 
