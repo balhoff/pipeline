@@ -1,6 +1,7 @@
 #JAVA_OPTS="-Xmx70G"
 
 BUILD_DIR=build
+RESOURCES=resources
 SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx12G
 ROBOT=$(ROBOT_ENV) robot
@@ -134,3 +135,65 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProf
 #Create Phenoscape KB
 $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/monarch-data.ttl $(BUILD_DIR)/ontology-versions.ttl
 	$(ROBOT) merge  -i $(BUILD_DIR)/gene-profiles.ttl -i $(BUILD_DIR)/absences.ttl -i $(BUILD_DIR)/presences.ttl -i $(BUILD_DIR)/taxon-profiles.ttl -i $(BUILD_DIR)/monarch-data.ttl -i $(BUILD_DIR)/ontology-versions.ttl -o $@
+
+
+# Generate profiles.ttl for genes and taxa
+$(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/gene-profiles.ttl
+	$(ROBOT) merge -i $(BUILD_DIR)/taxon-profiles.ttl -i $(BUILD_DIR)/gene-profiles.ttl -o $@
+
+# Pairwise similarity for genes and taxa
+$(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
+	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< genes $@
+
+$(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
+	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
+
+
+# Querying subclass closure
+$(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb.ttl $(SPARQL)/subclass-closure-construct.sparql
+	sparql --data=$< --query=$(SPARQL)/subclass-closure-construct.sparql > $@
+
+
+# Querying profile instance closure
+$(BUILD_DIR)/instance-closure.ttl: $(BUILD_DIR)/phenoscape-kb.ttl $(SPARQL)/profile-instance-closure-construct.sparql
+	sparql --data=$< --query=$(SPARQL)/profile-instance-closure-construct.sparql > $@
+
+
+# Outputting ICs
+
+$(BUILD_DIR)/corpus-ics-taxa.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
+	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
+
+$(BUILD_DIR)/corpus-ics-genes.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
+	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< genes $@
+
+
+# Output profile sizes
+$(BUILD_DIR)/profiles-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn$(BUILD_DIR)/profiles.ttl
+	kb-owl-tools output-profile-sizes $< $(BUILD_DIR)/profiles.ttl $@
+
+
+# Generate expect scores for taxa and genes
+
+# taxa-expect-scores
+
+$(BUILD_DIR)/taxa-scores.tsv: $(RESOURCES)/get-scores.rq $(BUILD_DIR)/corpus-ics-taxa.ttl
+	sparql --data=$(BUILD_DIR)/corpus-ics-taxa.ttl --query=$< --results=TSV > $@
+
+$(BUILD_DIR)/taxa-rank-statistics.txt: $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt $(BUILD_DIR)/taxa-scores.tsv
+	python $< `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $(BUILD_DIR)/taxa-scores.tsv $@
+
+(BUILD_DIR)/taxa-expect-scores.ttl: $(BUILD_DIR)/taxa-rank-statistics.txt
+	kb-owl-tools expects-to-triples $< $@
+
+
+# gene-expect-scores
+
+$(BUILD_DIR)/gene-scores.tsv: $(RESOURCES)/get-scores.rq $(BUILD_DIR)/corpus-ics-genes.ttl
+	sparql --data=$(BUILD_DIR)/corpus-ics-genes.ttl --query=$< --results=TSV > $@
+
+$(BUILD_DIR)/gene-rank-statistics.txt: $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt $(BUILD_DIR)/gene-scores.tsv
+	python $< `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $(BUILD_DIR)/gene-scores.tsv $@
+
+(BUILD_DIR)/gene-expect-scores.ttl: $(BUILD_DIR)/gene-rank-statistics.txt
+	kb-owl-tools expects-to-triples $< $@
