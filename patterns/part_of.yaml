@@ -1,0 +1,23 @@
+pattern_name: part_of
+pattern_iri: http://purl.org/phenoscape/kb/patterns/part_of.yaml
+
+classes:
+  thing: owl:Thing
+
+relations:
+  part_of: BFO:0000050
+
+annotationProperties:
+  part_of_some: BFO:0000050_some
+
+vars:
+  anatomical_entity: thing
+
+annotations:
+  - annotationProperty: part_of_some
+    var: anatomical_entity
+
+equivalentTo:
+  text: "'part_of' some %s"
+  vars:
+    - anatomical_entity

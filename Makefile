@@ -46,6 +46,9 @@ $(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SP
 $(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SPARQL)/anatomicalEntities.sparql
 	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/anatomicalEntities.sparql $@
 
+$(BUILD_DIR)/anatomical_entity_parts.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/part_of.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/part_of.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
+
 # Create Query-Subsumers
 $(BUILD_DIR)/query-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
 
