@@ -6,6 +6,8 @@ SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx128G
 ROBOT=$(ROBOT_ENV) robot
 
+ONTOLOGIES=ontologies.ofn
+
 all: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
 
 clean:
@@ -15,18 +17,18 @@ clean:
 $(BUILD_DIR):
 	mkdir -p $@
 
-# Ontologies.ofn - list of ontologies to be imported
+# $(ONTOLOGIES) - list of ontologies to be imported
 # Mirror ontologies locally
-$(BUILD_DIR)/mirror: ontologies.ofn
+$(BUILD_DIR)/mirror: $(ONTOLOGIES)
 	rm -rf $@ ; \
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
 # Extract ontology metadata
-$(BUILD_DIR)/ontology-versions.ttl: ontologies.ofn $(SPARQL)/ontology-versions.sparql
+$(BUILD_DIR)/ontology-versions.ttl: $(ONTOLOGIES) $(SPARQL)/ontology-versions.sparql
 	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/ontology-versions.sparql $@
 
 # Merge imported ontologies
-$(BUILD_DIR)/phenoscape-ontology.ofn: ontologies.ofn $(BUILD_DIR)/mirror
+$(BUILD_DIR)/phenoscape-ontology.ofn: $(ONTOLOGIES) $(BUILD_DIR)/mirror
 	$(ROBOT) merge --catalog $(BUILD_DIR)/mirror/catalog-v001.xml -i $< -o $@
 
 # Compute inferred classification of just the input ontologies.
