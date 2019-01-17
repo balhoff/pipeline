@@ -1,0 +1,23 @@
+pattern_name: has_part_inhering_in
+pattern_iri: http://purl.org/phenoscape/kb/patterns/has_part_inhering_in.yaml
+
+classes:
+  thing: owl:Thing
+
+relations:
+  has_part_inhering_in: http://purl.org/phenoscape/vocab.owl#has_part_inhering_in
+
+annotationProperties:
+  has_part_inhering_in_some: http://purl.org/phenoscape/vocab.owl#has_part_inhering_in_some
+
+vars:
+  anatomical_entity: thing
+
+annotations:
+  - annotationProperty: has_part_inhering_in_some
+    var: anatomical_entity
+
+equivalentTo:
+  text: "'has_part_inhering_in' some %s"
+  vars:
+    - anatomical_entity
