@@ -49,6 +49,37 @@ $(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classifie
 $(BUILD_DIR)/anatomical_entity_parts.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/part_of.yaml
 	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/part_of.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
 
+
+$(BUILD_DIR)/anatomical-entity-hasParts.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/has_part.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/has_part.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
+
+
+$(BUILD_DIR)/anatomical-entity-presences.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/presences.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/presences.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
+
+
+$(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/absences.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/absences.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
+
+
+$(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/has_parts_inhering_in.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/has_parts_inhering_in.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
+
+
+$(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/phenotype_of.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/phenotype_of.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
+
+
+$(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/named_has_part.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/named_has_part.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
+
+
+$(BUILD_DIR)/absenceNegationEquivalences.ofn: $(BUILD_DIR)/anatomical_entities.txt  $(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn
+
+
+$(BUILD_DIR)/developsFromRulesForAbsence.ofn: $(BUILD_DIR)/anatomical_entities.txt
+
+
 # Create Query-Subsumers
 $(BUILD_DIR)/query-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
 
