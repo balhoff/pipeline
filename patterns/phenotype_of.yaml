@@ -1,0 +1,23 @@
+pattern_name: phenotype_of
+pattern_iri: http://purl.org/phenoscape/kb/patterns/phenotype_of.yaml
+
+classes:
+  thing: owl:Thing
+
+relations:
+  phenotype_of: http://purl.org/phenoscape/vocab.owl#has_phenotypic_profile
+
+annotationProperties:
+  phenotype_of_some: http://purl.org/phenoscape/vocab.owl#has_phenotypic_profile_some
+
+vars:
+  anatomical_entity: thing
+
+annotations:
+  - annotationProperty: phenotype_of_some
+    var: anatomical_entity
+
+equivalentTo:
+  text: "'phenotype_of' some %s"
+  vars:
+    - anatomical_entity
