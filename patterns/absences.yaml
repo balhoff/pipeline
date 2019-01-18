@@ -1,0 +1,33 @@
+pattern_name: absences
+pattern_iri: http://purl.org/phenoscape/kb/patterns/absences.yaml
+
+classes:
+  thing: owl:Thing
+
+relations:
+  LacksAllPartsOfType: http://purl.obolibrary.org/obo/PATO_0002000
+  inheres_in: http://purl.obolibrary.org/obo/BFO_0000052
+  has_part: http://purl.obolibrary.org/obo/BFO_0000051
+
+annotationProperties:
+  absence_of: http://purl.org/phenoscape/vocab.owl#absence_of
+
+vars:
+  anatomical_entity: thing
+
+
+annotations:
+  - annotationProperty: absence_of
+    var: anatomical_entity
+
+
+equivalentTo:
+  text: "'has_part' some ('LacksAllPartsOfType' and (towards value %s))"
+  vars:
+    - anatomical_entity
+
+GCI:
+  text: "('LacksAllPartsOfType' and (towards value %s)) EquivalentTo ('inheres_in' some (not ('has_part' some %s)))"
+  vars:
+    - anatomical_entity
+    - anatomical_entity
