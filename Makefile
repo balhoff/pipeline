@@ -16,10 +16,6 @@ all: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.of
 clean:
 	rm -rf $(BUILD_DIR)
 
-# Create build directory
-$(BUILD_DIR):
-	mkdir -p $@
-
 # $(ONTOLOGIES) - list of ontologies to be imported
 # Mirror ontologies locally
 $(BUILD_DIR)/mirror: $(ONTOLOGIES)
@@ -118,15 +114,18 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/t
 # Monarch data
 
 # Download mgi_slim.ttl
-$(BUILD_DIR)/mgi_slim.ttl: $(BUILD_DIR)
+$(BUILD_DIR)/mgi_slim.ttl:
+	mkdir -p $(BUILD_DIR)
 	curl -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl -o $@
 
 # Download zfinslim.ttl
-$(BUILD_DIR)/zfinslim.ttl: $(BUILD_DIR)
+$(BUILD_DIR)/zfinslim.ttl:
+	mkdir -p $(BUILD_DIR)
 	curl -L https://data.monarchinitiative.org/ttl/zfinslim.ttl -o $@
 
 # Download hpoa.ttl
-$(BUILD_DIR)/hpoa.ttl: $(BUILD_DIR)
+$(BUILD_DIR)/hpoa.ttl:
+	mkdir -p $(BUILD_DIR)
 	curl -L https://data.monarchinitiative.org/ttl/hpoa.ttl -o $@
 
 # Merge monarch data files
