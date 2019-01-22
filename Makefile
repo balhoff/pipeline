@@ -1,5 +1,6 @@
 #JAVA_OPTS="-Xmx70G"
 
+
 BUILD_DIR=build
 RESOURCES=resources
 SPARQL=sparql
@@ -7,15 +8,13 @@ ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx128G
 ROBOT=$(ROBOT_ENV) robot
 
 ONTOLOGIES=ontologies.ofn
+# Path to data repo; must be separately downloaded/cloned
+NEXML_DATA=phenoscape-data
 
 all: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
 
 clean:
 	rm -rf $(BUILD_DIR)
-
-# Create build directory
-$(BUILD_DIR):
-	mkdir -p $@
 
 # $(ONTOLOGIES) - list of ontologies to be imported
 # Mirror ontologies locally
@@ -59,21 +58,18 @@ $(BUILD_DIR)/query-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatom
 $(BUILD_DIR)/similarity-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
 
 # Store paths to all needed NeXML files in NEXMLS variable
-# Cloning the data repo happens in here
-NEXMLS := $(shell mkdir -p $(BUILD_DIR); if [ ! -d $(BUILD_DIR)/phenoscape-data ]; then git clone https://github.com/phenoscape/phenoscape-data.git $(BUILD_DIR)/phenoscape-data >&2; fi; find $(BUILD_DIR)/phenoscape-data/curation-files/completed-phenex-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/fin_limb-incomplete-files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") $(shell find $(BUILD_DIR)/phenoscape-data/curation-files/matrix-vs-monograph -type f -name "*.xml")
+NEXMLS := $(shell mkdir -p $(BUILD_DIR); find $(NEXML_DATA)/curation-files/completed-phenex-files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/fin_limb-incomplete-files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/matrix-vs-monograph -type f -name "*.xml")
 
 # Store paths to all OFN files which will be produced from NeXML files in NEXML_OWLS variable
-NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(BUILD_DIR)/phenoscape-data/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
+NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(NEXML_DATA)/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
 
 # Convert a single NeXML file to its counterpart OFN
-$(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(BUILD_DIR)/phenoscape-data/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn
+$(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(NEXML_DATA)/%.xml $(BUILD_DIR)/phenoscape-ontology.ofn
 	mkdir -p $(dir $@)
 	kb-owl-tools convert-nexml $(BUILD_DIR)/phenoscape-ontology.ofn $< $@
-	echo "Build" $@ using $<
-# Use kb-owl-tools phenex-to-owl to convert using phenoscape-ontology.ofn ontology
 
 # Merge all NeXML OFN files into a single ontology of phenotype annotations
-$(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS) $(BUILD_DIR)
+$(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS)
 	$(ROBOT) merge $(addprefix -i , $(NEXML_OWLS)) -o $@
 
 # Extract tbox and rbox from phenoscape-data.ofn
@@ -118,15 +114,18 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/t
 # Monarch data
 
 # Download mgi_slim.ttl
-$(BUILD_DIR)/mgi_slim.ttl: $(BUILD_DIR)
+$(BUILD_DIR)/mgi_slim.ttl:
+	mkdir -p $(BUILD_DIR)
 	curl -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl -o $@
 
 # Download zfinslim.ttl
-$(BUILD_DIR)/zfinslim.ttl: $(BUILD_DIR)
+$(BUILD_DIR)/zfinslim.ttl:
+	mkdir -p $(BUILD_DIR)
 	curl -L https://data.monarchinitiative.org/ttl/zfinslim.ttl -o $@
 
 # Download hpoa.ttl
-$(BUILD_DIR)/hpoa.ttl: $(BUILD_DIR)
+$(BUILD_DIR)/hpoa.ttl:
+	mkdir -p $(BUILD_DIR)
 	curl -L https://data.monarchinitiative.org/ttl/hpoa.ttl -o $@
 
 # Merge monarch data files
