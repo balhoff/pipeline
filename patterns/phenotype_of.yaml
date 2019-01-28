@@ -5,10 +5,10 @@ classes:
   thing: owl:Thing
 
 relations:
-  phenotype_of: http://purl.org/phenoscape/vocab.owl#has_phenotypic_profile
+  phenotype_of: http://purl.org/phenoscape/vocab.owl#phenotype_of
 
 annotationProperties:
-  phenotype_of_some: http://purl.org/phenoscape/vocab.owl#has_phenotypic_profile_some
+  phenotype_of_some: http://purl.org/phenoscape/vocab.owl#phenotype_of_some
 
 vars:
   anatomical_entity: thing
