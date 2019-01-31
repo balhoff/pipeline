@@ -71,13 +71,6 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn: $(BUILD_DIR)/anatomical_entitie
 	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/phenotype_of.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
 
 
-#$(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/named_has_part.yaml
-#	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/named_has_part.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
-#
-
-$(BUILD_DIR)/absenceNegationEquivalences.ofn: $(BUILD_DIR)/anatomical_entities.txt  $(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn
-
-
 $(BUILD_DIR)/developsFromRulesForAbsence.ofn: $(BUILD_DIR)/anatomical_entities.txt
 
 
