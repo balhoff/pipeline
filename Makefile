@@ -78,7 +78,8 @@ $(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn: $(BUILD_DIR)/anatomical_
 $(BUILD_DIR)/absenceNegationEquivalences.ofn: $(BUILD_DIR)/anatomical_entities.txt  $(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn
 
 
-$(BUILD_DIR)/developsFromRulesForAbsence.ofn: $(BUILD_DIR)/anatomical_entities.txt
+$(BUILD_DIR)/developsFromRulesForAbsence.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/develops_from_rule.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/develops_from_rule.yaml --infile=$< --outfile=$@
 
 
 # Create Query-Subsumers
