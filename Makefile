@@ -55,16 +55,16 @@ $(BUILD_DIR)/anatomical-entity-hasParts.ofn: $(BUILD_DIR)/anatomical_entities.tx
 	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/has_part.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
 
 
-$(BUILD_DIR)/anatomical-entity-presences.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/presences.yaml
-	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/presences.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
+$(BUILD_DIR)/anatomical-entity-presences.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/implies_presence_of.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/implies_presence_of.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
 
 
 $(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/absences.yaml
 	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/absences.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
 
 
-$(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/has_parts_inhering_in.yaml
-	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/has_parts_inhering_in.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
+$(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/has_part_inhering_in.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/has_part_inhering_in.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
 
 
 $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/phenotype_of.yaml
@@ -80,6 +80,7 @@ $(BUILD_DIR)/absenceNegationEquivalences.ofn: $(BUILD_DIR)/anatomical_entities.t
 
 $(BUILD_DIR)/developsFromRulesForAbsence.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/develops_from_rule.yaml
 	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/develops_from_rule.yaml --infile=$< --outfile=$@
+
 
 
 # Create Query-Subsumers
