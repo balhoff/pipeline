@@ -87,6 +87,7 @@ $(BUILD_DIR)/query-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatom
 
 # Create Similarity-Subsumers
 $(BUILD_DIR)/similarity-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/semantic_similarity_subsumers.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
 
 # Store paths to all needed NeXML files in NEXMLS variable
 NEXMLS := $(shell mkdir -p $(BUILD_DIR); find $(NEXML_DATA)/curation-files/completed-phenex-files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/fin_limb-incomplete-files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/matrix-vs-monograph -type f -name "*.xml")
