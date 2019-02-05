@@ -17,7 +17,8 @@ equivalentTo:
   vars:
     - anatomical_entity
     - anatomical_entity
-GCI:
+
+equivalentTo:
   text: "'phenotype_of' some (%s or ('develops_from' some %s))"
   vars:
     - anatomical_entity
