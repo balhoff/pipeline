@@ -1,0 +1,24 @@
+pattern_name: semantic_similarity_subsumers
+pattern_iri: http://purl.org/phenoscape/kb/patterns/semantic_similarity_subsumers.yaml
+
+classes:
+  thing: owl:Thing
+
+relations:
+  phenotype_of: http://purl.org/phenoscape/vocab.owl#phenotype_of
+  part_of: BFO:0000050
+  develops_from: http://purl.obolibrary.org/obo/RO_0002202
+
+vars:
+  anatomical_entity: thing
+
+equivalentTo:
+  text: "'phenotype_of' some (%s or ('part_of' some %s))"
+  vars:
+    - anatomical_entity
+    - anatomical_entity
+GCI:
+  text: "'phenotype_of' some (%s or ('develops_from' some %s))"
+  vars:
+    - anatomical_entity
+    - anatomical_entity
