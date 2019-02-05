@@ -47,6 +47,7 @@ $(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SP
 $(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SPARQL)/anatomicalEntities.sparql
 	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/anatomicalEntities.sparql $@
 
+# Absence reasoning
 $(BUILD_DIR)/anatomical_entity_parts.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/part_of.yaml
 	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/part_of.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
 
@@ -75,15 +76,8 @@ $(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn: $(BUILD_DIR)/anatomical_
 	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/named_has_part.yaml --infile=$(BUILD_DIR)/anatomical_entities.txt --outfile=$@
 
 
-$(BUILD_DIR)/absenceNegationEquivalences.ofn: $(BUILD_DIR)/anatomical_entities.txt  $(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn
-
-
 $(BUILD_DIR)/developsFromRulesForAbsence.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/develops_from_rule.yaml
 	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/develops_from_rule.yaml --infile=$< --outfile=$@
-
-
-
-
 
 
 # Create Similarity-Subsumers
