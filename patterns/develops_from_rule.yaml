@@ -14,12 +14,12 @@ vars:
 
 logical_axioms:
   - axiom_type: GCI
-  text: "('has_part' some ('develops_from' some %s)) SubClassOf ('has_part' some %s)"
-  vars:
-    - anatomical entity
-    - anatomical entity
+    text: "('has_part' some ('develops_from' some %s)) SubClassOf ('has_part' some %s)"
+    vars:
+      - anatomical entity
+      - anatomical entity
   - axiom_type: GCI
-  text: "('has_part' some ('part_of' some %s)) SubClassOf ('has_part' some %s))"
-  vars:
-    - anatomical entity
-    - anatomical entity
+    text: "('has_part' some ('part_of' some %s)) SubClassOf ('has_part' some %s))"
+    vars:
+      - anatomical entity
+      - anatomical entity
