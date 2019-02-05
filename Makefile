@@ -74,12 +74,15 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn: $(BUILD_DIR)/anatomical_entitie
 $(BUILD_DIR)/developsFromRulesForAbsence.ofn: $(BUILD_DIR)/anatomical_entities.txt
 
 
-# Create Query-Subsumers
-$(BUILD_DIR)/query-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
+
 
 
 # Create Similarity-Subsumers
-$(BUILD_DIR)/similarity-subsumers.ofn: $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
+$(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/phenotype_of_part_of.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/phenotype_of_part_of.yaml --infile=$< --outfile=$@
+
+$(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/phenotype_of_develops_from.yaml
+	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/phenotype_of_develops_from.yaml --infile=$< --outfile=$@
 
 # Store paths to all needed NeXML files in NEXMLS variable
 NEXMLS := $(shell mkdir -p $(BUILD_DIR); find $(NEXML_DATA)/curation-files/completed-phenex-files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/fin_limb-incomplete-files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/matrix-vs-monograph -type f -name "*.xml")
