@@ -88,7 +88,13 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatom
 	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/phenotype_of_develops_from.yaml --infile=$< --outfile=$@
 
 # Store paths to all needed NeXML files in NEXMLS variable
-NEXMLS := $(shell mkdir -p $(BUILD_DIR); find $(NEXML_DATA)/curation-files/completed-phenex-files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/fin_limb-incomplete-files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") $(shell find $(NEXML_DATA)/curation-files/matrix-vs-monograph -type f -name "*.xml")
+NEXMLS := $(shell mkdir -p $(BUILD_DIR); cd $(BUILD_DIR)) \
+$(shell find $(NEXML_DATA)/curation-files/completed-phenex-files -type f -name "*.xml") \
+$(shell find $(NEXML_DATA)/curation-files/fin_limb-incomplete-files -type f -name "*.xml") \
+$(shell find $(NEXML_DATA)/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") \
+$(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") \
+$(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") \
+$(shell find $(NEXML_DATA)/curation-files/matrix-vs-monograph -type f -name "*.xml")
 
 # Store paths to all OFN files which will be produced from NeXML files in NEXML_OWLS variable
 NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(NEXML_DATA)/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
@@ -107,11 +113,11 @@ $(BUILD_DIR)/phenoscape-data-tbox.ofn: $(BUILD_DIR)/phenoscape-data.ofn
 	$(ROBOT) filter -i $< --axioms tbox --axioms rbox -o $@
 
 # Create Phenoscape KB Tbox
-$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(BUILD_DIR)/query-subsumers.ofn $(BUILD_DIR)/similarity-subsumers.ofn
+$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 	$(ROBOT) merge -i $< \
 	-i $(BUILD_DIR)/phenoscape-ontology-classified.ofn \
-	-i $(BUILD_DIR)/query-subsumers.ofn \
-	-i $(BUILD_DIR)/similarity-subsumers.ofn \
+	-i $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
+	-i $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn \
 	-o $@
 
 
