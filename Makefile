@@ -88,7 +88,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatom
 	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/phenotype_of_develops_from.yaml --infile=$< --outfile=$@
 
 # Store paths to all needed NeXML files in NEXMLS variable
-NEXMLS := $(shell mkdir -p $(BUILD_DIR); cd $(BUILD_DIR)) \
+NEXMLS := $(shell mkdir -p $(BUILD_DIR)) \
 $(shell find $(NEXML_DATA)/curation-files/completed-phenex-files -type f -name "*.xml") \
 $(shell find $(NEXML_DATA)/curation-files/fin_limb-incomplete-files -type f -name "*.xml") \
 $(shell find $(NEXML_DATA)/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") \
