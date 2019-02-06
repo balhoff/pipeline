@@ -107,11 +107,11 @@ $(BUILD_DIR)/phenoscape-data-tbox.ofn: $(BUILD_DIR)/phenoscape-data.ofn
 	$(ROBOT) filter -i $< --axioms tbox --axioms rbox -o $@
 
 # Create Phenoscape KB Tbox
-$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(BUILD_DIR)/query-subsumers.ofn $(BUILD_DIR)/similarity-subsumers.ofn
+$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 	$(ROBOT) merge -i $< \
 	-i $(BUILD_DIR)/phenoscape-ontology-classified.ofn \
-	-i $(BUILD_DIR)/query-subsumers.ofn \
-	-i $(BUILD_DIR)/similarity-subsumers.ofn \
+	-i $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
+	-i $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn \
 	-o $@
 
 
