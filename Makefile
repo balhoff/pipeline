@@ -11,7 +11,9 @@ ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
 NEXML_DATA=phenoscape-data
 
-all: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/anatomical_entities.txt
+# Build KB
+# Build Kb TBOX Hierarchy
+all: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
 
 clean:
 	rm -rf $(BUILD_DIR)
