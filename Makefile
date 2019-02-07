@@ -28,6 +28,7 @@ clean:
 # ########## # ##########
 
 
+all: kb-build absence-reasoning ss-scores-gen
 
 
 # ########## # ##########
@@ -40,7 +41,7 @@ clean:
 
 # Build KB
 # Build Kb TBOX Hierarchy
-all: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
+kb-build: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
 
 
 # Create Phenoscape KB
@@ -67,18 +68,20 @@ $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles
 # ------ * ------
 # Data source 1 --> Imported ontologies' metadata
 
-# $(ONTOLOGIES) - list of ontologies to be imported
-# Mirror ontologies locally
-$(BUILD_DIR)/mirror: $(ONTOLOGIES)
-	rm -rf $@ ; \
-	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
-
 # Extract ontology metadata
 $(BUILD_DIR)/ontology-versions.ttl: $(ONTOLOGIES) $(SPARQL)/ontology-versions.sparql
 	$(ROBOT) query \
 	-i $< \
 	--use-graphs true \
 	--query $(SPARQL)/ontology-versions.sparql $@
+
+
+# Mirror ontologies locally
+# $(ONTOLOGIES) - list of ontologies to be imported
+$(BUILD_DIR)/mirror: $(ONTOLOGIES)
+	rm -rf $@ ; \
+	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
+
 
 # ----- ***** -----
 
@@ -88,6 +91,17 @@ $(BUILD_DIR)/ontology-versions.ttl: $(ONTOLOGIES) $(SPARQL)/ontology-versions.sp
 # Data source 2 --> Monarch data, gene profiles
 
 # Monarch data
+# 1. MGI
+# 2. ZFIN
+# 3. HPOA
+
+# Merge monarch data files
+$(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfinslim.ttl $(BUILD_DIR)/hpoa.ttl
+	$(ROBOT) merge \
+	-i $(BUILD_DIR)/mgi_slim.ttl \
+	-i $(BUILD_DIR)/zfinslim.ttl \
+	-i $(BUILD_DIR)/hpoa.ttl \
+	-o $@
 
 # Download mgi_slim.ttl
 $(BUILD_DIR)/mgi_slim.ttl:
@@ -104,15 +118,8 @@ $(BUILD_DIR)/hpoa.ttl:
 	mkdir -p $(BUILD_DIR)
 	curl -L https://data.monarchinitiative.org/ttl/hpoa.ttl -o $@
 
-# Merge monarch data files
-$(BUILD_DIR)/monarch-data.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfinslim.ttl $(BUILD_DIR)/hpoa.ttl
-	$(ROBOT) merge \
-	-i $(BUILD_DIR)/mgi_slim.ttl \
-	-i $(BUILD_DIR)/zfinslim.ttl \
-	-i $(BUILD_DIR)/hpoa.ttl \
-	-o $@
 
-
+# ###
 # Generate gene-profiles.ttl
 $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProfiles.sparql
 	$(ROBOT) query \
@@ -126,34 +133,22 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProf
 # ------ * -----
 # Data source 3 --> Phenoscape data
 
-# Merge imported ontologies
-$(BUILD_DIR)/phenoscape-ontology.ofn: $(ONTOLOGIES) $(BUILD_DIR)/mirror
-	$(ROBOT) merge --catalog $(BUILD_DIR)/mirror/catalog-v001.xml -i $< -o $@
 
-# Compute inferred classification of just the input ontologies.
-# We need to remove axioms that can infer unsatisfiability, since
-# the input ontologies are not 100% compatible.
-$(BUILD_DIR)/phenoscape-ontology-classified.ofn: $(BUILD_DIR)/phenoscape-ontology.ofn
-	$(ROBOT) remove -i $< --axioms 'disjoint' --trim true \
-	remove --term 'owl:Nothing' --trim true \
-	reason --reasoner ELK -o $@
+# Create Phenoscape data KB
+$(BUILD_DIR)/phenoscape-data-kb.ofn: $(BUILD_DIR)/phenoscape-data.ofn $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
+	$(ROBOT) merge \
+	-i $(BUILD_DIR)/phenoscape-data.ofn \
+	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn \
+	-o $@
 
-# Extract Qualities from ontology
-$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SPARQL)/qualities.sparql
-	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/qualities.sparql $@
+# ###
+# Generate phenoscape-data.ofn
 
-# Extract Anatomical-Entities from ontology
-$(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SPARQL)/anatomicalEntities.sparql
-	$(ROBOT) query -i $< --use-graphs true --query $(SPARQL)/anatomicalEntities.sparql $@
+# Merge all Phenex NeXML OFN files into a single ontology of phenotype annotations
+$(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS)
+	$(ROBOT) merge $(addprefix -i , $(NEXML_OWLS)) -o $@
 
-# Create Similarity-Subsumers
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/phenotype_of_part_of.yaml
-	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/phenotype_of_part_of.yaml --infile=$< --outfile=$@
-
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/phenotype_of_develops_from.yaml
-	mkdir -p $(dir $@) && dosdp-tools generate --generate-defined-class=true --obo-prefixes=true --template=patterns/phenotype_of_develops_from.yaml --infile=$< --outfile=$@
-
-# Store paths to all needed NeXML files in NEXMLS variable
+# Store paths to all needed Phenex NeXML files in NEXMLS variable
 NEXMLS := $(shell mkdir -p $(BUILD_DIR)) \
 $(shell find $(NEXML_DATA)/curation-files/completed-phenex-files -type f -name "*.xml") \
 $(shell find $(NEXML_DATA)/curation-files/fin_limb-incomplete-files -type f -name "*.xml") \
@@ -170,16 +165,21 @@ $(BUILD_DIR)/phenoscape-data-owl/%.ofn: $(NEXML_DATA)/%.xml $(BUILD_DIR)/phenosc
 	mkdir -p $(dir $@)
 	kb-owl-tools convert-nexml $(BUILD_DIR)/phenoscape-ontology.ofn $< $@
 
-# Merge all NeXML OFN files into a single ontology of phenotype annotations
-$(BUILD_DIR)/phenoscape-data.ofn: $(NEXML_OWLS)
-	$(ROBOT) merge $(addprefix -i , $(NEXML_OWLS)) -o $@
 
-# Extract tbox and rbox from phenoscape-data.ofn
-$(BUILD_DIR)/phenoscape-data-tbox.ofn: $(BUILD_DIR)/phenoscape-data.ofn
-	$(ROBOT) filter -i $< --axioms tbox --axioms rbox -o $@
+# ###
+
+# Compute inferred classification of Phenoscape KB Tbox
+$(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn: $(BUILD_DIR)/phenoscape-kb-tbox.ofn
+	$(ROBOT) reason \
+	--reasoner ELK \
+	--i $< \
+	-o $@
 
 # Create Phenoscape KB Tbox
-$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
+$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn \
+$(BUILD_DIR)/phenoscape-ontology-classified.ofn \
+$(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
+$(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 	$(ROBOT) merge -i $< \
 	-i $(BUILD_DIR)/phenoscape-ontology-classified.ofn \
 	-i $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
@@ -187,12 +187,65 @@ $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/phenoscape-data-tbox.ofn $(BUI
 	-o $@
 
 
-# Compute inferred classification of Phenoscpae KB Tbox
-$(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn: $(BUILD_DIR)/phenoscape-kb-tbox.ofn
-	$(ROBOT) reason \
-	--reasoner ELK \
-	--i $< \
+# Extract tbox and rbox from phenoscape-data.ofn
+$(BUILD_DIR)/phenoscape-data-tbox.ofn: $(BUILD_DIR)/phenoscape-data.ofn
+	$(ROBOT) filter -i $< --axioms tbox --axioms rbox -o $@
+
+# ##
+# Compute inferred classification of just the input ontologies.
+# We need to remove axioms that can infer unsatisfiability, since
+# the input ontologies are not 100% compatible.
+$(BUILD_DIR)/phenoscape-ontology-classified.ofn: $(BUILD_DIR)/phenoscape-ontology.ofn
+	$(ROBOT) remove -i $< --axioms 'disjoint' --trim true \
+	remove --term 'owl:Nothing' --trim true \
+	reason --reasoner ELK -o $@
+
+# Merge imported ontologies
+$(BUILD_DIR)/phenoscape-ontology.ofn: $(ONTOLOGIES) $(BUILD_DIR)/mirror
+	$(ROBOT) merge \
+	--catalog $(BUILD_DIR)/mirror/catalog-v001.xml \
+	-i $< \
 	-o $@
+# ##
+
+
+# Create Similarity-Subsumers
+$(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/phenotype_of_part_of.yaml
+	mkdir -p $(dir $@) \
+	&& dosdp-tools generate \
+	--generate-defined-class=true \
+	--obo-prefixes=true \
+	--template=patterns/phenotype_of_part_of.yaml \
+	--infile=$< \
+	--outfile=$@
+
+$(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/phenotype_of_develops_from.yaml
+	mkdir -p $(dir $@) \
+	&& dosdp-tools generate \
+	--generate-defined-class=true \
+	--obo-prefixes=true \
+	--template=patterns/phenotype_of_develops_from.yaml \
+	--infile=$< \
+	--outfile=$@
+
+
+# Extract Anatomical-Entities from ontology
+$(BUILD_DIR)/anatomical_entities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SPARQL)/anatomicalEntities.sparql
+	$(ROBOT) query \
+	-i $< \
+	--use-graphs true \
+	--query $(SPARQL)/anatomicalEntities.sparql $@
+
+
+
+# #####
+
+# Extract Qualities from ontology
+$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/phenoscape-ontology-classified.ofn $(SPARQL)/qualities.sparql
+	$(ROBOT) query \
+	-i $< \
+	--use-graphs true \
+	--query $(SPARQL)/qualities.sparql $@
 
 
 # Compute Tbox hierarchy
@@ -202,13 +255,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-c
 	--axioms subclass \
 	-o $@
 
-# Create Phenoscape data KB
-$(BUILD_DIR)/phenoscape-data-kb.ofn: $(BUILD_DIR)/phenoscape-data.ofn $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
-	$(ROBOT) merge \
-	-i $(BUILD_DIR)/phenoscape-data.ofn \
-	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn \
-	-o $@
-
+# #####
 
 # ----- ***** -----
 
@@ -254,6 +301,9 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/t
 # ##########
 
 
+# absence-reasoning:
+# kb-owl-tools assert-negation-hierarchy arg1 arg2
+
 # Absence reasoning
 $(BUILD_DIR)/anatomical_entity_parts.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/part_of.yaml
 	mkdir -p $(dir $@) \
@@ -261,7 +311,7 @@ $(BUILD_DIR)/anatomical_entity_parts.ofn: $(BUILD_DIR)/anatomical_entities.txt p
 	--generate-defined-class=true \
 	--obo-prefixes=true \
 	--template=patterns/part_of.yaml \
-	--infile=$(BUILD_DIR)/anatomical_entities.txt \
+	--infile=$< \
 	--outfile=$@
 
 
@@ -271,7 +321,7 @@ $(BUILD_DIR)/anatomical-entity-hasParts.ofn: $(BUILD_DIR)/anatomical_entities.tx
 	--generate-defined-class=true \
 	--obo-prefixes=true \
 	--template=patterns/has_part.yaml \
-	--infile=$(BUILD_DIR)/anatomical_entities.txt \
+	--infile=$< \
 	--outfile=$@
 
 
@@ -281,7 +331,7 @@ $(BUILD_DIR)/anatomical-entity-presences.ofn: $(BUILD_DIR)/anatomical_entities.t
 	--generate-defined-class=true \
 	--obo-prefixes=true \
 	--template=patterns/implies_presence_of.yaml \
-	--infile=$(BUILD_DIR)/anatomical_entities.txt \
+	--infile=$< \
 	--outfile=$@
 
 
@@ -291,7 +341,7 @@ $(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical_entities.tx
 	--generate-defined-class=true \
 	--obo-prefixes=true \
 	--template=patterns/absences.yaml \
-	--infile=$(BUILD_DIR)/anatomical_entities.txt \
+	--infile=$< \
 	--outfile=$@
 
 
@@ -301,7 +351,7 @@ $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn: $(BUILD_DIR)/anatomical_
 	--generate-defined-class=true \
 	--obo-prefixes=true \
 	--template=patterns/has_part_inhering_in.yaml \
-	--infile=$(BUILD_DIR)/anatomical_entities.txt \
+	--infile=$< \
 	--outfile=$@
 
 
@@ -311,7 +361,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn: $(BUILD_DIR)/anatomical_entitie
 	--generate-defined-class=true \
 	--obo-prefixes=true \
 	--template=patterns/phenotype_of.yaml \
-	--infile=$(BUILD_DIR)/anatomical_entities.txt \
+	--infile=$< \
 	--outfile=$@
 
 
@@ -321,7 +371,7 @@ $(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn: $(BUILD_DIR)/anatomical_
 	--generate-defined-class=true \
 	--obo-prefixes=true \
 	--template=patterns/named_has_part.yaml \
-	--infile=$(BUILD_DIR)/anatomical_entities.txt \
+	--infile=$< \
 	--outfile=$@
 
 
@@ -345,9 +395,60 @@ $(BUILD_DIR)/developsFromRulesForAbsence.ofn: $(BUILD_DIR)/anatomical_entities.t
 # ########## # ##########
 # ########## # ##########
 
-# Step 3 ---> Semantic similarity scores geneartion
+# Step 3 ---> Semantic similarity scores generation
 
 # ##########
+
+
+# ss-scores-gen: dependencies
+
+
+# Generate expect scores for taxa and genes
+
+# taxa-expect-scores
+
+(BUILD_DIR)/taxa-expect-scores.ttl: $(BUILD_DIR)/taxa-rank-statistics.txt
+	kb-owl-tools expects-to-triples $< $@
+
+
+$(BUILD_DIR)/taxa-rank-statistics.txt: $(BUILD_DIR)/taxa-scores.tsv $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt
+	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt \
+	| wc -l` $< $@
+
+$(BUILD_DIR)/taxa-scores.tsv: $(BUILD_DIR)/corpus-ics-taxa.ttl $(RESOURCES)/get-scores.rq
+	sparql \
+	--data=$< \
+	--query=$(RESOURCES)/get-scores.rq \
+	--results=TSV > $@
+
+
+
+# gene-expect-scores
+
+(BUILD_DIR)/gene-expect-scores.ttl: $(BUILD_DIR)/gene-rank-statistics.txt
+	kb-owl-tools expects-to-triples $< $@
+
+$(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt
+	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt \
+	| wc -l` $< $@
+
+$(BUILD_DIR)/gene-scores.tsv: $(BUILD_DIR)/corpus-ics-genes.ttl $(RESOURCES)/get-scores.rq
+	sparql \
+	--data=$< \
+	--query=$(RESOURCES)/get-scores.rq \
+	--results=TSV > $@
+
+
+# ###
+
+
+# Outputting ICs
+
+$(BUILD_DIR)/corpus-ics-taxa.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
+	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
+
+$(BUILD_DIR)/corpus-ics-genes.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
+	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< genes $@
 
 
 # Generate profiles.ttl for genes and taxa
@@ -356,6 +457,10 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/gene-pro
 	-i $(BUILD_DIR)/taxon-profiles.ttl \
 	-i $(BUILD_DIR)/gene-profiles.ttl \
 	-o $@
+
+
+# ###
+
 
 # Pairwise similarity for genes and taxa
 $(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
@@ -379,44 +484,11 @@ $(BUILD_DIR)/instance-closure.ttl: $(BUILD_DIR)/phenoscape-kb.ttl $(SPARQL)/prof
 	--query=$(SPARQL)/profile-instance-closure-construct.sparql > $@
 
 
-# Outputting ICs
-
-$(BUILD_DIR)/corpus-ics-taxa.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
-	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
-
-$(BUILD_DIR)/corpus-ics-genes.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
-	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< genes $@
-
-
 # Output profile sizes
 $(BUILD_DIR)/profiles-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn$(BUILD_DIR)/profiles.ttl
 	kb-owl-tools output-profile-sizes $< $(BUILD_DIR)/profiles.ttl $@
 
 
-# Generate expect scores for taxa and genes
-
-# taxa-expect-scores
-
-$(BUILD_DIR)/taxa-scores.tsv: $(RESOURCES)/get-scores.rq $(BUILD_DIR)/corpus-ics-taxa.ttl
-	sparql --data=$(BUILD_DIR)/corpus-ics-taxa.ttl --query=$< --results=TSV > $@
-
-$(BUILD_DIR)/taxa-rank-statistics.txt: $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt $(BUILD_DIR)/taxa-scores.tsv
-	python $< `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $(BUILD_DIR)/taxa-scores.tsv $@
-
-(BUILD_DIR)/taxa-expect-scores.ttl: $(BUILD_DIR)/taxa-rank-statistics.txt
-	kb-owl-tools expects-to-triples $< $@
-
-
-# gene-expect-scores
-
-$(BUILD_DIR)/gene-scores.tsv: $(RESOURCES)/get-scores.rq $(BUILD_DIR)/corpus-ics-genes.ttl
-	sparql --data=$(BUILD_DIR)/corpus-ics-genes.ttl --query=$< --results=TSV > $@
-
-$(BUILD_DIR)/gene-rank-statistics.txt: $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt $(BUILD_DIR)/gene-scores.tsv
-	python $< `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $(BUILD_DIR)/gene-scores.tsv $@
-
-(BUILD_DIR)/gene-expect-scores.ttl: $(BUILD_DIR)/gene-rank-statistics.txt
-	kb-owl-tools expects-to-triples $< $@
 
 
 # ########## # ##########
