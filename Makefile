@@ -50,10 +50,12 @@ kb-build: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarc
 # 2. Monarch data, gene profiles
 # 3. Phenoscape data
 # 4. Absent/present anatomical entities, taxon profiles - from phenoscape data
+# 5. Negation axioms
 $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-versions.ttl \
 $(BUILD_DIR)/monarch-data.ttl $(BUILD_DIR)/gene-profiles.ttl \
 $(BUILD_DIR)/phenoscape-data-kb.ofn \
-$(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl
+$(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl \
+$(BUILD_DIR)/negation-axioms.ofn
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/ontology-versions.ttl \
 	-i $(BUILD_DIR)/monarch-data.ttl \
@@ -61,7 +63,8 @@ $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles
 	-i $(BUILD_DIR)/phenoscape-data-kb.ofn \
 	-i $(BUILD_DIR)/absences.ttl \
 	-i $(BUILD_DIR)/presences.ttl \
-	-i $(BUILD_DIR)/taxon-profiles.ttl   \
+	-i $(BUILD_DIR)/taxon-profiles.ttl \
+	-i $(BUILD_DIR)/negation-axioms.ofn
 	-o $@
 
 
@@ -301,10 +304,31 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/t
 # ##########
 
 
-# absence-reasoning:
-# kb-owl-tools assert-negation-hierarchy arg1 arg2
+# Add to the final KB
+negation-hierarchy.ofn: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/negation-axioms.ofn
+	kb-owl-tools assert-negation-hierarchy $< $@
 
-# Absence reasoning
+
+$(BUILD_DIR)/negation-axioms.ofn: $(BUILD_DIR)/anatomical_entity_parts.ofn \
+$(BUILD_DIR)/anatomical-entity-hasParts.ofn \
+$(BUILD_DIR)/anatomical-entity-presences.ofn \
+$(BUILD_DIR)/anatomical-entity-absences.ofn \
+$(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
+$(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
+$(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn \
+$(BUILD_DIR)/developsFromRulesForAbsence.ofn
+	$(ROBOT) merge \
+	-i $(BUILD_DIR)/anatomical_entity_parts.ofn \
+	-i $(BUILD_DIR)/anatomical-entity-hasParts.ofn \
+	-i $(BUILD_DIR)/anatomical-entity-presences.ofn \
+	-i $(BUILD_DIR)/anatomical-entity-absences.ofn \
+	-i $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
+	-i $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
+	-i $(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn \
+	-i $(BUILD_DIR)/developsFromRulesForAbsence.ofn
+	-o $@
+
+
 $(BUILD_DIR)/anatomical_entity_parts.ofn: $(BUILD_DIR)/anatomical_entities.txt patterns/part_of.yaml
 	mkdir -p $(dir $@) \
 	&& dosdp-tools generate \
