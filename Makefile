@@ -258,6 +258,21 @@ $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-c
 	--axioms subclass \
 	-o $@
 
+# Querying subclass closure
+$(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb.ttl $(SPARQL)/subclass-closure-construct.sparql
+	sparql \
+	--data=$< \
+	--query=$(SPARQL)/subclass-closure-construct.sparql > $@
+
+
+# Querying profile instance closure
+$(BUILD_DIR)/instance-closure.ttl: $(BUILD_DIR)/phenoscape-kb.ttl $(SPARQL)/profile-instance-closure-construct.sparql
+	sparql \
+	--data=$< \
+	--query=$(SPARQL)/profile-instance-closure-construct.sparql > $@
+
+
+
 # #####
 
 # ----- ***** -----
@@ -424,7 +439,10 @@ $(BUILD_DIR)/developsFromRulesForAbsence.ofn: $(BUILD_DIR)/anatomical_entities.t
 # ##########
 
 
-# ss-scores-gen: dependencies
+ss-scores-gen: (BUILD_DIR)/taxa-expect-scores.ttl \
+(BUILD_DIR)/gene-expect-scores.ttl \
+$(BUILD_DIR)/taxa-pairwise-sim.ttl \
+$(BUILD_DIR)/gene-pairwise-sim.ttl
 
 
 # Generate expect scores for taxa and genes
@@ -483,6 +501,11 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/gene-pro
 	-o $@
 
 
+# Output profile sizes
+$(BUILD_DIR)/profiles-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn$(BUILD_DIR)/profiles.ttl
+	kb-owl-tools output-profile-sizes $< $(BUILD_DIR)/profiles.ttl $@
+
+
 # ###
 
 
@@ -492,26 +515,6 @@ $(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
 
 $(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
 	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
-
-
-# Querying subclass closure
-$(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb.ttl $(SPARQL)/subclass-closure-construct.sparql
-	sparql \
-	--data=$< \
-	--query=$(SPARQL)/subclass-closure-construct.sparql > $@
-
-
-# Querying profile instance closure
-$(BUILD_DIR)/instance-closure.ttl: $(BUILD_DIR)/phenoscape-kb.ttl $(SPARQL)/profile-instance-closure-construct.sparql
-	sparql \
-	--data=$< \
-	--query=$(SPARQL)/profile-instance-closure-construct.sparql > $@
-
-
-# Output profile sizes
-$(BUILD_DIR)/profiles-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn$(BUILD_DIR)/profiles.ttl
-	kb-owl-tools output-profile-sizes $< $(BUILD_DIR)/profiles.ttl $@
-
 
 
 
