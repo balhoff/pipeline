@@ -502,7 +502,7 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/gene-pro
 
 
 # Output profile sizes
-$(BUILD_DIR)/profiles-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn$(BUILD_DIR)/profiles.ttl
+$(BUILD_DIR)/profile-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $(BUILD_DIR)/profiles.ttl
 	kb-owl-tools output-profile-sizes $< $(BUILD_DIR)/profiles.ttl $@
 
 
@@ -510,10 +510,10 @@ $(BUILD_DIR)/profiles-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn$(
 
 
 # Pairwise similarity for genes and taxa
-$(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
+$(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
 	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< genes $@
 
-$(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
+$(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
 	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
 
 
@@ -522,4 +522,4 @@ $(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl
 # ########## # ##########
 
 
-# ########## # ########## # ########## #  THE END # ########## # ########## # ########## #
+# ########## # ########## # ########## # THE END # ########## # ########## # ########## #
