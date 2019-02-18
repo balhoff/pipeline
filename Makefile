@@ -58,7 +58,8 @@ kb-build: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarc
 $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
                                 $(BUILD/DIR)/phenex-data+tbox.ofn \
                                 $(BUILD_DIR)/monarch-data.ttl \
-                                $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl
+                                $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl \
+                                $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl
 	$(ROBOT) merge \
     	-i $(BUILD_DIR)/ontology-metadata.ttl \
     	-i $(BUILD_DIR)/Phenex-data+tbox.ofn \
@@ -67,6 +68,8 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
     	-i $(BUILD_DIR)/absences.ttl \
     	-i $(BUILD_DIR)/presences.ttl \
     	-i $(BUILD_DIR)/taxon-profiles.ttl \
+    	-i $(BUILD_DIR)/subclass-closure.ttl \
+    	-i $(BUILD_DIR)/instance-closure.ttl \
     	-o $@
 
 
@@ -395,6 +398,26 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/t
     	--query $(SPARQL)/taxonProfiles.sparql $@
 
 # ##########
+
+
+
+# ##########
+# Component 5 ----> Closures
+
+# Compute subclass closures
+$(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn $(SPARQL)/subclass-closure-construct.sparql
+	sparql \
+	--data=$< \
+	--query=$(SPARQL)/subclass-closure-construct.sparql > $@
+
+# Compute instance closures
+$(BUILD_DIR)/instance-closure.ttl: $(BUILD_DIR)/phenex-data+tbox.ofn $(SPARQL)/profile-instance-closure-construct.sparql
+	sparql \
+	--data=$< \
+	--query=$(SPARQL)/profile-instance-closure-construct.sparql > $@
+
+# ##########
+
 
 # ########## # ##########
 # ########## # ##########
