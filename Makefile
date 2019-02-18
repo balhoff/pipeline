@@ -62,7 +62,7 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
                                 $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl
 	$(ROBOT) merge \
     	-i $(BUILD_DIR)/ontology-metadata.ttl \
-    	-i $(BUILD_DIR)/Phenex-data+tbox.ofn \
+    	-i $(BUILD_DIR)/phenex-data+tbox.ofn \
     	-i $(BUILD_DIR)/monarch-data.ttl \
     	-i $(BUILD_DIR)/gene-profiles.ttl \
     	-i $(BUILD_DIR)/absences.ttl \
