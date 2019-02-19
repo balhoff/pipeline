@@ -308,7 +308,7 @@ $(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)
 # Compute inferred classification of just the input ontologies.
 # We need to remove axioms that can infer unsatisfiability, since
 # the input ontologies are not 100% compatible.
-$(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)bio-ontologies-merged.ofn
+$(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)/bio-ontologies-merged.ofn
 	$(ROBOT) remove -i $< --axioms 'disjoint' --trim true \
     remove --term 'owl:Nothing' --trim true \
     reason --reasoner ELK -o $@
