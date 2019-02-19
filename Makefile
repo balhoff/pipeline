@@ -56,7 +56,7 @@ kb-build: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarc
 # 1. Phenoscape KB
 
 $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
-                                $(BUILD/DIR)/phenex-data+tbox.ofn \
+                                $(BUILD_DIR)/phenex-data+tbox.ofn \
                                 $(BUILD_DIR)/monarch-data.ttl \
                                 $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl \
                                 $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl
