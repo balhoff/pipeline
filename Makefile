@@ -179,7 +179,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 # ----------
 
 # Generate phenoscape-kb-tbox.ofn
-$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)bio-ontologies-classified.ofn \
+$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ofn \
 $(BUILD_DIR)/phenex-tbox.ofn \
 $(BUILD_DIR)/qualities.txt \
 $(BUILD_DIR)/anatomical-entity-presences.ofn \
