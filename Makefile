@@ -9,7 +9,7 @@ ROBOT=$(ROBOT_ENV) robot
 
 BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
-NEXML_DATA=phenex-data
+NEXML_DATA=phenoscape-data
 
 
 # ---------------------------------------------------------------------
