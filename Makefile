@@ -191,7 +191,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 	$(ROBOT) merge \
-	-i $(BUILD_DIR)bio-ontologies-classified.ofn \
+	-i $(BUILD_DIR)/bio-ontologies-classified.ofn \
 	-i $(BUILD_DIR)/phenex-tbox.ofn
 	-i $(BUILD_DIR)/qualities.txt \
     -i $(BUILD_DIR)/anatomical-entity-presences.ofn \
