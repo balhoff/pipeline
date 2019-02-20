@@ -185,7 +185,6 @@ $(BUILD_DIR)/qualities.txt \
 $(BUILD_DIR)/anatomical-entity-presences.ofn \
 $(BUILD_DIR)/anatomical-entity-absences.ofn \
 $(BUILD_DIR)/anatomical-entity-hasParts.ofn \
-$(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn \
 $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
 $(BUILD_DIR)/developsFromRulesForAbsence.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
@@ -198,7 +197,6 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
     -i $(BUILD_DIR)/anatomical-entity-presences.ofn \
     -i $(BUILD_DIR)/anatomical-entity-absences.ofn \
     -i $(BUILD_DIR)/anatomical-entity-hasParts.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-namedHasPartClasses.ofn \
     -i $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
     -i $(BUILD_DIR)/developsFromRulesForAbsence.ofn \
     -i $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
