@@ -19,7 +19,7 @@ logical_axioms:
       - anatomical_entity
       - anatomical_entity
   - axiom_type: GCI
-    text: "('has_part' some ('part_of' some %s)) SubClassOf ('has_part' some %s))"
+    text: "('has_part' some ('part_of' some %s)) SubClassOf ('has_part' some %s)"
     vars:
       - anatomical_entity
       - anatomical_entity
