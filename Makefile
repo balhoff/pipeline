@@ -181,7 +181,6 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 # Generate phenoscape-kb-tbox.ofn
 $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ofn \
 $(BUILD_DIR)/phenex-tbox.ofn \
-$(BUILD_DIR)/qualities.txt \
 $(BUILD_DIR)/anatomical-entity-presences.ofn \
 $(BUILD_DIR)/anatomical-entity-absences.ofn \
 $(BUILD_DIR)/anatomical-entity-hasParts.ofn \
@@ -193,10 +192,9 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/bio-ontologies-classified.ofn \
 	-i $(BUILD_DIR)/phenex-tbox.ofn \
-	-i $(BUILD_DIR)/qualities.txt \
     -i $(BUILD_DIR)/anatomical-entity-presences.ofn \
     -i $(BUILD_DIR)/anatomical-entity-absences.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-hasParts.ofn \
+    -i $(BUILD_DIR)/hasParts.ofn \
     -i $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
     -i $(BUILD_DIR)/developsFromRulesForAbsence.ofn \
     -i $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
@@ -228,13 +226,14 @@ $(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical-entities.tx
     	--infile=$< \
     	--outfile=$@
 
-$(BUILD_DIR)/anatomical-entity-hasParts.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/has_part.yaml
+$(BUILD_DIR)/hasParts.ofn: $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities.txt patterns/has_part.yaml
 	mkdir -p $(dir $@) \
+	&& cat $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities.txt > $(BUILD_DIR)/anatomical-entities++qualities.txt
     	&& dosdp-tools generate \
     	--generate-defined-class=true \
     	--obo-prefixes=true \
     	--template=patterns/has_part.yaml \
-    	--infile=$< \
+    	--infile=$(BUILD_DIR)/anatomical-entities++qualities.txt \
     	--outfile=$@
 
 $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/has_part_inhering_in.yaml
