@@ -9,7 +9,7 @@ WHERE {
 
 FILTER isIRI(?s) .
 FILTER STRSTARTS(STR(?s), "http://purl.obolibrary.org/obo/") .
-BIND (LCASE(STRBEFORE(STRAFTER(STR(?s), "http://purl.obolibrary.org/obo/"), "_")) AS ?ont) . # use first from last instance of "_"
+BIND (LCASE(STRBEFORE(STRAFTER(STR(?s), "http://purl.obolibrary.org/obo/"), "_")) AS ?ont) . # use last instance of "_"
 BIND (IRI(CONCAT((CONCAT("http://purl.obolibrary.org/obo/", ?ont)), ".owl")) AS ?iri) .
 }
 
