@@ -184,7 +184,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ofn 
 $(BUILD_DIR)/phenex-tbox.ofn \
 $(BUILD_DIR)/anatomical-entity-presences.ofn \
 $(BUILD_DIR)/anatomical-entity-absences.ofn \
-$(BUILD_DIR)/anatomical-entity-hasParts.ofn \
+$(BUILD_DIR)/hasParts.ofn \
 $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
 $(BUILD_DIR)/developsFromRulesForAbsence.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
