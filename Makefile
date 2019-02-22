@@ -6,6 +6,7 @@ RESOURCES=resources
 SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx128G
 ROBOT=$(ROBOT_ENV) robot
+ARQ=arq
 
 BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
@@ -378,9 +379,9 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProf
 
 # Generate absences.ttl
 $(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/absences.sparql
-	$(ROBOT) query \
-    	-i $< \
-    	--query $(SPARQL)/absences.sparql $@
+	$(ARQ) \
+	--data=$< \
+	--query=$(SPARQL)/absences.sparql > $@
 
 # Generate presences.ttl
 $(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/presences.sparql
