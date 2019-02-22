@@ -48,7 +48,7 @@ all: kb-build ss-scores-gen
 # 2. Phenoscape KB TBox Hierarchy
 
 
-kb-build: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
+kb-build: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
 
 # ########## # ##########
 
@@ -79,7 +79,7 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
 # 2. Phenoscape KB TBox Hierarchy
 
 # Compute Tbox hierarchy
-$(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
+$(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl
 	$(ROBOT) filter \
 	-i $< \
 	--axioms subclass \
@@ -114,7 +114,7 @@ $(BUILD_DIR)/mirror: $(BIO-ONTOLOGIES)
 # Component 2 --> Phenex data + TBox
 
 # Create Phenex data + TBox KB
-$(BUILD_DIR)/phenex-data+tbox.ttl: $(BUILD_DIR)/phenex-data-merged.ofn $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
+$(BUILD_DIR)/phenex-data+tbox.ttl: $(BUILD_DIR)/phenex-data-merged.ofn $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl
 	$(ROBOT) merge \
     	-i $(BUILD_DIR)/phenex-data-merged.ofn \
     	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn \
@@ -150,14 +150,14 @@ $(BUILD_DIR)/phenex-data-owl/%.ofn: $(NEXML_DATA)/%.xml $(BUILD_DIR)/bio-ontolog
 # Generate phenoscape-kb-tbox-classified.ofn
 
 # Compute final inferred classification of Phenoscape KB Tbox
-$(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-classified-plus-absence.ofn
+$(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified-plus-absence.ttl
 	$(ROBOT) reason \
     	--reasoner ELK \
     	--i $< \
     	-o $@
 
-# Generate phenoscape-kb-tbox-classified-plus-absence.ofn
-$(BUILD_DIR)/phenoscape-kb-tbox-classified-plus-absence.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn $(BUILD_DIR)/negation-hierarchy.ofn
+# Generate phenoscape-kb-tbox-classified-plus-absence.ttl
+$(BUILD_DIR)/phenoscape-kb-tbox-classified-plus-absence.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn $(BUILD_DIR)/negation-hierarchy.ofn
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn \
 	-i $(BUILD_DIR)/negation-hierarchy.ofn \
@@ -382,13 +382,13 @@ $(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/absences.
 	$(ARQ) --data=$< --query=$(SPARQL)/absences.sparql > $@
 
 # Generate presences.ttl
-$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/presences.sparql
+$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/presences.sparql
 	$(ROBOT) query \
     	-i $< \
     	--query $(SPARQL)/presences.sparql $@
 
 # Generate taxon-profiles.ttl
-$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/taxonProfiles.sparql
+$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/taxonProfiles.sparql
 	$(ROBOT) query \
     	-i $< \
     	--query $(SPARQL)/taxonProfiles.sparql $@
@@ -401,7 +401,7 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenoscape-data-kb.ofn $(SPARQL)/t
 # Component 5 ----> Closures
 
 # Compute subclass closures
-$(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn $(SPARQL)/subclass-closure-construct.sparql
+$(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl $(SPARQL)/subclass-closure-construct.sparql
 	$(ARQ) \
 	--data=$< \
 	--query=$(SPARQL)/subclass-closure-construct.sparql > $@
@@ -478,16 +478,16 @@ $(BUILD_DIR)/gene-scores.tsv: $(BUILD_DIR)/corpus-ics-genes.ttl $(RESOURCES)/get
 # ----------
 
 # Output profile sizes
-$(BUILD_DIR)/profile-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $(BUILD_DIR)/profiles.ttl
+$(BUILD_DIR)/profile-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $(BUILD_DIR)/profiles.ttl
 	kb-owl-tools output-profile-sizes $< $(BUILD_DIR)/profiles.ttl $@
 
 # ----------
 
-$(BUILD_DIR)/corpus-ics-taxa.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
-	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
+$(BUILD_DIR)/corpus-ics-taxa.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
+	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< taxa $@
 
-$(BUILD_DIR)/corpus-ics-genes.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
-	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< genes $@
+$(BUILD_DIR)/corpus-ics-genes.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
+	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< genes $@
 
 # ----------
 
@@ -504,8 +504,8 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/gene-pro
 # ##########
 # Pairwise similarity for taxa
 
-$(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
-	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< taxa $@
+$(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
+	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< taxa $@
 
 # ##########
 
@@ -513,8 +513,8 @@ $(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl (BUILD_DIR)/phenos
 # ##########
 # Pairwise similarity for genes
 
-$(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn
-	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ofn $< genes $@
+$(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
+	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< genes $@
 
 # ##########
 
