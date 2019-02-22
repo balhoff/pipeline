@@ -9,7 +9,7 @@ WHERE {
 
 FILTER isIRI(?s) .
 FILTER STRSTARTS(STR(?s), "http://purl.obolibrary.org/obo/") .
-BIND (LCASE(REGEX(STRAFTER(STR(?s), "http://purl.obolibrary.org/obo/"), "_[^_]+$")) AS ?ont) . 
+BIND (LCASE(REGEX(STRAFTER(STR(?s), "http://purl.obolibrary.org/obo/"), "_[^_]+$")) AS ?ont) .
 BIND (IRI(CONCAT((CONCAT("http://purl.obolibrary.org/obo/", ?ont)), ".owl")) AS ?iri) .
 }
 
