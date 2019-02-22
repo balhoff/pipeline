@@ -118,7 +118,7 @@ $(BUILD_DIR)/phenex-data+tbox.ttl: $(BUILD_DIR)/phenex-data-merged.ofn $(BUILD_D
 	$(ROBOT) merge \
     	-i $(BUILD_DIR)/phenex-data-merged.ofn \
     	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn \
-    	-o $@
+    	-o $@ 
 
 # ----------
 
