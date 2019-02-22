@@ -113,11 +113,11 @@ $(BUILD_DIR)/mirror: $(BIO-ONTOLOGIES)
 # Component 2 --> Phenex data + TBox
 
 # Create Phenex data + TBox KB
-$(BUILD_DIR)/phenex-data+tbox.ofn: $(BUILD_DIR)/phenex-data-merged.ofn $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
+$(BUILD_DIR)/phenex-data+tbox.ttl: $(BUILD_DIR)/phenex-data-merged.ofn $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn
 	$(ROBOT) merge \
     	-i $(BUILD_DIR)/phenex-data-merged.ofn \
     	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn \
-    	-o $@
+    	-o $@ 
 
 # ----------
 
