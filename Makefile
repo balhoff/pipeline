@@ -384,15 +384,11 @@ $(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/absences.
 
 # Generate presences.ttl
 $(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/presences.sparql
-	$(ROBOT) query \
-    	-i $< \
-    	--query $(SPARQL)/presences.sparql $@
+	$(ARQ) --data=$< --query=$(SPARQL)/presences.sparql > $@
 
 # Generate taxon-profiles.ttl
 $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/taxonProfiles.sparql
-	$(ROBOT) query \
-    	-i $< \
-    	--query $(SPARQL)/taxonProfiles.sparql $@
+	$(ARQ) --data=$< --query=$(SPARQL)/taxonProfiles.sparql > $@
 
 # ##########
 
