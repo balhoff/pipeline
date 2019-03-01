@@ -79,11 +79,8 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
 # 2. Phenoscape KB TBox Hierarchy
 
 # Compute Tbox hierarchy
-$(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl
-	$(ROBOT) filter \
-	-i $< \
-	--axioms subclass \
-	-o $@
+$(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl $(SPARQL)/subclassHierarchy.sparql
+	$(ARQ) --data=$< --query=$(SPARQL)/subclassHierarchy.sparql > $@
 
 # ##########
 
