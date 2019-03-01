@@ -7,7 +7,7 @@ CONSTRUCT {
 }
 FROM <http://kb.phenoscape.org/>
 WHERE {
-    ?s rdf:type/rdfs:subClassOf* ?o .
+    ?s (rdf:type)/(rdfs:subClassOf*) ?o .
     ?o a owl:Class .
     ?something ps:has_phenotypic_profile ?s .
     FILTER(isIRI(?o))
