@@ -119,12 +119,6 @@ $(BUILD_DIR)/phenex-data+tbox.ttl: $(BUILD_DIR)/phenex-data-merged.ofn $(BUILD_D
 
 # ----------
 
-# Generate phenex-data-merged.ofn
-
-# Merge all Phenex NeXML OFN files into a single ontology of phenotype annotations
-$(BUILD_DIR)/phenex-data-merged.ofn: $(NEXML_OWLS)
-	$(ROBOT) merge $(addprefix -i , $(NEXML_OWLS)) -o $@
-
 # Store paths to all needed Phenex NeXML files in NEXMLS variable
 NEXMLS := $(shell mkdir -p $(BUILD_DIR)) \
 $(shell find $(NEXML_DATA)/curation-files/completed-phenex-files -type f -name "*.xml") \
@@ -135,12 +129,19 @@ $(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniatures_Ma
 $(shell find $(NEXML_DATA)/curation-files/matrix-vs-monograph -type f -name "*.xml")
 
 # Store paths to all OFN files which will be produced from NeXML files in NEXML_OWLS variable
-NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(NEXML_DATA)/%, $(BUILD_DIR)/phenoscape-data-owl/%, $(NEXMLS)))
+NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(NEXML_DATA)/%, $(BUILD_DIR)/phenex-data-owl/%, $(NEXMLS)))
 
 # Convert a single NeXML file to its counterpart OFN
 $(BUILD_DIR)/phenex-data-owl/%.ofn: $(NEXML_DATA)/%.xml $(BUILD_DIR)/bio-ontologies-merged.ofn
 	mkdir -p $(dir $@)
 	kb-owl-tools convert-nexml $(BUILD_DIR)/bio-ontologies-merged.ofn $< $@
+
+
+# Generate phenex-data-merged.ofn
+
+# Merge all Phenex NeXML OFN files into a single ontology of phenotype annotations
+$(BUILD_DIR)/phenex-data-merged.ofn: $(NEXML_OWLS)
+	$(ROBOT) merge $(addprefix -i , $(NEXML_OWLS)) -o $@
 
 # ----------
 
