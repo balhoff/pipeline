@@ -58,13 +58,13 @@ kb-build: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarc
 
 $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
                                 $(BUILD_DIR)/phenex-data+tbox.ttl \
-                                $(BUILD_DIR)/monarch-data.ttl \
+                                $(BUILD_DIR)/monarch-data-merged.ttl \
                                 $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl \
                                 $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl
 	$(ROBOT) merge \
     	-i $(BUILD_DIR)/ontology-metadata.ttl \
     	-i $(BUILD_DIR)/phenex-data+tbox.ttl \
-    	-i $(BUILD_DIR)/monarch-data.ttl \
+    	-i $(BUILD_DIR)/monarch-data-merged.ttl \
     	-i $(BUILD_DIR)/gene-profiles.ttl \
     	-i $(BUILD_DIR)/absences.ttl \
     	-i $(BUILD_DIR)/presences.ttl \
@@ -371,7 +371,7 @@ $(BUILD_DIR)/hpoa.ttl:
 # Component 4 ----> Profiles
 
 # Generate gene-profiles.ttl
-$(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data.ttl $(SPARQL)/geneProfiles.sparql
+$(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data-merged.ttl $(SPARQL)/geneProfiles.sparql
 	$(ROBOT) query \
     	-i $< \
     	--query $(SPARQL)/geneProfiles.sparql $@
