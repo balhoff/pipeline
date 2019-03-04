@@ -114,7 +114,7 @@ $(BUILD_DIR)/mirror: $(BIO-ONTOLOGIES)
 $(BUILD_DIR)/phenex-data+tbox.ttl: $(BUILD_DIR)/phenex-data-merged.ofn $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl
 	$(ROBOT) merge \
     	-i $(BUILD_DIR)/phenex-data-merged.ofn \
-    	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified.ofn \
+    	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl \
     	-o $@ 
 
 # ----------
