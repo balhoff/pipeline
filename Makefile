@@ -449,10 +449,10 @@ $(BUILD_DIR)/taxa-rank-statistics.txt: $(BUILD_DIR)/taxa-scores.tsv $(RESOURCES)
 	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt \
 	| wc -l` $< $@
 
-$(BUILD_DIR)/taxa-scores.tsv: $(BUILD_DIR)/corpus-ics-taxa.ttl $(RESOURCES)/get-scores.rq
+$(BUILD_DIR)/taxa-scores.tsv: $(BUILD_DIR)/corpus-ics-taxa.ttl $(SPARQL)/get-scores.rq
 	sparql \
 	--data=$< \
-	--query=$(RESOURCES)/get-scores.rq \
+	--query=$(SPARQL)/get-scores.rq \
 	--results=TSV > $@
 
 # ----------
@@ -464,10 +464,10 @@ $(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(RESOURCES)
 	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt \
 	| wc -l` $< $@
 
-$(BUILD_DIR)/gene-scores.tsv: $(BUILD_DIR)/corpus-ics-genes.ttl $(RESOURCES)/get-scores.rq
+$(BUILD_DIR)/gene-scores.tsv: $(BUILD_DIR)/corpus-ics-genes.ttl $(SPARQL)/get-scores.rq
 	sparql \
 	--data=$< \
-	--query=$(RESOURCES)/get-scores.rq \
+	--query=$(SPARQL)/get-scores.rq \
 	--results=TSV > $@
 
 # ----------
