@@ -89,7 +89,7 @@ def studentize(results):
 
 
 def compute_expect_scores(studentizedresiduals,size_of_corpus, rank_statistics_file):
-	print "Computing p-values"
+	print ("Computing p-values")
 	outfile = open("SemanticSimilarityResults.tsv",'w')
 	ranks = open(rank_statistics_file,'w')
 	ranks.write("URI\tStudentized Residuals\tp-value\tExpect Score\n")
@@ -112,7 +112,7 @@ def compute_expect_scores(studentizedresiduals,size_of_corpus, rank_statistics_f
 
 
 def reg_m(scores, sizes):
-	print "Doing regression"
+	print ("Doing regression")
 	ones = np.ones(len(sizes[0]))
 	X = sm.add_constant(np.column_stack((sizes[0], ones)))
 	for ele in sizes[1:]:
