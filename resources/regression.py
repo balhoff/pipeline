@@ -1,11 +1,12 @@
 from __future__ import division
+import sys
 
 def main():
 	size_of_corpus=int(sys.argv[1])
 	scores_file = sys.argv[2]
-	RankStatistics.txt = sys.argv[3]
+	rank_statistics_file = sys.argv[3]
 
-	get_scores()
+	get_scores(scores_file)
 
 	# Load corpus, query profile sizes and similarity scores
 	corpus_profile_sizes, query_profile_sizes, scores = load_profiles()
@@ -27,16 +28,16 @@ def main():
 	studentizedresiduals = studentize(results)
 
 	# Compute p-values and Expect scores
-	compute_expect_scores(studentizedresiduals, size_of_corpus)
+	compute_expect_scores(studentizedresiduals, size_of_corpus, rank_statistics_file)
 
 
-def get_scores():
+def get_scores(scores_file):
 	# Uncomment if similarity scores have changed due to updated data
 
 	#query="curl -X POST --data-binary @getscores-URI.rq --header \"Content-Type:application/sparql-query\" --header \"Accept: text/tab-separated-values\" http://kb-dev.phenoscape.org/bigsparql > ../results/Scores.tsv"
 	#os.system(query)
 	size = loadprofilesizes()
-	query_parse_results(size)
+	query_parse_results(size, scores_file)
 
 
 def loadprofilesizes():
@@ -69,7 +70,7 @@ def load_profiles():
 	return query_profile_sizes, corpus_profile_sizes, scores
 
 
-def query_parse_results(size):
+def query_parse_results(size, scores_file):
 	scorefile = open("Scores_Sizes.txt", 'w')
 	infile = open(scores_file, 'w')
 	scorefile.write("Query Profile\tQuery Profile Size\tQuery Name\tCorpus Profile\tCorpus Profile Size\tCorpus Profile Name\tOverall Similarity\tURI\n")
@@ -87,10 +88,10 @@ def studentize(results):
 	return studentizedresiduals
 
 
-def compute_expect_scores(studentizedresiduals,size_of_corpus):
+def compute_expect_scores(studentizedresiduals,size_of_corpus, rank_statistics_file):
 	print "Computing p-values"
 	outfile = open("SemanticSimilarityResults.tsv",'w')
-	ranks = open(RankStatistics.txt,'w')
+	ranks = open(rank_statistics_file,'w')
 	ranks.write("URI\tStudentized Residuals\tp-value\tExpect Score\n")
 	outfile.write("Query Profile ID\tQuery Profile Name\tCorpus Profile ID\tCorpus Profile Name\tOverall Similarity\tExpect Value\n")
 	i=0
