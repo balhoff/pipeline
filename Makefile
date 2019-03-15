@@ -461,8 +461,7 @@ BUILD_DIR)/gene-expect-scores.ttl: $(BUILD_DIR)/gene-rank-statistics.txt
 	kb-owl-tools expects-to-triples $< $@
 
 $(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt
-	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt \
-	| wc -l` $< $@
+	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@
 
 $(BUILD_DIR)/gene-scores.tsv: $(BUILD_DIR)/corpus-ics-genes.ttl $(SPARQL)/get-scores.rq
 	sparql \
