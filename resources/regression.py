@@ -42,7 +42,7 @@ def get_scores(scores_file):
 
 def loadprofilesizes():
 	profilesize = dict()
-	infile = open("ProfileSizes.txt")
+	infile = open("build/profile-sizes.txt")
 	for line in infile:
 		entity, size = line.strip().split("\t")
 		entity = entity.replace("#profile", "")
@@ -72,7 +72,7 @@ def load_profiles():
 
 def query_parse_results(size, scores_file):
 	scorefile = open("Scores_Sizes.txt", 'w')
-	infile = open(scores_file, 'w')
+	infile = open(scores_file)
 	scorefile.write("Query Profile\tQuery Profile Size\tQuery Name\tCorpus Profile\tCorpus Profile Size\tCorpus Profile Name\tOverall Similarity\tURI\n")
 	for line in infile:
 		if "corpusprofile_label" not in line:
