@@ -430,44 +430,67 @@ $(BUILD_DIR)/instance-closure.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/p
 # 3. taxa-expect-scores.ttl
 # 4. gene-expect-scores.ttl
 
-ss-scores-gen: (BUILD_DIR)/taxa-expect-scores.ttl \
-(BUILD_DIR)/gene-expect-scores.ttl \
-$(BUILD_DIR)/taxa-pairwise-sim.ttl \
-$(BUILD_DIR)/gene-pairwise-sim.ttl
+ss-scores-gen: $(BUILD_DIR)/taxa-pairwise-sim.ttl \
+$(BUILD_DIR)/gene-pairwise-sim.ttl \
+$(BUILD_DIR)/taxa-expect-scores.ttl \
+$(BUILD_DIR)/gene-expect-scores.ttl
+
 
 # ########## # ##########
+
+# ##########
+# Pairwise similarity for taxa
+
+$(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
+	kb-owl-tools pairwise-sim 1 1 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< taxa $@
+
+# ##########
+
+
+# ##########
+# Pairwise similarity for genes
+
+$(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
+	kb-owl-tools pairwise-sim 1 1 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< genes $@
+
+# ##########
 
 
 # ##########
 # Generate expect scores for taxa and genes
 
-(BUILD_DIR)/taxa-expect-scores.ttl: $(BUILD_DIR)/taxa-rank-statistics.txt
+$(BUILD_DIR)/taxa-expect-scores.ttl: $(BUILD_DIR)/taxa-rank-statistics.txt
 	kb-owl-tools expects-to-triples $< $@
 
 
 $(BUILD_DIR)/taxa-rank-statistics.txt: $(BUILD_DIR)/taxa-scores.tsv $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt
-	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt \
-	| wc -l` $< $@
+	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@
 
-$(BUILD_DIR)/taxa-scores.tsv: $(BUILD_DIR)/corpus-ics-taxa.ttl $(SPARQL)/get-scores.rq
-	sparql \
-	--data=$< \
-	--query=$(SPARQL)/get-scores.rq \
-	--results=TSV > $@
+$(BUILD_DIR)/taxa-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl
+	$(ROBOT) merge \
+	-i $(BUILD_DIR)/corpus-ics-taxa.ttl \
+	-i $(BUILD_DIR)/taxa-pairwise-sim.ttl \
+	-o $(BUILD_DIR)/taxa-ics+sim-merged.ttl \
+	&& $(ARQ) \
+	--data=$(BUILD_DIR)/taxa-ics+sim-merged.ttl \
+	--query=$< > $@
 
 # ----------
 
-BUILD_DIR)/gene-expect-scores.ttl: $(BUILD_DIR)/gene-rank-statistics.txt
+$(BUILD_DIR)/gene-expect-scores.ttl: $(BUILD_DIR)/gene-rank-statistics.txt
 	kb-owl-tools expects-to-triples $< $@
 
 $(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt
 	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@
 
-$(BUILD_DIR)/gene-scores.tsv: $(BUILD_DIR)/corpus-ics-genes.ttl $(SPARQL)/get-scores.rq
-	sparql \
-	--data=$< \
-	--query=$(SPARQL)/get-scores.rq \
-	--results=TSV > $@
+$(BUILD_DIR)/gene-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
+	$(ROBOT) merge \
+	-i $(BUILD_DIR)/corpus-ics-genes.ttl \
+	-i $(BUILD_DIR)/gene-pairwise-sim.ttl \
+	-o $(BUILD_DIR)/gene-ics+sim-merged.ttl \
+	&& $(ARQ) \
+	--data=$(BUILD_DIR)/gene-ics+sim-merged.ttl \
+	--query=$< > $@
 
 # ----------
 
@@ -494,23 +517,6 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/gene-pro
 
 # ##########
 
-
-# ##########
-# Pairwise similarity for taxa
-
-$(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
-	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< taxa $@
-
-# ##########
-
-
-# ##########
-# Pairwise similarity for genes
-
-$(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
-	kb-owl-tools pairwise-sim 1 1 (BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< genes $@
-
-# ##########
 
 
 # ########## # ##########
