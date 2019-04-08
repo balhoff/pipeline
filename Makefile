@@ -389,7 +389,8 @@ $(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenex+evolutionary-profiles.ttl $
 	$(ARQ) --data=$< --query=$(SPARQL)/taxonProfiles.sparql > $@
 
 $(BUILD_DIR)/phenex+evolutionary-profiles.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl
-	kb-owl-tools output-evolutionary-profiles $ $@
+	kb-owl-tools output-evolutionary-profiles $< $(BUILD_DIR)/evolutionary-profiles.ttl \
+	&& $(ROBOT) merge -i $(BUILD_DIR)/evolutionary-profiles.ttl -i $< -o $@
 
 
 # ##########
