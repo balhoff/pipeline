@@ -385,8 +385,12 @@ $(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/presence
 	$(ARQ) --data=$< --query=$(SPARQL)/presences.sparql > $@
 
 # Generate taxon-profiles.ttl
-$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/taxonProfiles.sparql
+$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/phenex+evolutionary-profiles.ttl $(SPARQL)/taxonProfiles.sparql
 	$(ARQ) --data=$< --query=$(SPARQL)/taxonProfiles.sparql > $@
+
+$(BUILD_DIR)/phenex+evolutionary-profiles.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl
+	kb-owl-tools output-evolutionary-profiles $ $@
+
 
 # ##########
 
