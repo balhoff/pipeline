@@ -4,4 +4,4 @@
 #error - file containing error log
 #slurm<id>.out - contains output log
 
-sbatch kb_init.sh
+sbatch --mail-user=spshriva@renci.org kb_init.sh
