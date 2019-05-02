@@ -9,4 +9,4 @@ set -e # Abort if any command fails
 
 export JAVA_OPTS="-Xmx70G"
 
-make all
+make -f ../Makefile all
