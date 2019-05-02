@@ -32,9 +32,10 @@ Current version of the [pipeline](https://github.com/phenoscape/phenoscape-owl-t
 ### Dependencies
 To successfully build and run the project, you need to have the following softwares installed and added to `PATH`:
 
-1. [Robot](https://github.com/ontodev/robot)
-2. [Phenoscape OWL tools](https://github.com/phenoscape/phenoscape-owl-tools) 
-3. [Jena ARQ](http://jena.apache.org/)
+1. [Robot v1.4.0](https://github.com/ontodev/robot)
+2. [Phenoscape OWL tools v1.8](https://github.com/phenoscape/phenoscape-owl-tools) 
+3. [Jena ARQ v3.10](http://jena.apache.org/)
+4. [DOSDP v0.13.1](https://github.com/INCATools/dosdp-tools/releases)
 
 ### Usage
 
