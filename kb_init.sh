@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --error=error
+#SBATCH --error=error-%j
 #SBATCH --mail-user=spshriva@renci.org
 #SBATCH --mail-type=ALL
 #SBATCH --cpus-per-task=20
