@@ -385,10 +385,11 @@ $(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/presence
 	$(ARQ) --data=$< --query=$(SPARQL)/presences.sparql > $@
 
 # Generate taxon-profiles.ttl
-$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(SPARQL)/taxonProfiles.sparql
-	$(ARQ) --data=$< --query=$(SPARQL)/taxonProfiles.sparql > $@
+#$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(SPARQL)/taxonProfiles.sparql
+#	$(ARQ) --data=$< --query=$(SPARQL)/taxonProfiles.sparql > $@
 
 # Generate evolutionary-profiles.ttl
+# Contains taxon-profiles data
 $(BUILD_DIR)/evolutionary-profiles.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl
 	kb-owl-tools output-evolutionary-profiles $< $@
 
@@ -514,9 +515,9 @@ $(BUILD_DIR)/corpus-ics-genes.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenos
 # ----------
 
 # Generate profiles.ttl for genes and taxa
-$(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/taxon-profiles.ttl $(BUILD_DIR)/gene-profiles.ttl
+$(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(BUILD_DIR)/gene-profiles.ttl
 	$(ROBOT) merge \
-	-i $(BUILD_DIR)/taxon-profiles.ttl \
+	-i $(BUILD_DIR)/evolutionary-profiles.ttl \
 	-i $(BUILD_DIR)/gene-profiles.ttl \
 	-o $@
 
