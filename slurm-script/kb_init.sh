@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --error=error
-#SBATCH --mail-user=spshriva@renci.org
+#SBATCH --error=error-%j
 #SBATCH --mail-type=ALL
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=250G
