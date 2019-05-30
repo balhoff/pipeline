@@ -8,7 +8,7 @@ ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx128G
 ROBOT=$(ROBOT_ENV) robot
 ARQ=arq
 
-BIO-ONTOLOGIES=ontologies.ofn
+BIO_ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
 NEXML_DATA=phenoscape-data
 
@@ -90,7 +90,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-c
 
 # Extract ontology metadata
 # ## Query for ontologies' version information
-$(BUILD_DIR)/ontology-metadata.ttl: $(BIO-ONTOLOGIES) $(SPARQL)/ontology-versions.sparql
+$(BUILD_DIR)/ontology-metadata.ttl: $(BIO_ONTOLOGIES) $(SPARQL)/ontology-versions.sparql
 	$(ROBOT) query \
 	-i $< \
 	--use-graphs true \
@@ -100,7 +100,7 @@ $(BUILD_DIR)/ontology-metadata.ttl: $(BIO-ONTOLOGIES) $(SPARQL)/ontology-version
 
 # Mirror ontologies locally
 # $(ONTOLOGIES) - list of ontologies to be imported
-$(BUILD_DIR)/mirror: $(BIO-ONTOLOGIES)
+$(BUILD_DIR)/mirror: $(BIO_ONTOLOGIES)
 	rm -rf $@ ; \
 	$(ROBOT) mirror -i $< -d $@ -o $@/catalog-v001.xml
 
@@ -311,7 +311,7 @@ $(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)/bio-ontologies-merged.o
     reason --reasoner ELK -o $@
 
 # Merge imported ontologies
-$(BUILD_DIR)/bio-ontologies-merged.ofn: $(BIO-ONTOLOGIES) $(BUILD_DIR)/mirror
+$(BUILD_DIR)/bio-ontologies-merged.ofn: $(BIO_ONTOLOGIES) $(BUILD_DIR)/mirror
 	$(ROBOT) merge \
 	--catalog $(BUILD_DIR)/mirror/catalog-v001.xml \
 	-i $< \
