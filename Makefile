@@ -477,8 +477,8 @@ $(BUILD_DIR)/taxa-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-ta
 	-i $(BUILD_DIR)/corpus-ics-taxa.ttl \
 	-i $(BUILD_DIR)/taxa-pairwise-sim.ttl \
 	-o $(BUILD_DIR)/taxa-ics+sim-merged.ttl \
-	&& $(ARQ) \
-	--data=$(BUILD_DIR)/taxa-ics+sim-merged.ttl \
+	&& tdbloader --loc $(BUILD_DIR)/tdb-store-taxa-ics+sim-merged.ttl \
+	&& tdbquery --loc $(BUILD_DIR)/tdb-store-taxa-ics+sim-merged.ttl \
 	--query=$< > $@
 
 # ----------
