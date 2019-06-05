@@ -491,12 +491,9 @@ $(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(RESOURCES)
 	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@
 
 $(BUILD_DIR)/gene-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
-	$(ROBOT) merge \
-	-i $(BUILD_DIR)/corpus-ics-genes.ttl \
-	-i $(BUILD_DIR)/gene-pairwise-sim.ttl \
-	-o $(BUILD_DIR)/gene-ics+sim-merged.ttl \
-	&& $(ARQ) \
-	--data=$(BUILD_DIR)/gene-ics+sim-merged.ttl \
+	$(ARQ) \
+	--data=$(BUILD_DIR)/corpus-ics-genes.ttl \
+	--data=$(BUILD_DIR)/gene-pairwise-sim.ttl
 	--query=$< > $@
 
 # ----------
