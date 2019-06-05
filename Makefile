@@ -6,7 +6,8 @@ RESOURCES=resources
 SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx128G
 ROBOT=$(ROBOT_ENV) robot
-ARQ=arq
+JVM_ARGS=JVM_ARGS=-Xmx128G
+ARQ=$(JVM_ARGS) arq
 
 BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
@@ -477,8 +478,8 @@ $(BUILD_DIR)/taxa-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-ta
 	-i $(BUILD_DIR)/corpus-ics-taxa.ttl \
 	-i $(BUILD_DIR)/taxa-pairwise-sim.ttl \
 	-o $(BUILD_DIR)/taxa-ics+sim-merged.ttl \
-	&& tdbloader --loc $(BUILD_DIR)/tdb-store-taxa-ics+sim-merged.ttl $(BUILD_DIR)/taxa-ics+sim-merged.ttl \
-	&& tdbquery --loc $(BUILD_DIR)/tdb-store-taxa-ics+sim-merged.ttl \
+	&& $(ARQ) \
+	--data=$(BUILD_DIR)/taxa-ics+sim-merged.ttl \
 	--query=$< > $@
 
 # ----------
