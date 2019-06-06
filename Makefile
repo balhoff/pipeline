@@ -491,7 +491,8 @@ $(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(RESOURCES)
 $(BUILD_DIR)/gene-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
 	$(ARQ) \
 	--data=$(BUILD_DIR)/corpus-ics-genes.ttl \
-	--data=$(BUILD_DIR)/gene-pairwise-sim.ttl
+	--data=$(BUILD_DIR)/gene-pairwise-sim.ttl \
+	--results=TSV \
 	--query=$< > $@
 
 # ----------
