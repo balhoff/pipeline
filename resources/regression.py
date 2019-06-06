@@ -76,8 +76,8 @@ def query_parse_results(size, scores_file):
 	scorefile.write("Query Profile\tQuery Profile Size\tQuery Name\tCorpus Profile\tCorpus Profile Size\tCorpus Profile Name\tOverall Similarity\tURI\n")
 	for line in infile:
 		if "corpusprofile_label" not in line:
-			uri, score, query_profile, query_profile_label, corpus_profile, corpus_profile_label = line.strip().replace("\"","").replace("^^<http://www.w3.org/2001/XMLSchema#string>","").replace("^^<http://www.w3.org/2001/XMLSchema#double>","").replace("<","").replace(">","").split("\t")
-			scorefile.write(query_profile + "\t" + str(size[query_profile]) + "\t" + query_profile_label + "\t" + corpus_profile + "\t" + str(size[corpus_profile]) + "\t" + corpus_profile_label + "\t" + str(score) + "\t" + uri + "\n")
+			match, score, query_profile, corpus_profile = line.strip().replace("\"","").replace("^^<http://www.w3.org/2001/XMLSchema#string>","").replace("^^<http://www.w3.org/2001/XMLSchema#double>","").replace("<","").replace(">","").split("\t")
+			scorefile.write(query_profile + "\t" + str(size[query_profile]) + "\t" + "\t" + corpus_profile + "\t" + str(size[corpus_profile]) + "\t" + "\t" + str(score) + "\t" + match + "\n")
 	scorefile.close()
 
 
