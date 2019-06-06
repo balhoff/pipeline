@@ -6,7 +6,8 @@ RESOURCES=resources
 SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx128G
 ROBOT=$(ROBOT_ENV) robot
-ARQ=arq
+JVM_ARGS=JVM_ARGS=-Xmx128G
+ARQ=$(JVM_ARGS) arq
 
 BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
@@ -473,12 +474,10 @@ $(BUILD_DIR)/taxa-rank-statistics.txt: $(BUILD_DIR)/taxa-scores.tsv $(RESOURCES)
 	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@
 
 $(BUILD_DIR)/taxa-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl
-	$(ROBOT) merge \
-	-i $(BUILD_DIR)/corpus-ics-taxa.ttl \
-	-i $(BUILD_DIR)/taxa-pairwise-sim.ttl \
-	-o $(BUILD_DIR)/taxa-ics+sim-merged.ttl \
-	&& $(ARQ) \
-	--data=$(BUILD_DIR)/taxa-ics+sim-merged.ttl \
+	$(ARQ) \
+	--data=$(BUILD_DIR)/corpus-ics-taxa.ttl \
+	--data=$(BUILD_DIR)/taxa-pairwise-sim.ttl \
+	--results=TSV \
 	--query=$< > $@
 
 # ----------
@@ -490,12 +489,10 @@ $(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(RESOURCES)
 	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@
 
 $(BUILD_DIR)/gene-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
-	$(ROBOT) merge \
-	-i $(BUILD_DIR)/corpus-ics-genes.ttl \
-	-i $(BUILD_DIR)/gene-pairwise-sim.ttl \
-	-o $(BUILD_DIR)/gene-ics+sim-merged.ttl \
-	&& $(ARQ) \
-	--data=$(BUILD_DIR)/gene-ics+sim-merged.ttl \
+	$(ARQ) \
+	--data=$(BUILD_DIR)/corpus-ics-genes.ttl \
+	--data=$(BUILD_DIR)/gene-pairwise-sim.ttl \
+	--results=TSV \
 	--query=$< > $@
 
 # ----------
