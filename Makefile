@@ -474,12 +474,9 @@ $(BUILD_DIR)/taxa-rank-statistics.txt: $(BUILD_DIR)/taxa-scores.tsv $(RESOURCES)
 	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@
 
 $(BUILD_DIR)/taxa-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl
-	$(ROBOT) merge \
-	-i $(BUILD_DIR)/corpus-ics-taxa.ttl \
-	-i $(BUILD_DIR)/taxa-pairwise-sim.ttl \
-	-o $(BUILD_DIR)/taxa-ics+sim-merged.ttl \
-	&& $(ARQ) \
-	--data=$(BUILD_DIR)/taxa-ics+sim-merged.ttl \
+	$(ARQ) \
+	--data=$(BUILD_DIR)/corpus-ics-taxa.ttl \
+	--data=$(BUILD_DIR)/taxa-pairwise-sim.ttl \
 	--query=$< > $@
 
 # ----------
