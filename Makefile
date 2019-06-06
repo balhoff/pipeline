@@ -477,6 +477,7 @@ $(BUILD_DIR)/taxa-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-ta
 	$(ARQ) \
 	--data=$(BUILD_DIR)/corpus-ics-taxa.ttl \
 	--data=$(BUILD_DIR)/taxa-pairwise-sim.ttl \
+	--results=TSV \
 	--query=$< > $@
 
 # ----------
