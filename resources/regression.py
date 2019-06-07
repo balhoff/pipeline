@@ -45,7 +45,7 @@ def loadprofilesizes():
 	infile = open("build/profile-sizes.txt")
 	for line in infile:
 		entity, size = line.strip().split("\t")
-		entity = entity.replace("#profile", "")
+		# entity = entity.replace("#profile", "")
 		profilesize[entity] = int(size)
 	infile.close()
 	return profilesize
