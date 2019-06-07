@@ -45,7 +45,7 @@ def loadprofilesizes():
 	infile = open("build/profile-sizes.txt")
 	for line in infile:
 		entity, size = line.strip().split("\t")
-		entity = entity.replace("#profile", "")
+		# entity = entity.replace("#profile", "")
 		profilesize[entity] = int(size)
 	infile.close()
 	return profilesize
@@ -72,12 +72,13 @@ def load_profiles():
 
 def query_parse_results(size, scores_file):
 	scorefile = open("Scores_Sizes.txt", 'w')
-	infile = open(scores_file)
 	scorefile.write("Query Profile\tQuery Profile Size\tQuery Name\tCorpus Profile\tCorpus Profile Size\tCorpus Profile Name\tOverall Similarity\tURI\n")
+
+	infile = open(scores_file)
 	for line in infile:
-		if "corpusprofile_label" not in line:
-			match, score, query_profile, corpus_profile = line.strip().replace("\"","").replace("^^<http://www.w3.org/2001/XMLSchema#string>","").replace("^^<http://www.w3.org/2001/XMLSchema#double>","").replace("<","").replace(">","").split("\t")
-			scorefile.write(query_profile + "\t" + str(size[query_profile]) + "\t" + "\t" + corpus_profile + "\t" + str(size[corpus_profile]) + "\t" + "\t" + str(score) + "\t" + match + "\n")
+		if "corpusprofile" not in line:
+			match, score, query, corpusprofile = line.strip().replace("\"","").replace("^^<http://www.w3.org/2001/XMLSchema#string>","").replace("^^<http://www.w3.org/2001/XMLSchema#double>","").replace("<","").replace(">","").split("\t")
+			scorefile.write(query + "\t" + str(size[query]) + "\t" + "" + "\t" + corpusprofile + "\t" + str(size[corpusprofile]) + "\t" + "" + "\t" + str(score) + "\t" + match + "\n")
 	scorefile.close()
 
 
