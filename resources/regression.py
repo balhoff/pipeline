@@ -78,7 +78,7 @@ def query_parse_results(size, scores_file):
 	for line in infile:
 		if "corpusprofile" not in line:
 			match, score, query, corpusprofile = line.strip().replace("\"","").replace("^^<http://www.w3.org/2001/XMLSchema#string>","").replace("^^<http://www.w3.org/2001/XMLSchema#double>","").replace("<","").replace(">","").split("\t")
-			scorefile.write(query + "\t" + str(size[query]) + "\t" + corpusprofile + "\t" + str(size[corpusprofile]) + "\t" + str(score) + "\t" + match + "\n")
+			scorefile.write(query + "\t" + str(size[query]) + "\t" + "" + "\t" + corpusprofile + "\t" + str(size[corpusprofile]) + "\t" + "" + "\t" + str(score) + "\t" + match + "\n")
 	scorefile.close()
 
 
