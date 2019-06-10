@@ -13,7 +13,7 @@ BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
 NEXML_DATA=phenoscape-data
 DB_FILE=$(BUILD_DIR)/blazegraph-loaded-all.jnl
-BLAZEGRAPH_PROPERTIES=$(RESOURCES)/blazegraaph.properties
+BLAZEGRAPH_PROPERTIES=$(RESOURCES)/blazegraph.properties
 
 
 
