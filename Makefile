@@ -32,7 +32,7 @@ clean:
 # 2. Semantic similarity
 
 
-all: kb-build ss-scores-gen
+all: kb-build ss-scores-gen $(DB_FILE)
 
 # ########## # ##########
 # ########## # ##########
