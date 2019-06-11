@@ -547,19 +547,21 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(BUILD_DIR)/g
 # 3. taxa-sim = taxa-ics + taxa-expect-scores + taxa-pairwise-sim
 # 4. gene-sim = gene-ics + gene-expect-scores + gene-pairwise-sim
 
-$(BUILD_DIR)/blazegraph-loaded-all.jnl: $(BUILD_DIR)/phenoscape-kb.ttl \
-										$(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl \
-										$(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-expect-scores.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl \
-										$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-expect-scores.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$(DB_FILE) --properties=$(BLAZEGRAPH_PROPERTIES) --graph="http://kb.phenoscape.org/kb/" $(BUILD_DIR)/phenoscape-kb.ttl \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$(DB_FILE) --properties=$(BLAZEGRAPH_PROPERTIES) --graph="http://kb.phenoscape.org/closures/subclass/" $(BUILD_DIR)/subclass-closure.ttl \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$(DB_FILE) --properties=$(BLAZEGRAPH_PROPERTIES) --graph="http://kb.phenoscape.org/closures/instance/" $(BUILD_DIR)/instance-closure.ttl \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$(DB_FILE) --properties=$(BLAZEGRAPH_PROPERTIES) --graph="http://kb.phenoscape.org/taxa/ics/" $(BUILD_DIR)/corpus-ics-taxa.ttl \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$(DB_FILE) --properties=$(BLAZEGRAPH_PROPERTIES) --graph="http://kb.phenoscape.org/taxa/expect-scores/" $(BUILD_DIR)/taxa-expect-scores.ttl \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$(DB_FILE) --properties=$(BLAZEGRAPH_PROPERTIES) --graph="http://kb.phenoscape.org/taxa/pairwise-sim/" $(BUILD_DIR)/taxa-pairwise-sim.ttl \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$(DB_FILE) --properties=$(BLAZEGRAPH_PROPERTIES) --graph="http://kb.phenoscape.org/gene/ics/" $(BUILD_DIR)/corpus-ics-genes.ttl \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$(DB_FILE) --properties=$(BLAZEGRAPH_PROPERTIES) --graph="http://kb.phenoscape.org/gene/expect-scores/" $(BUILD_DIR)/gene-expect-scores.ttl \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$(DB_FILE) --properties=$(BLAZEGRAPH_PROPERTIES) --graph="http://kb.phenoscape.org/gene/pairwise-sim/" $(BUILD_DIR)/gene-pairwise-sim.ttl
+$(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
+			$(BUILD_DIR)/phenoscape-kb.ttl \
+			$(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl \
+			$(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-expect-scores.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl \
+			$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-expect-scores.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
+	rm $@ && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/kb/" $(BUILD_DIR)/phenoscape-kb.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closures/subclass/" $(BUILD_DIR)/subclass-closure.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closures/instance/" $(BUILD_DIR)/instance-closure.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/taxa/ics/" $(BUILD_DIR)/corpus-ics-taxa.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/taxa/expect-scores/" $(BUILD_DIR)/taxa-expect-scores.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/taxa/pairwise-sim/" $(BUILD_DIR)/taxa-pairwise-sim.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene/ics/" $(BUILD_DIR)/corpus-ics-genes.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene/expect-scores/" $(BUILD_DIR)/gene-expect-scores.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene/pairwise-sim/" $(BUILD_DIR)/gene-pairwise-sim.ttl
 
 # ##########
 
