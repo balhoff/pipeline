@@ -227,8 +227,8 @@ $(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical-entities.tx
 
 $(BUILD_DIR)/hasParts.ofn: $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities.txt patterns/has_part.yaml
 	mkdir -p $(dir $@) \
-	&& sed -i '1d' $(BUILD_DIR)/qualities.txt \
-	&& cat $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities.txt > $(BUILD_DIR)/anatomical-entities++qualities.txt \
+	&& sed '1d' $(BUILD_DIR)/qualities.txt > $(BUILD_DIR)/qualities--header.txt \
+	&& cat $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities--header.txt > $(BUILD_DIR)/anatomical-entities++qualities.txt \
 	&& dosdp-tools generate \
     	--generate-defined-class=true \
     	--obo-prefixes=true \
