@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nexml xmlns="http://www.nexml.org/2009" xmlns:dc="http://purl.org/dc/terms/" xmlns:dwc="http://rs.tdwg.org/dwc/terms/" xmlns:obo="http://purl.obolibrary.org/obo/" xmlns:phen="http://www.bioontologies.org/obd/schema/pheno" xmlns:ps="http://vocab.phenoscape.org/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" generator="Phenex null" version="0.9" xsi:schemaLocation="http://www.nexml.org/2009 http://www.nexml.org/2009/nexml.xsd http://www.bioontologies.org/obd/schema/pheno http://purl.org/phenoscape/phenoxml.xsd">
+  <meta xsi:type="LiteralMeta" property="dc:creator">Jim Balhoff</meta>
+  <meta xsi:type="ResourceMeta" rel="dc:source">
+    <meta xsi:type="LiteralMeta" property="dc:identifier">http://example.org/test1</meta>
+    <meta xsi:type="LiteralMeta" property="dc:bibliographicCitation">Test et al. 2019. A test dataset.</meta>
+    <meta xsi:type="LiteralMeta" property="dc:title">Test et al. (2019)</meta>
+  </meta>
+  <meta xsi:type="LiteralMeta" property="dc:description" />
+  <otus id="t208d80ff-68a5-4bcf-a6d4-357d245a53b7">
+    <otu id="tb3be7c54-cb4a-4728-b1b7-d724f519608a" label="Barameda decipiens" about="#tb3be7c54-cb4a-4728-b1b7-d724f519608a">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_9002397" />
+    </otu>
+    <otu id="t5746ce96-307c-4b89-9168-a497c926f351" label="Anaspida" about="#t5746ce96-307c-4b89-9168-a497c926f351">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_9030507" />
+    </otu>
+    <otu id="t42101c7b-6ae6-4754-b417-53c719cc66ae" label="Acipenser ruthenus" about="#t42101c7b-6ae6-4754-b417-53c719cc66ae">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_0058597" />
+    </otu>
+    <otu id="t435d1a36-4972-4c3c-a434-dbf2033f5bf5" label="Aesopichthys erinaceus" about="#t435d1a36-4972-4c3c-a434-dbf2033f5bf5">
+      <meta xsi:type="ResourceMeta" rel="dwc:taxonID" href="http://purl.obolibrary.org/obo/VTO_9007398" />
+    </otu>
+  </otus>
+  <characters id="1e0e7975-33e8-429b-bb83-8992b0d0f8dc" xsi:type="StandardCells" otus="t208d80ff-68a5-4bcf-a6d4-357d245a53b7">
+    <format>
+      <states id="sbf8482aa-ad84-4280-b13d-375a0445f0ae">
+        <state id="s929fe1bf-6709-49e7-8158-a02579e98678" label="paddle shaped" symbol="0" about="#s929fe1bf-6709-49e7-8158-a02579e98678">
+          <meta xsi:type="LiteralMeta" property="ps:describesPhenotype">
+            <phen:phenotype>
+              <phen:phenotype_character>
+                <phen:bearer>
+                  <phen:typeref about="UBERON:0000151" />
+                </phen:bearer>
+                <phen:quality>
+                  <phen:typeref about="PATO:0005003" />
+                </phen:quality>
+              </phen:phenotype_character>
+            </phen:phenotype>
+          </meta>
+        </state>
+      </states>
+      <states id="seef91eeb-b1f1-435b-8cc9-d94e1159f59d">
+        <state id="s8a1dbbef-727e-4859-9c48-92203b9e9bd9" label="absent" symbol="0" about="#s8a1dbbef-727e-4859-9c48-92203b9e9bd9">
+          <meta xsi:type="LiteralMeta" property="ps:describesPhenotype">
+            <phen:phenotype>
+              <phen:phenotype_character>
+                <phen:bearer>
+                  <phen:typeref about="UBERON:0007831" />
+                </phen:bearer>
+                <phen:quality>
+                  <phen:typeref about="PATO:0000462" />
+                </phen:quality>
+              </phen:phenotype_character>
+            </phen:phenotype>
+          </meta>
+        </state>
+      </states>
+      <states id="s0f0bbd72-44e9-4435-8f23-674c29997d11">
+        <state id="s5ccd865a-ea45-4871-883e-a95c95b9c152" label="triangular" symbol="1" about="#s5ccd865a-ea45-4871-883e-a95c95b9c152">
+          <meta xsi:type="LiteralMeta" property="ps:describesPhenotype">
+            <phen:phenotype>
+              <phen:phenotype_character>
+                <phen:bearer>
+                  <phen:typeref about="UBERON:0003097" />
+                </phen:bearer>
+                <phen:quality>
+                  <phen:typeref about="PATO:0001875" />
+                </phen:quality>
+              </phen:phenotype_character>
+            </phen:phenotype>
+          </meta>
+        </state>
+        <state id="sd9e5eab5-0ae4-4e44-8845-b943f683a115" label="sigmoidal" symbol="0" about="#sd9e5eab5-0ae4-4e44-8845-b943f683a115">
+          <meta xsi:type="LiteralMeta" property="ps:describesPhenotype">
+            <phen:phenotype>
+              <phen:phenotype_character>
+                <phen:bearer>
+                  <phen:typeref about="UBERON:0003097" />
+                </phen:bearer>
+                <phen:quality>
+                  <phen:typeref about="PATO:0001878" />
+                </phen:quality>
+              </phen:phenotype_character>
+            </phen:phenotype>
+          </meta>
+        </state>
+      </states>
+      <char id="c5cbd11bf-ef88-40f6-971a-9551f4d89144" label="This suggests that the fin fanned out and would have been paddle-shaped." states="sbf8482aa-ad84-4280-b13d-375a0445f0ae" />
+      <char id="c2d27a54c-6666-44cf-99d1-6564257b2c0f" label="distinct pectoral fins and endoskeletal shoulder girdle" states="seef91eeb-b1f1-435b-8cc9-d94e1159f59d" />
+      <char id="c8ea24897-21d2-484a-8f43-af1da39203d7" label="Dorsal fin, shape of (LUND 2000, char. 59; POPLIN &amp; LUND 2000, char. 37)" states="s0f0bbd72-44e9-4435-8f23-674c29997d11" />
+    </format>
+    <matrix>
+      <row id="r966b1948-6c32-4115-98a1-0423573d7bef" otu="tb3be7c54-cb4a-4728-b1b7-d724f519608a">
+        <cell char="c5cbd11bf-ef88-40f6-971a-9551f4d89144" state="s929fe1bf-6709-49e7-8158-a02579e98678" />
+      </row>
+      <row id="r8db3072b-e3bf-4f27-8d31-7be963f2e2c8" otu="t5746ce96-307c-4b89-9168-a497c926f351">
+        <cell char="c2d27a54c-6666-44cf-99d1-6564257b2c0f" state="s8a1dbbef-727e-4859-9c48-92203b9e9bd9" />
+      </row>
+      <row id="r1c614f14-45b6-4817-8fa5-fa3eea5dfa53" otu="t42101c7b-6ae6-4754-b417-53c719cc66ae">
+        <cell char="c8ea24897-21d2-484a-8f43-af1da39203d7" state="s5ccd865a-ea45-4871-883e-a95c95b9c152" />
+      </row>
+      <row id="r02fe6a6b-f62c-4d9c-b67e-866b71803de4" otu="t435d1a36-4972-4c3c-a434-dbf2033f5bf5">
+        <cell char="c8ea24897-21d2-484a-8f43-af1da39203d7" state="sd9e5eab5-0ae4-4e44-8845-b943f683a115" />
+      </row>
+    </matrix>
+  </characters>
+  <trees id="teff73e31-80c9-4bac-bb49-0850427e3379" otus="t208d80ff-68a5-4bcf-a6d4-357d245a53b7" />
+</nexml>
