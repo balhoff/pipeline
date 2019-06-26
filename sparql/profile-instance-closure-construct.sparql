@@ -7,7 +7,6 @@ PREFIX ps: <http://purl.org/phenoscape/vocab.owl#>
 CONSTRUCT {
 ?s rdf:type ?o .
 }
-FROM <http://kb.phenoscape.org/>
 WHERE {
     ?s (rdf:type)/(rdfs:subClassOf*) ?o .
     ?o a owl:Class .

@@ -1,0 +1,69 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+
+<http://purl.obolibrary.org/obo/uberon/bridge/uberon-bridge-to-emapa.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/uberon/bridge/uberon-bridge-to-emapa/2018-11-25/uberon/bridge/uberon-bridge-to-emapa.owl> .
+
+<http://purl.obolibrary.org/obo/pato.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/pato/releases/2018-11-12/pato.owl> .
+
+<http://purl.obolibrary.org/obo/eco/eco-base.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/eco/releases/2019-05-14/eco-base.owl> .
+
+<http://purl.obolibrary.org/obo/ro.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/ro/releases/2019-02-02/ro.owl> .
+
+<http://purl.obolibrary.org/obo/xao.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/xao/releases/2019-04-02/xao.owl> .
+
+<http://purl.org/phenoscape/vocab.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.org/phenoscape/vocab/2018-02-20/vocab.owl> .
+
+<http://purl.obolibrary.org/obo/uberon/bridge/uberon-bridge-to-zfa.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/uberon/bridge/uberon-bridge-to-zfa/2018-11-25/uberon/bridge/uberon-bridge-to-zfa.owl> .
+
+<http://purl.obolibrary.org/obo/taxrank.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/taxrank/releases/2016-04-15/taxrank.owl> .
+
+<http://purl.obolibrary.org/obo/go/go-base.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/go/releases/2019-06-01/go-base.owl> .
+
+<http://purl.obolibrary.org/obo/mp/mp-base.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/mp/releases/2019-05-31/mp-base.owl> .
+
+<http://purl.obolibrary.org/obo/bspo.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/bspo/releases/2018-07-03/bspo.owl> .
+
+<http://purl.obolibrary.org/obo/vto.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/vto/2016-10-17/vto.owl> .
+
+<http://purl.obolibrary.org/obo/uberon/bridge/uberon-bridge-to-xao.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/uberon/bridge/uberon-bridge-to-xao/2018-11-25/uberon/bridge/uberon-bridge-to-xao.owl> .
+
+<http://purl.obolibrary.org/obo/cl/cl-base.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/cl/releases/2019-04-30/cl-base.owl> .
+
+<http://purl.obolibrary.org/obo/hp.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/hp/releases/2019-04-15> .
+
+<http://purl.obolibrary.org/obo/uberon/bridge/uberon-bridge-to-caro.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/uberon/bridge/uberon-bridge-to-caro/2018-11-25/uberon/bridge/uberon-bridge-to-caro.owl> .
+
+<http://purl.obolibrary.org/obo/uberon/uberon-base.owl>
+        a               owl:Ontology ;
+        owl:versionIRI  <http://purl.obolibrary.org/obo/uberon/releases/2018-11-25/uberon-base.owl> .
