@@ -5,7 +5,6 @@ PREFIX owl:  <http://www.w3.org/2002/07/owl#>
 CONSTRUCT {
 ?s rdfs:subClassOf ?o .
 }
-FROM <http://kb.phenoscape.org/>
 WHERE {
     ?s rdfs:subClassOf* ?o .
     FILTER(isIRI(?s))
