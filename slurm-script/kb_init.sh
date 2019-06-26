@@ -7,6 +7,6 @@
 #SBATCH --constraint=broadwell
 set -e # Abort if any command fails
 
-export JAVA_OPTS="-Xmx70G"
+export JAVA_OPTS="-Xmx120G"
 
 make all
