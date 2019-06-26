@@ -6,7 +6,8 @@ RESOURCES=resources
 SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx128G
 ROBOT=$(ROBOT_ENV) robot
-ARQ=arq
+JVM_ARGS=JVM_ARGS=-Xmx128G
+ARQ=$(JVM_ARGS) arq
 
 BIO_ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
@@ -59,7 +60,7 @@ kb-build: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarc
 $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
                                 $(BUILD_DIR)/phenex-data+tbox.ttl \
                                 $(BUILD_DIR)/monarch-data-merged.ttl \
-                                $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/taxon-profiles.ttl \
+                                $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/evolutionary-profiles.ttl \
                                 $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl
 	$(ROBOT) merge \
     	-i $(BUILD_DIR)/ontology-metadata.ttl \
@@ -68,7 +69,7 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
     	-i $(BUILD_DIR)/gene-profiles.ttl \
     	-i $(BUILD_DIR)/absences.ttl \
     	-i $(BUILD_DIR)/presences.ttl \
-    	-i $(BUILD_DIR)/taxon-profiles.ttl \
+    	-i $(BUILD_DIR)/evolutionary-profiles.ttl \
     	-i $(BUILD_DIR)/subclass-closure.ttl \
     	-i $(BUILD_DIR)/instance-closure.ttl \
     	-o $@
@@ -227,8 +228,8 @@ $(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical-entities.tx
 
 $(BUILD_DIR)/hasParts.ofn: $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities.txt patterns/has_part.yaml
 	mkdir -p $(dir $@) \
-	&& sed -i '1d' $(BUILD_DIR)/qualities.txt \
-	&& cat $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities.txt > $(BUILD_DIR)/anatomical-entities++qualities.txt \
+	&& sed '1d' $(BUILD_DIR)/qualities.txt > $(BUILD_DIR)/qualities--header.txt \
+	&& cat $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities--header.txt > $(BUILD_DIR)/anatomical-entities++qualities.txt \
 	&& dosdp-tools generate \
     	--generate-defined-class=true \
     	--obo-prefixes=true \
@@ -384,9 +385,6 @@ $(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/absences.
 $(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/presences.sparql
 	$(ARQ) --data=$< --query=$(SPARQL)/presences.sparql > $@
 
-# Generate taxon-profiles.ttl
-#$(BUILD_DIR)/taxon-profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(SPARQL)/taxonProfiles.sparql
-#	$(ARQ) --data=$< --query=$(SPARQL)/taxonProfiles.sparql > $@
 
 # Generate evolutionary-profiles.ttl
 # Contains taxon-profiles data
@@ -473,12 +471,10 @@ $(BUILD_DIR)/taxa-rank-statistics.txt: $(BUILD_DIR)/taxa-scores.tsv $(RESOURCES)
 	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@
 
 $(BUILD_DIR)/taxa-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl
-	$(ROBOT) merge \
-	-i $(BUILD_DIR)/corpus-ics-taxa.ttl \
-	-i $(BUILD_DIR)/taxa-pairwise-sim.ttl \
-	-o $(BUILD_DIR)/taxa-ics+sim-merged.ttl \
-	&& $(ARQ) \
-	--data=$(BUILD_DIR)/taxa-ics+sim-merged.ttl \
+	$(ARQ) \
+	--data=$(BUILD_DIR)/corpus-ics-taxa.ttl \
+	--data=$(BUILD_DIR)/taxa-pairwise-sim.ttl \
+	--results=TSV \
 	--query=$< > $@
 
 # ----------
@@ -490,12 +486,10 @@ $(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(RESOURCES)
 	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@
 
 $(BUILD_DIR)/gene-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
-	$(ROBOT) merge \
-	-i $(BUILD_DIR)/corpus-ics-genes.ttl \
-	-i $(BUILD_DIR)/gene-pairwise-sim.ttl \
-	-o $(BUILD_DIR)/gene-ics+sim-merged.ttl \
-	&& $(ARQ) \
-	--data=$(BUILD_DIR)/gene-ics+sim-merged.ttl \
+	$(ARQ) \
+	--data=$(BUILD_DIR)/corpus-ics-genes.ttl \
+	--data=$(BUILD_DIR)/gene-pairwise-sim.ttl \
+	--results=TSV \
 	--query=$< > $@
 
 # ----------
