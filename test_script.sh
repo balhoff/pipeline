@@ -5,15 +5,23 @@ TEST_DIR="test/test1"
 BUILD_DIR="build"
 # MONARCH_DATA="test-monarch-data" #FIXME
 
-make clean
+#make clean
+rm -rf $BUILD_DIR
 
-cp $(TEST_DIR)/test1-bio-ontologies-merged.ofn $(BUILD_DIR)/bio-ontologies-merged.ofn
-cp $(TEST_DIR)/test1-ontology-metadata.ttl $(BUILD_DIR)/ontology-metadata.ttl
-cp -a $(TEST_DIR)/nexml-data/. $(BUILD_DIR)/test-phenoscape-data/
+mkdir $BUILD_DIR
+cp $TEST_DIR/test1-bio-ontologies-merged.ofn $BUILD_DIR/bio-ontologies-merged.ofn
+cp $TEST_DIR/test1-ontology-metadata.ttl $BUILD_DIR/ontology-metadata.ttl
+cp -a $TEST_DIR/nexml-data/. $BUILD_DIR/test-phenoscape-data/
 
-NEXMLS=$(find $(BUILD_DIR)/test-phenoscape-data/ -type f -name "*.xml")
+NEXMLS=$(find $BUILD_DIR/test-phenoscape-data -type f -name "*.xml")
+#echo $NEXMLS
+export NEXMLS
 
-make all
+NEXML_DATA=$BUILD_DIR/test-phenoscape-data
+#echo $NEXML_DATA
+export NEXML_DATA
+
+make -e all
 
 
 
