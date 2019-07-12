@@ -13,7 +13,7 @@ BLAZEGRAPH-RUNNER=blazegraph-runner
 BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
 NEXML_DATA=phenoscape-data
-DB_FILE=/scratch/spshriva/blazegraph-loaded-all.jnl
+DB_FILE=$(BUILD_DIR)/blazegraph-loaded-all.jnl
 BLAZEGRAPH_PROPERTIES=$(RESOURCES)/blazegraph.properties
 
 
@@ -407,6 +407,7 @@ $(BUILD_DIR)/evolutionary-profiles.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl
 $(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl $(SPARQL)/subclass-closure-construct.sparql
 	$(ARQ) \
 	--data=$< \
+	--results=TSV \
 	--query=$(SPARQL)/subclass-closure-construct.sparql > $@
 
 # Compute instance closures
@@ -547,8 +548,8 @@ $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
 			$(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-expect-scores.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl \
 			$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-expect-scores.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
 	rm -f $@ && \
-	riot --strict --output=ntriples $(BUILD_DIR)/phenoscape-kb.ttl > /scratch/spshriva/phenoscape-kb.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" /scratch/spshriva/phenoscape-kb.ttl && \
+	riot --strict --output=ntriples $(BUILD_DIR)/phenoscape-kb.ttl > $(BUILD_DIR)/phenoscape-kb.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/phenoscape-kb.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/subclass-closure.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/instance-closure.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/taxa" $(BUILD_DIR)/corpus-ics-taxa.ttl && \
