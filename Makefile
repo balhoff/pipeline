@@ -72,6 +72,7 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
     	-i $(BUILD_DIR)/evolutionary-profiles.ttl \
     	-i $(BUILD_DIR)/subclass-closure.ttl \
     	-i $(BUILD_DIR)/instance-closure.ttl \
+    	convert --format ofn \
     	-o $@.tmp \
     	&& mv $@.tmp $@
 
@@ -119,6 +120,7 @@ $(BUILD_DIR)/phenex-data+tbox.ttl: $(BUILD_DIR)/phenex-data-merged.ofn $(BUILD_D
 	$(ROBOT) merge \
     	-i $(BUILD_DIR)/phenex-data-merged.ofn \
     	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl \
+    	convert --format ttl \
     	-o $@.tmp \
     	&& mv $@.tmp $@
 
@@ -147,7 +149,9 @@ $(BUILD_DIR)/phenex-data-owl/%.ofn: $(NEXML_DATA)/%.xml $(BUILD_DIR)/bio-ontolog
 
 # Merge all Phenex NeXML OFN files into a single ontology of phenotype annotations
 $(BUILD_DIR)/phenex-data-merged.ofn: $(NEXML_OWLS)
-	$(ROBOT) merge $(addprefix -i , $(NEXML_OWLS)) -o $@.tmp \
+	$(ROBOT) merge $(addprefix -i , $(NEXML_OWLS)) \
+	convert --format ofn \
+	-o $@.tmp \
 	&& mv $@.tmp $@
 
 # ----------
@@ -167,6 +171,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-plus-absence.ttl: $(BUILD_DIR)/phenos
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn \
 	-i $(BUILD_DIR)/negation-hierarchy.ofn \
+	convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
@@ -210,6 +215,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
     -i $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
     -i $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
     -i $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn \
+    convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
@@ -338,6 +344,7 @@ $(BUILD_DIR)/bio-ontologies-merged.ofn: $(BIO-ONTOLOGIES) $(BUILD_DIR)/mirror
 	$(ROBOT) merge \
 	--catalog $(BUILD_DIR)/mirror/catalog-v001.xml \
 	-i $< \
+	convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
@@ -372,6 +379,7 @@ $(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfi
 	-i $(BUILD_DIR)/mgi_slim.ttl \
 	-i $(BUILD_DIR)/zfinslim.ttl \
 	-i $(BUILD_DIR)/hpoa.ttl \
+	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
@@ -558,6 +566,7 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(BUILD_DIR)/g
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/evolutionary-profiles.ttl \
 	-i $(BUILD_DIR)/gene-profiles.ttl \
+	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
