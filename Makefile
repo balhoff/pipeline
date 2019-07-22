@@ -359,6 +359,7 @@ $(BUILD_DIR)/phenex-tbox.ofn: $(BUILD_DIR)/phenex-data-merged.ofn
 	-i $< \
 	--axioms tbox \
 	--axioms rbox \
+	convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
