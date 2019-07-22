@@ -163,6 +163,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-
 	$(ROBOT) reason \
     	--reasoner ELK \
     	--i $< \
+    	convert --format ttl \
     	-o $@.tmp \
     	&& mv $@.tmp $@
 
@@ -188,6 +189,7 @@ $(BUILD_DIR)/negation-hierarchy.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-classified-
 $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DIR)/phenoscape-kb-tbox.ofn
 	$(ROBOT) reason \
 	-i $< \
+	convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
