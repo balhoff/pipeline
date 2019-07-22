@@ -336,7 +336,7 @@ $(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)
 $(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)/bio-ontologies-merged.ofn
 	$(ROBOT) remove -i $< --axioms 'disjoint' --trim true \
     remove --term 'owl:Nothing' --trim true \
-    reason --reasoner ELK
+    reason --reasoner ELK \
     convert --format ofn \
     -o $@.tmp \
     && mv $@.tmp $@
