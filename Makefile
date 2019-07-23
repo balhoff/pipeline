@@ -8,6 +8,7 @@ ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx128G
 ROBOT=$(ROBOT_ENV) robot
 JVM_ARGS=JVM_ARGS=-Xmx128G
 ARQ=$(JVM_ARGS) arq
+RIOT=riot
 BLAZEGRAPH-RUNNER=blazegraph-runner
 
 BIO-ONTOLOGIES=ontologies.ofn
@@ -66,17 +67,17 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
                                 $(BUILD_DIR)/monarch-data-merged.ttl \
                                 $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/evolutionary-profiles.ttl \
                                 $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl
-	$(ROBOT) merge \
-    	-i $(BUILD_DIR)/ontology-metadata.ttl \
-    	-i $(BUILD_DIR)/phenex-data+tbox.ttl \
-    	-i $(BUILD_DIR)/monarch-data-merged.ttl \
-    	-i $(BUILD_DIR)/gene-profiles.ttl \
-    	-i $(BUILD_DIR)/absences.ttl \
-    	-i $(BUILD_DIR)/presences.ttl \
-    	-i $(BUILD_DIR)/evolutionary-profiles.ttl \
-    	-i $(BUILD_DIR)/subclass-closure.ttl \
-    	-i $(BUILD_DIR)/instance-closure.ttl \
-    	-o $@
+	$(RIOT) --output=TURTLE \
+    	$(BUILD_DIR)/ontology-metadata.ttl \
+    	$(BUILD_DIR)/phenex-data+tbox.ttl \
+    	$(BUILD_DIR)/monarch-data-merged.ttl \
+    	$(BUILD_DIR)/gene-profiles.ttl \
+    	$(BUILD_DIR)/absences.ttl \
+    	$(BUILD_DIR)/presences.ttl \
+    	$(BUILD_DIR)/evolutionary-profiles.ttl \
+    	$(BUILD_DIR)/subclass-closure.ttl \
+    	$(BUILD_DIR)/instance-closure.ttl \
+    	> $@
 
 
 # ----------
