@@ -13,6 +13,8 @@ cp $TEST_DIR/test1-bio-ontologies-merged.ofn $BUILD_DIR/bio-ontologies-merged.of
 cp $TEST_DIR/test1-ontology-metadata.ttl $BUILD_DIR/ontology-metadata.ttl
 cp -a $TEST_DIR/nexml-data/. $BUILD_DIR/test-phenoscape-data/
 
+mkdir $BUILD_DIR/mirror
+
 NEXMLS=$(find $BUILD_DIR/test-phenoscape-data -type f -name "*.xml")
 #echo $NEXMLS
 export NEXMLS
