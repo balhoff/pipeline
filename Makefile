@@ -83,7 +83,7 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
 
 # Compute Tbox hierarchy
 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl $(SPARQL)/subclassHierarchy.sparql
-	$(ARQ) --data=$< --query=$(SPARQL)/subclassHierarchy.sparql > $@.tmp \
+	$(ARQ) --data=$< --query=$(SPARQL)/subclassHierarchy.sparql --results==ttl > $@.tmp \
 	&& mv $@.tmp $@
 
 # ##########
@@ -98,6 +98,7 @@ $(BUILD_DIR)/ontology-metadata.ttl: $(BIO-ONTOLOGIES) $(SPARQL)/ontology-version
 	$(ROBOT) query \
 	-i $< \
 	--use-graphs true \
+	--format ttl \
 	--query $(SPARQL)/ontology-versions.sparql $@.tmp \
 	&& mv $@.tmp $@
 
@@ -416,17 +417,18 @@ $(BUILD_DIR)/hpoa.ttl:
 $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data-merged.ttl $(SPARQL)/geneProfiles.sparql
 	$(ROBOT) query \
     	-i $< \
+    	--format ttl \
     	--query $(SPARQL)/geneProfiles.sparql $@.tmp \
     	&& mv $@.tmp $@
 
 # Generate absences.ttl
 $(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/absences.sparql
-	$(ARQ) --data=$< --query=$(SPARQL)/absences.sparql > $@.tmp \
+	$(ARQ) --results=ttl --data=$< --query=$(SPARQL)/absences.sparql > $@.tmp \
 	&& mv $@.tmp $@
 
 # Generate presences.ttl
 $(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/presences.sparql
-	$(ARQ) --data=$< --query=$(SPARQL)/presences.sparql > $@.tmp \
+	$(ARQ) --results=ttl --data=$< --query=$(SPARQL)/presences.sparql > $@.tmp \
 	&& mv $@.tmp $@
 
 
@@ -447,6 +449,7 @@ $(BUILD_DIR)/evolutionary-profiles.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl
 # Compute subclass closures
 $(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl $(SPARQL)/subclass-closure-construct.sparql
 	$(ARQ) \
+	--results=ttl \
 	--data=$< \
 	--query=$(SPARQL)/subclass-closure-construct.sparql > $@.tmp \
 	&& mv $@.tmp $@
@@ -454,6 +457,7 @@ $(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.tt
 # Compute instance closures
 $(BUILD_DIR)/instance-closure.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/profile-instance-closure-construct.sparql
 	$(ARQ) \
+	--results=ttl \
 	--data=$< \
 	--query=$(SPARQL)/profile-instance-closure-construct.sparql > $@.tmp \
 	&& mv $@.tmp $@
