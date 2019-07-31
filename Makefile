@@ -215,7 +215,10 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 # -----
 
 $(BUILD_DIR)/defined-by-links.ofn: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)/isDefinedBy.sparql
-	$(ARQ) --data=$< --query=$(SPARQL)/isDefinedBy.sparql > $@
+	$(ROBOT) query \
+	--use-graphs true \
+	--input $< \
+	--query $(SPARQL)/isDefinedBy.sparql $@
 
 $(BUILD_DIR)/anatomical-entity-presences.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/implies_presence_of.yaml
 	mkdir -p $(dir $@) \
