@@ -1,6 +1,7 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ps: <http://purl.org/phenoscape/vocab.owl#>
 
-CONSTRUCT {?taxon <http://purl.org/phenoscape/vocab.owl#has_absence_of> ?entity}
+SELECT ?taxon (ps:has_absence_of AS ?p) ?entity
 WHERE {
 ?entity <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.obolibrary.org/obo/uberon.owl> .
 
