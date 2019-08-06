@@ -394,16 +394,17 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data-merged.ttl $(SPARQL)/g
 $(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/absences.sparql
 	$(ARQ) \
 	--data=$< \
-	--results=TSV
+	--results=TSV \
 	--query=$(SPARQL)/absences.sparql > $@ \
-	&& sed -e 's/$/ ./' -i $@
+	&& sed -e 's/$$/ ./' -i $@
 
 # Generate presences.ttl
 $(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/presences.sparql
 	$(ARQ) \
 	--data=$< \
+	--results=TSV \
 	--query=$(SPARQL)/presences.sparql > $@ \
-	&& sed -e 's/$/ ./' -i $@
+	&& sed -e 's/$$/ ./' -i $@
 
 
 # Generate evolutionary-profiles.ttl
