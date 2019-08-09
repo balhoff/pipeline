@@ -1,4 +1,5 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ps: <http://purl.org/phenoscape/vocab.owl#>
 
 SELECT ?taxon (ps:has_presence_of AS ?p) ?entity
 WHERE {
