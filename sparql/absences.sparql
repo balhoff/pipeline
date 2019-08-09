@@ -3,9 +3,11 @@ PREFIX ps: <http://purl.org/phenoscape/vocab.owl#>
 
 SELECT ?taxon (ps:has_absence_of AS ?p) ?entity
 WHERE {
+
+?taxon <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.obolibrary.org/obo/vto.owl> .
 ?entity <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.obolibrary.org/obo/uberon.owl> .
 
-?taxon <http://purl.org/phenoscape/vocab.owl#exhibits_state>/<http://purl.org/phenoscape/vocab.owl#describes_phenotype>/(<http://www.w3.org/2000/01/rdf-schema#subClassOf>*)/<http://purl.org/phenoscape/vocab.owl#absence_of> ?entity .
+?taxon <http://purl.org/phenoscape/vocab.owl#exhibits_state>/<http://purl.org/phenoscape/vocab.owl#describes_phenotype>/(<http://www.w3.org/2000/01/rdf-schema#subClassOf>)/<http://purl.org/phenoscape/vocab.owl#absence_of> ?entity .
 
 #?taxon rdfs:subClassOf* <http://purl.obolibrary.org/obo/VTO_0000001> .
 #?entity rdfs:subClassOf* <http://purl.obolibrary.org/obo/UBERON_0001062>

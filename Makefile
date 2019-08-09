@@ -391,19 +391,23 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data-merged.ttl $(SPARQL)/g
     	--query $(SPARQL)/geneProfiles.sparql $@
 
 # Generate absences.ttl
-$(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/absences.sparql
+$(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closure.ttl  $(BUILD_DIR)/phenex-data+tbox.ttl 
 	$(ARQ) \
-	--data=$< \
+	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
+	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
-	--query=$(SPARQL)/absences.sparql > $@ \
+	--query=$< > $@ \
+	&& sed -i '1d' $@ \
 	&& sed -e 's/$$/ ./' -i $@
 
 # Generate presences.ttl
-$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/presences.sparql
+$(BUILD_DIR)/presences.ttl: $(SPARQL)/presences.sparql $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/phenex-data+tbox.ttl
 	$(ARQ) \
-	--data=$< \
+	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
+	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
-	--query=$(SPARQL)/presences.sparql > $@ \
+	--query=$< > $@ \
+	&& sed -i '1d' $@ \
 	&& sed -e 's/$$/ ./' -i $@
 
 
