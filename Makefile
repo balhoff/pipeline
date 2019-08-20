@@ -67,7 +67,7 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
                                 $(BUILD_DIR)/monarch-data-merged.ttl \
                                 $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/evolutionary-profiles.ttl \
                                 $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl
-	$(RIOT) --output=TURTLE \
+	$(RIOT) --verbose --nocheck --output=NTRIPLES \
     	$(BUILD_DIR)/ontology-metadata.ttl \
     	$(BUILD_DIR)/phenex-data+tbox.ttl \
     	$(BUILD_DIR)/monarch-data-merged.ttl \
@@ -430,13 +430,17 @@ $(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.tt
 	--data=$< \
 	--results=TSV \
 	--query=$(SPARQL)/subclass-closure-construct.sparql > $@ \
-	&& sed -e 's/$/ ./' -i $@
+	&& sed -i '1d' $@ \
+	&& sed -e 's/$$/ ./' -i $@
 
 # Compute instance closures
 $(BUILD_DIR)/instance-closure.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/profile-instance-closure-construct.sparql
 	$(ARQ) \
 	--data=$< \
-	--query=$(SPARQL)/profile-instance-closure-construct.sparql > $@
+	--results=TSV \
+	--query=$(SPARQL)/profile-instance-closure-construct.sparql > $@ \
+	&& sed -i '1d' $@ \
+	&& sed -e 's/$$/ ./' -i $@
 
 # ##########
 
@@ -570,7 +574,6 @@ $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
 			$(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-expect-scores.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl \
 			$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-expect-scores.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
 	rm -f $@ && \
-	riot --strict --output=ntriples $(BUILD_DIR)/phenoscape-kb.ttl > $(BUILD_DIR)/phenoscape-kb.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/phenoscape-kb.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/subclass-closure.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/instance-closure.ttl && \
