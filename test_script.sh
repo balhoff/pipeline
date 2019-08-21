@@ -23,7 +23,7 @@ NEXML_DATA=$BUILD_DIR/test-phenoscape-data
 #echo $NEXML_DATA
 export NEXML_DATA
 
-make -e all
+make -e $BUILD_DIR/phenex-data+tbox.ttl
 
 
 
