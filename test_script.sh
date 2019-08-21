@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+#SBATCH --error=error-%j
+#SBATCH --mail-type=ALL
+#SBATCH --cpus-per-task=32
+
+set -e # Abort if any command fails
+
+export JAVA_OPTS="-Xmx70G"
 
 TEST_DIR="test/test1"
 BUILD_DIR="build"
