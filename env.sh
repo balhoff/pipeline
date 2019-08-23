@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 KBOT=1.8
 DOSDP=0.13.1
