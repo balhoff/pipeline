@@ -2,4 +2,4 @@ jdk:
   - openjdk8
 
 script:
-  - . env.sh; ./test_script.sh
+  - ./travis_test.sh
