@@ -11,5 +11,5 @@ WHERE {
     ?s (rdf:type)/(rdfs:subClassOf*) ?o .
     ?o a owl:Class .
 	?something ps:has_phenotypic_profile ?s .    
-FILTER(isIRI(?o))
+    FILTER(isIRI(?o))
 }
