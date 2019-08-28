@@ -430,17 +430,14 @@ $(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.tt
 	--data=$< \
 	--results=TSV \
 	--query=$(SPARQL)/subclass-closure-construct.sparql > $@ \
-	&& sed -i '1d' $@ \
-	&& sed -e 's/$$/ ./' -i $@
+	&& sed -i '1d' $@ | sed -e 's/$$/ ./' -i $@
 
 # Compute instance closures
 $(BUILD_DIR)/instance-closure.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/profile-instance-closure-construct.sparql
 	$(ARQ) \
 	--data=$< \
-	--results=TSV \
-	--query=$(SPARQL)/profile-instance-closure-construct.sparql > $@ \
-	&& sed -i '1d' $@ \
-	&& sed -e 's/$$/ ./' -i $@
+	--results=TURTLE \
+	--query=$(SPARQL)/profile-instance-closure-construct.sparql > $@
 
 # ##########
 
