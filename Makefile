@@ -436,7 +436,7 @@ $(BUILD_DIR)/instance-closure.ttl: $(SPARQL)/profile-instance-closure-construct.
 	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
 	--data=$(BUILD_DIR)/gene-profiles.ttl \
 	--data=$(BUILD_DIR)/evolutionary-profiles.ttl \
-	--results=TURTLE \
+	--results=NTRIPLES \
 	--query=$< > $@
 
 # ##########
