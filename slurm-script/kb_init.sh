@@ -8,5 +8,7 @@
 set -e # Abort if any command fails
 
 export JAVA_OPTS="-Xmx120G"
+source /home/spshriva/softwares/python-virtual-environments/env3/bin/activate
 
-make build/subclass-closure.ttl
+make all
+

@@ -397,7 +397,7 @@ $(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closu
 	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
 	--query=$< > $@ \
-	&& sed -i '1d' $@ | sed -e 's/$$/ ./' -i $@
+	&& sed -e '1d' -e 's/$$/ ./' -i $@
 
 # Generate presences.ttl
 $(BUILD_DIR)/presences.ttl: $(SPARQL)/presences.sparql $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/phenex-data+tbox.ttl
@@ -406,7 +406,7 @@ $(BUILD_DIR)/presences.ttl: $(SPARQL)/presences.sparql $(BUILD_DIR)/subclass-clo
 	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
 	--query=$< > $@ \
-	&& sed -i '1d' $@ | sed -e 's/$$/ ./' -i $@
+	&& sed -e '1d' -e 's/$$/ ./' -i $@
 
 
 # Generate evolutionary-profiles.ttl
@@ -428,7 +428,7 @@ $(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.tt
 	--data=$< \
 	--results=TSV \
 	--query=$(SPARQL)/subclass-closure-construct.sparql > $@ \
-	&& sed -i '1d' $@ | sed -e 's/$$/ ./' -i $@
+	&& sed -e '1d' -e 's/$$/ ./' -i $@
 
 # Compute instance closures
 $(BUILD_DIR)/instance-closure.ttl: $(SPARQL)/profile-instance-closure-construct.sparql $(BUILD_DIR)/phenex-data+tbox.ttl $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/evolutionary-profiles.ttl

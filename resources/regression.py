@@ -153,6 +153,7 @@ def plot_residuals(corpus_profile_sizes, query_profile_sizes, scores, corpus_coe
 if __name__=='__main__':
 	import sys
 	import os
+	import statsmodels
 	from statsmodels.stats.outliers_influence import OLSInfluence
 	import math
 	import matplotlib.pyplot as plt
