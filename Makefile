@@ -435,7 +435,15 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data-merged.ttl $(SPARQL)/g
     	&& mv $@.tmp $@
 
 # Generate absences.ttl
-
+$(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closure.ttl  $(BUILD_DIR)/phenex-data+tbox.ttl 
+	$(ARQ) \
+	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
+	--data=$(BUILD_DIR)/subclass-closure.ttl \
+	--results=TSV \
+	--query=$< > $@ \
+	&& sed -i '1d' $@ | sed -e 's/$$/ ./' -i $@.tmp \
+	&& mv $@.tmp $@
+	
 
 # Generate presences.ttl
 $(BUILD_DIR)/presences.ttl: $(SPARQL)/presences.sparql $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/phenex-data+tbox.ttl
