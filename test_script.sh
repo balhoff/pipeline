@@ -6,8 +6,8 @@
 
 set -e # Abort if any command fails
 
-export JAVA_OPTS="-Xmx8G"
-export JAVA_HEAP="-Xmx8G"
+export JAVA_OPTS="-Xmx6G"
+export JAVA_HEAP="-Xmx6G"
 
 TEST_DIR="test/test1"
 BUILD_DIR="build"
