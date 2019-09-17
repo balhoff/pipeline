@@ -1,7 +1,7 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ps: <http://purl.org/phenoscape/vocab.owl#>
 
-SELECT ?taxon (ps:has_presence_of AS ?p) ?entity
+SELECT DISTINCT ?taxon (ps:has_presence_of AS ?p) ?entity
 WHERE {
 ?taxon <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.obolibrary.org/obo/vto.owl> .
 ?entity <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.obolibrary.org/obo/uberon.owl> .

@@ -8,7 +8,7 @@
 set -e # Abort if any command fails
 
 export JAVA_OPTS="-Xmx120G"
-source /home/spshriva/softwares/python-virtual-environments/env3/bin/activate
+source ./bin/python-virtual-environments/env/bin/activate
 
 make all
 
