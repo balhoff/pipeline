@@ -215,7 +215,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/bio-ontologies-classified.ofn \
-	-i $(BUILD_DIR)/defined-by-links.ofn \
+	-i $(BUILD_DIR)/defined-by-links.ttl \
 	-i $(BUILD_DIR)/phenex-tbox.ofn \
     -i $(BUILD_DIR)/anatomical-entity-presences.ofn \
     -i $(BUILD_DIR)/anatomical-entity-absences.ofn \
