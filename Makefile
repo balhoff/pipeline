@@ -203,7 +203,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 
 # Generate phenoscape-kb-tbox.ofn
 $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ofn \
-$(BUILD_DIR)/defined-by-links.ofn \
+$(BUILD_DIR)/defined-by-links.ttl \
 $(BUILD_DIR)/phenex-tbox.ofn \
 $(BUILD_DIR)/anatomical-entity-presences.ofn \
 $(BUILD_DIR)/anatomical-entity-absences.ofn \
@@ -235,9 +235,10 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 
 # -----
 
-$(BUILD_DIR)/defined-by-links.ofn: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)/isDefinedBy.sparql
+$(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)/isDefinedBy.sparql
 	$(ROBOT) query \
 	--use-graphs true \
+	--format ttl \
 	--input $< \
 	--query $(SPARQL)/isDefinedBy.sparql $@
 
