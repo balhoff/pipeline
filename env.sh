@@ -31,4 +31,4 @@ virtualenv env
 
 cd ../..
 
-export PATH=bin:bin/kb-owl-tools-$KBOT/bin:bin/dosdp-tools-$DOSDP/bin:bin/apache-jena-$JENA/bin:bin/blazegraph-runner-$BGR/bin:/usr/bin:/bin
+export PATH=bin:bin/kb-owl-tools-$KBOT/bin:bin/dosdp-tools-$DOSDP/bin:bin/apache-jena-$JENA/bin:bin/blazegraph-runner-$BGR/bin:bin/python-virtual-environments/env/bin:/usr/bin:/bin
