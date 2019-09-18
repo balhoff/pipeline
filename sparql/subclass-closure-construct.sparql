@@ -5,6 +5,8 @@ PREFIX owl:  <http://www.w3.org/2002/07/owl#>
 SELECT ?s (rdfs:subClassOf AS ?p) ?o
 
 WHERE {
+    ?s rdf:type owl:Class .
+    ?o rdf:type owl:Class .
     ?s rdfs:subClassOf* ?o .
     FILTER(isIRI(?s))
     FILTER(isIRI(?o))
