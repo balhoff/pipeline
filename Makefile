@@ -262,6 +262,16 @@ $(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical-entities.tx
     	--outfile=$@.tmp \
     	&& mv $@.tmp $@
 
+$(BUILD_DIR)/anatomical-entity-partOf.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/part_of.yaml
+	mkdir -p $(dir $@) \
+    	&& dosdp-tools generate \
+    	--generate-defined-class=true \
+    	--obo-prefixes=true \
+    	--template=patterns/part_of.yaml \
+    	--infile=$< \
+    	--outfile=$@.tmp \
+    	&& mv $@.tmp $@
+
 $(BUILD_DIR)/hasParts.ofn: $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities.txt patterns/has_part.yaml
 	mkdir -p $(dir $@) \
 	&& sed '1d' $(BUILD_DIR)/qualities.txt > $(BUILD_DIR)/qualities--header.txt \
