@@ -441,8 +441,8 @@ $(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closu
 	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
 	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
-	--query=$< > $@ \
-	&& sed -i '1d' $@ | sed -e 's/$$/ ./' -i $@.tmp \
+	--query=$< > $@.tmp \
+	&& sed -e '1d' -e 's/$$/ ./' -i $@.tmp \
 	&& mv $@.tmp $@
 	
 
