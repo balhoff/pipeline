@@ -178,7 +178,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-plus-absence.ttl: $(BUILD_DIR)/phenos
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn \
 	-i $(BUILD_DIR)/negation-hierarchy.ofn \
-	convert --format ofn \
+	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
