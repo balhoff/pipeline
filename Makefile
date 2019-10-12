@@ -327,7 +327,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatom
 # -----
 
 # Generate anatomical-entities.txt
-$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)/anatomicalEntities.sparql
+$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged.ofn $(SPARQL)/anatomicalEntities.sparql
 	$(ROBOT) query \
     	-i $< \
     	--use-graphs true \
