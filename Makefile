@@ -207,6 +207,7 @@ $(BUILD_DIR)/defined-by-links.ttl \
 $(BUILD_DIR)/phenex-tbox.ofn \
 $(BUILD_DIR)/anatomical-entity-presences.ofn \
 $(BUILD_DIR)/anatomical-entity-absences.ofn \
+$(BUILD_DIR)/anatomical-entity-partOf.ofn \
 $(BUILD_DIR)/hasParts.ofn \
 $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
 $(BUILD_DIR)/developsFromRulesForAbsence.ofn \
@@ -219,6 +220,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 	-i $(BUILD_DIR)/phenex-tbox.ofn \
     -i $(BUILD_DIR)/anatomical-entity-presences.ofn \
     -i $(BUILD_DIR)/anatomical-entity-absences.ofn \
+    -i $(BUILD_DIR)/anatomical-entity-partOf.ofn \
     -i $(BUILD_DIR)/hasParts.ofn \
     -i $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
     -i $(BUILD_DIR)/developsFromRulesForAbsence.ofn \
@@ -258,6 +260,16 @@ $(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical-entities.tx
     	--generate-defined-class=true \
     	--obo-prefixes=true \
     	--template=patterns/absences.yaml \
+    	--infile=$< \
+    	--outfile=$@.tmp \
+    	&& mv $@.tmp $@
+
+$(BUILD_DIR)/anatomical-entity-partOf.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/part_of.yaml
+	mkdir -p $(dir $@) \
+    	&& dosdp-tools generate \
+    	--generate-defined-class=true \
+    	--obo-prefixes=true \
+    	--template=patterns/part_of.yaml \
     	--infile=$< \
     	--outfile=$@.tmp \
     	&& mv $@.tmp $@
