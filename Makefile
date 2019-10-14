@@ -339,11 +339,13 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatom
 # -----
 
 # Generate anatomical-entities.txt
-$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged.ofn $(SPARQL)/anatomicalEntities.sparql
-	$(ROBOT) query \
-    	-i $< \
-    	--use-graphs true \
-    	--query $(SPARQL)/anatomicalEntities.sparql $@.tmp \
+$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged.ofn $(BUILD_DIR)/defined-by-links.ttl $(SPARQL)/anatomicalEntities.sparql
+	$(ARQ) \
+    	--data=$< \
+    	--data=$(BUILD_DIR)/defined-by-links.ttl \
+    	--results=TSV \
+    	--query=$(SPARQL)/anatomicalEntities.sparql > $@.tmp \
+    	sed -i '1d' $@.tmp \
     	&& mv $@.tmp $@
 
 # Generate qualities.txt
