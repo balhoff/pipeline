@@ -178,7 +178,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-plus-absence.ttl: $(BUILD_DIR)/phenos
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn \
 	-i $(BUILD_DIR)/negation-hierarchy.ofn \
-	convert --format ofn \
+	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
@@ -327,7 +327,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatom
 # -----
 
 # Generate anatomical-entities.txt
-$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)/anatomicalEntities.sparql
+$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged.ofn $(SPARQL)/anatomicalEntities.sparql
 	$(ROBOT) query \
     	-i $< \
     	--use-graphs true \
@@ -441,8 +441,8 @@ $(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closu
 	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
 	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
-	--query=$< > $@ \
-	&& sed -i '1d' $@ | sed -e 's/$$/ ./' -i $@.tmp \
+	--query=$< > $@.tmp \
+	&& sed -e '1d' -e 's/$$/ ./' -i $@.tmp \
 	&& mv $@.tmp $@
 	
 
