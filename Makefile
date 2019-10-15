@@ -9,10 +9,15 @@ ROBOT_ENV=ROBOT_JAVA_ARGS=$(JAVA_HEAP)
 ROBOT=$(ROBOT_ENV) robot
 JVM_ARGS=JVM_ARGS=$(JAVA_HEAP)
 ARQ=$(JVM_ARGS) arq
+RIOT=riot
+BLAZEGRAPH-RUNNER=blazegraph-runner
 
 BIO_ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
 NEXML_DATA=phenoscape-data
+DB_FILE=$(BUILD_DIR)/blazegraph-loaded-all.jnl
+BLAZEGRAPH_PROPERTIES=$(RESOURCES)/blazegraph.properties
+
 
 
 # ---------------------------------------------------------------------
@@ -29,7 +34,7 @@ clean:
 # 2. Semantic similarity
 
 
-all: kb-build ss-scores-gen
+all: kb-build ss-scores-gen $(DB_FILE)
 
 # ########## # ##########
 # ########## # ##########
@@ -63,19 +68,19 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
                                 $(BUILD_DIR)/monarch-data-merged.ttl \
                                 $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/evolutionary-profiles.ttl \
                                 $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl
-	$(ROBOT) merge \
-    	-i $(BUILD_DIR)/ontology-metadata.ttl \
-    	-i $(BUILD_DIR)/phenex-data+tbox.ttl \
-    	-i $(BUILD_DIR)/monarch-data-merged.ttl \
-    	-i $(BUILD_DIR)/gene-profiles.ttl \
-    	-i $(BUILD_DIR)/absences.ttl \
-    	-i $(BUILD_DIR)/presences.ttl \
-    	-i $(BUILD_DIR)/evolutionary-profiles.ttl \
-    	-i $(BUILD_DIR)/subclass-closure.ttl \
-    	-i $(BUILD_DIR)/instance-closure.ttl \
-    	convert --format ofn \
-    	-o $@.tmp \
-    	&& mv $@.tmp $@
+	$(RIOT) --verbose --nocheck --output=NTRIPLES \
+    	$(BUILD_DIR)/ontology-metadata.ttl \
+    	$(BUILD_DIR)/phenex-data+tbox.ttl \
+    	$(BUILD_DIR)/monarch-data-merged.ttl \
+    	$(BUILD_DIR)/gene-profiles.ttl \
+    	$(BUILD_DIR)/absences.ttl \
+    	$(BUILD_DIR)/presences.ttl \
+    	$(BUILD_DIR)/evolutionary-profiles.ttl \
+    	$(BUILD_DIR)/subclass-closure.ttl \
+    	$(BUILD_DIR)/instance-closure.ttl \
+    	> $@.tmp \
+      && mv $@.tmp $@
+      
 
 
 # ----------
@@ -84,7 +89,7 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
 
 # Compute Tbox hierarchy
 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl $(SPARQL)/subclassHierarchy.sparql
-	$(ARQ) --data=$< --query=$(SPARQL)/subclassHierarchy.sparql --results==ttl > $@.tmp \
+	$(ARQ) --data=$< --query=$(SPARQL)/subclassHierarchy.sparql --results=ttl > $@.tmp \
 	&& mv $@.tmp $@
 
 # ##########
@@ -97,6 +102,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-c
 # ## Query for ontologies' version information
 $(BUILD_DIR)/ontology-metadata.ttl: $(BIO_ONTOLOGIES) $(SPARQL)/ontology-versions.sparql
 	$(ROBOT) query \
+	--catalog $(BUILD_DIR)/mirror/catalog-v001.xml \
 	-i $< \
 	--use-graphs true \
 	--format ttl \
@@ -141,9 +147,9 @@ $(shell find $(NEXML_DATA)/curation-files/matrix-vs-monograph -type f -name "*.x
 NEXML_OWLS ?= $(patsubst %.xml, %.ofn, $(patsubst $(NEXML_DATA)/%, $(BUILD_DIR)/phenex-data-owl/%, $(NEXMLS)))
 
 # Convert a single NeXML file to its counterpart OFN
-$(BUILD_DIR)/phenex-data-owl/%.ofn: $(NEXML_DATA)/%.xml $(BUILD_DIR)/bio-ontologies-merged.ofn
+$(BUILD_DIR)/phenex-data-owl/%.ofn: $(NEXML_DATA)/%.xml $(BUILD_DIR)/bio-ontologies-merged.ttl
 	mkdir -p $(dir $@)
-	kb-owl-tools convert-nexml $(BUILD_DIR)/bio-ontologies-merged.ofn $< $@.tmp \
+	kb-owl-tools convert-nexml $(BUILD_DIR)/bio-ontologies-merged.ttl $< $@.tmp \
 	&& mv $@.tmp $@
 
 
@@ -175,7 +181,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-plus-absence.ttl: $(BUILD_DIR)/phenos
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn \
 	-i $(BUILD_DIR)/negation-hierarchy.ofn \
-	convert --format ofn \
+	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
@@ -200,9 +206,11 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 
 # Generate phenoscape-kb-tbox.ofn
 $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ofn \
+$(BUILD_DIR)/defined-by-links.ttl \
 $(BUILD_DIR)/phenex-tbox.ofn \
 $(BUILD_DIR)/anatomical-entity-presences.ofn \
 $(BUILD_DIR)/anatomical-entity-absences.ofn \
+$(BUILD_DIR)/anatomical-entity-partOf.ofn \
 $(BUILD_DIR)/hasParts.ofn \
 $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
 $(BUILD_DIR)/developsFromRulesForAbsence.ofn \
@@ -211,9 +219,11 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/bio-ontologies-classified.ofn \
+	-i $(BUILD_DIR)/defined-by-links.ttl \
 	-i $(BUILD_DIR)/phenex-tbox.ofn \
     -i $(BUILD_DIR)/anatomical-entity-presences.ofn \
     -i $(BUILD_DIR)/anatomical-entity-absences.ofn \
+    -i $(BUILD_DIR)/anatomical-entity-partOf.ofn \
     -i $(BUILD_DIR)/hasParts.ofn \
     -i $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
     -i $(BUILD_DIR)/developsFromRulesForAbsence.ofn \
@@ -229,6 +239,13 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 # *** Subsumers ***
 
 # -----
+
+$(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)/isDefinedBy.sparql
+	$(ROBOT) query \
+	--use-graphs true \
+	--format ttl \
+	--input $< \
+	--query $(SPARQL)/isDefinedBy.sparql $@
 
 $(BUILD_DIR)/anatomical-entity-presences.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/implies_presence_of.yaml
 	mkdir -p $(dir $@) \
@@ -246,6 +263,16 @@ $(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical-entities.tx
     	--generate-defined-class=true \
     	--obo-prefixes=true \
     	--template=patterns/absences.yaml \
+    	--infile=$< \
+    	--outfile=$@.tmp \
+    	&& mv $@.tmp $@
+
+$(BUILD_DIR)/anatomical-entity-partOf.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/part_of.yaml
+	mkdir -p $(dir $@) \
+    	&& dosdp-tools generate \
+    	--generate-defined-class=true \
+    	--obo-prefixes=true \
+    	--template=patterns/part_of.yaml \
     	--infile=$< \
     	--outfile=$@.tmp \
     	&& mv $@.tmp $@
@@ -315,11 +342,13 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatom
 # -----
 
 # Generate anatomical-entities.txt
-$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)/anatomicalEntities.sparql
-	$(ROBOT) query \
-    	-i $< \
-    	--use-graphs true \
-    	--query $(SPARQL)/anatomicalEntities.sparql $@.tmp \
+$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged.ttl $(BUILD_DIR)/defined-by-links.ttl $(SPARQL)/anatomicalEntities.sparql
+	$(ARQ) \
+    	--data=$< \
+    	--data=$(BUILD_DIR)/defined-by-links.ttl \
+    	--results=TSV \
+    	--query=$(SPARQL)/anatomicalEntities.sparql > $@.tmp \
+    	&& sed -i '1d' $@.tmp \
     	&& mv $@.tmp $@
 
 # Generate qualities.txt
@@ -338,7 +367,7 @@ $(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)
 # Compute inferred classification of just the input ontologies.
 # We need to remove axioms that can infer unsatisfiability, since
 # the input ontologies are not 100% compatible.
-$(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)/bio-ontologies-merged.ofn
+$(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)/bio-ontologies-merged.ttl
 	$(ROBOT) remove -i $< --axioms 'disjoint' --trim true \
     remove --term 'owl:Nothing' --trim true \
     reason --reasoner ELK \
@@ -347,11 +376,11 @@ $(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)/bio-ontologies-merged.o
     && mv $@.tmp $@
 
 # Merge imported ontologies
-$(BUILD_DIR)/bio-ontologies-merged.ofn: $(BIO_ONTOLOGIES) $(BUILD_DIR)/mirror
+$(BUILD_DIR)/bio-ontologies-merged.ttl: $(BIO-ONTOLOGIES) $(BUILD_DIR)/mirror
 	$(ROBOT) merge \
 	--catalog $(BUILD_DIR)/mirror/catalog-v001.xml \
 	-i $< \
-	convert --format ofn \
+	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
@@ -424,14 +453,26 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data-merged.ttl $(SPARQL)/g
     	&& mv $@.tmp $@
 
 # Generate absences.ttl
-$(BUILD_DIR)/absences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/absences.sparql
-	$(ARQ) --results=ttl --data=$< --query=$(SPARQL)/absences.sparql > $@.tmp \
+$(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closure.ttl  $(BUILD_DIR)/phenex-data+tbox.ttl 
+	$(ARQ) \
+	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
+	--data=$(BUILD_DIR)/subclass-closure.ttl \
+	--results=TSV \
+	--query=$< > $@.tmp \
+	&& sed -e '1d' -e 's/$$/ ./' -i $@.tmp \
 	&& mv $@.tmp $@
+	
 
 # Generate presences.ttl
-$(BUILD_DIR)/presences.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/presences.sparql
-	$(ARQ) --results=ttl --data=$< --query=$(SPARQL)/presences.sparql > $@.tmp \
+$(BUILD_DIR)/presences.ttl: $(SPARQL)/presences.sparql $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/phenex-data+tbox.ttl
+	$(ARQ) \
+	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
+	--data=$(BUILD_DIR)/subclass-closure.ttl \
+	--results=TSV \
+	--query=$< > $@.tmp \
+	&& sed -e '1d' -e 's/$$/ ./' -i $@.tmp \
 	&& mv $@.tmp $@
+
 
 
 # Generate evolutionary-profiles.ttl
@@ -451,18 +492,24 @@ $(BUILD_DIR)/evolutionary-profiles.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl
 # Compute subclass closures
 $(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl $(SPARQL)/subclass-closure-construct.sparql
 	$(ARQ) \
-	--results=ttl \
 	--data=$< \
+	--optimize=off \
+	--results=TSV \
 	--query=$(SPARQL)/subclass-closure-construct.sparql > $@.tmp \
+	&& sed -e '1d' -e 's/$$/ ./' -i $@.tmp \
 	&& mv $@.tmp $@
 
+
 # Compute instance closures
-$(BUILD_DIR)/instance-closure.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl $(SPARQL)/profile-instance-closure-construct.sparql
+$(BUILD_DIR)/instance-closure.ttl: $(SPARQL)/profile-instance-closure-construct.sparql $(BUILD_DIR)/phenex-data+tbox.ttl $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/evolutionary-profiles.ttl
 	$(ARQ) \
-	--results=ttl \
-	--data=$< \
-	--query=$(SPARQL)/profile-instance-closure-construct.sparql > $@.tmp \
+	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
+	--data=$(BUILD_DIR)/gene-profiles.ttl \
+	--data=$(BUILD_DIR)/evolutionary-profiles.ttl \
+	--results=NTRIPLES \
+	--query=$< > $@.tmp \
 	&& mv $@.tmp $@
+
 
 # ##########
 
@@ -583,7 +630,43 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(BUILD_DIR)/g
 
 # ##########
 
+# ########## # ##########
+# ########## # ##########
 
+
+
+
+
+# ########## # ##########
+# ########## # ##########
+
+
+# ##########
+# Load pipeline artifacts into Blazegraph database
+
+# Artifacts:
+# 1. Phenoscape KB
+# 2. Closures = subclass + instance)
+# 3. taxa-sim = taxa-ics + taxa-expect-scores + taxa-pairwise-sim
+# 4. gene-sim = gene-ics + gene-expect-scores + gene-pairwise-sim
+
+$(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
+			$(BUILD_DIR)/phenoscape-kb.ttl \
+			$(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl \
+			$(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-expect-scores.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl \
+			$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-expect-scores.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
+	rm -f $@ && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/phenoscape-kb.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/subclass-closure.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/instance-closure.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/taxa" $(BUILD_DIR)/corpus-ics-taxa.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/taxa" $(BUILD_DIR)/taxa-expect-scores.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/taxa" $(BUILD_DIR)/taxa-pairwise-sim.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene" $(BUILD_DIR)/corpus-ics-genes.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene" $(BUILD_DIR)/gene-expect-scores.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene" $(BUILD_DIR)/gene-pairwise-sim.ttl
+
+# ##########
 
 # ########## # ##########
 # ########## # ##########

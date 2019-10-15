@@ -25,6 +25,10 @@ curl -O -L https://github.com/ontodev/robot/releases/download/v$ROBOT/robot.jar
 curl -O -L https://github.com/ontodev/robot/raw/v$ROBOT/bin/robot
 chmod +x robot
 
-cd ..
+pip install virtualenv
+mkdir python-virtual-environments && cd python-virtual-environments
+virtualenv env
 
-export PATH=bin:bin/kb-owl-tools-$KBOT/bin:bin/dosdp-tools-$DOSDP/bin:bin/apache-jena-$JENA/bin:bin/blazegraph-runner-$BGR/bin:/usr/bin:/bin
+cd ../..
+
+export PATH=bin:bin/kb-owl-tools-$KBOT/bin:bin/dosdp-tools-$DOSDP/bin:bin/apache-jena-$JENA/bin:bin/blazegraph-runner-$BGR/bin:bin/python-virtual-environments/env/bin:/usr/bin:/bin
