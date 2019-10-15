@@ -7,7 +7,8 @@ Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 
 
 Ontology(<http://kb.phenoscape.org/ontologies.ofn>
-Import(<http://purl.org/phenoscape/vocab.owl>)
+#Import(<http://purl.org/phenoscape/vocab.owl>)
+Import(<https://raw.githubusercontent.com/phenoscape/phenoscape-ontologies/master/phenoscape-kb-vocab/vocab.owl>)
 Import(<http://purl.obolibrary.org/obo/uberon/uberon-base.owl>)
 Import(<http://purl.obolibrary.org/obo/pato.owl>)
 Import(<http://svn.code.sf.net/p/phenoscape/code/trunk/vocab/character_slims.obo>)
