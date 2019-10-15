@@ -4,8 +4,7 @@ SELECT DISTINCT ?anatomical_entity
 
 WHERE
 {
-?anatomical_entity rdfs:subClassOf* <http://purl.obolibrary.org/obo/UBERON_0001062>
+?anatomical_entity rdfs:subClassOf* <http://purl.obolibrary.org/obo/UBERON_0001062> .
 ?anatomical_entity rdfs:isDefinedBy ?ontology .
 VALUES ?ontology { <http://purl.obolibrary.org/obo/cl.owl> <http://purl.obolibrary.org/obo/uberon.owl> <http://purl.obolibrary.org/obo/bspo.owl> }
-
 }

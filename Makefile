@@ -146,9 +146,9 @@ $(shell find $(NEXML_DATA)/curation-files/matrix-vs-monograph -type f -name "*.x
 NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(NEXML_DATA)/%, $(BUILD_DIR)/phenex-data-owl/%, $(NEXMLS)))
 
 # Convert a single NeXML file to its counterpart OFN
-$(BUILD_DIR)/phenex-data-owl/%.ofn: $(NEXML_DATA)/%.xml $(BUILD_DIR)/bio-ontologies-merged.ofn
+$(BUILD_DIR)/phenex-data-owl/%.ofn: $(NEXML_DATA)/%.xml $(BUILD_DIR)/bio-ontologies-merged.ttl
 	mkdir -p $(dir $@)
-	kb-owl-tools convert-nexml $(BUILD_DIR)/bio-ontologies-merged.ofn $< $@.tmp \
+	kb-owl-tools convert-nexml $(BUILD_DIR)/bio-ontologies-merged.ttl $< $@.tmp \
 	&& mv $@.tmp $@
 
 
@@ -340,13 +340,13 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatom
 # -----
 
 # Generate anatomical-entities.txt
-$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged.ofn $(BUILD_DIR)/defined-by-links.ttl $(SPARQL)/anatomicalEntities.sparql
+$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged.ttl $(BUILD_DIR)/defined-by-links.ttl $(SPARQL)/anatomicalEntities.sparql
 	$(ARQ) \
     	--data=$< \
     	--data=$(BUILD_DIR)/defined-by-links.ttl \
     	--results=TSV \
     	--query=$(SPARQL)/anatomicalEntities.sparql > $@.tmp \
-    	sed -i '1d' $@.tmp \
+    	&& sed -i '1d' $@.tmp \
     	&& mv $@.tmp $@
 
 # Generate qualities.txt
@@ -365,7 +365,7 @@ $(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)
 # Compute inferred classification of just the input ontologies.
 # We need to remove axioms that can infer unsatisfiability, since
 # the input ontologies are not 100% compatible.
-$(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)/bio-ontologies-merged.ofn
+$(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)/bio-ontologies-merged.ttl
 	$(ROBOT) remove -i $< --axioms 'disjoint' --trim true \
     remove --term 'owl:Nothing' --trim true \
     reason --reasoner ELK \
@@ -374,11 +374,11 @@ $(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)/bio-ontologies-merged.o
     && mv $@.tmp $@
 
 # Merge imported ontologies
-$(BUILD_DIR)/bio-ontologies-merged.ofn: $(BIO-ONTOLOGIES) $(BUILD_DIR)/mirror
+$(BUILD_DIR)/bio-ontologies-merged.ttl: $(BIO-ONTOLOGIES) $(BUILD_DIR)/mirror
 	$(ROBOT) merge \
 	--catalog $(BUILD_DIR)/mirror/catalog-v001.xml \
 	-i $< \
-	convert --format ofn \
+	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
@@ -491,6 +491,7 @@ $(BUILD_DIR)/evolutionary-profiles.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl
 $(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl $(SPARQL)/subclass-closure-construct.sparql
 	$(ARQ) \
 	--data=$< \
+	--optimize=off \
 	--results=TSV \
 	--query=$(SPARQL)/subclass-closure-construct.sparql > $@.tmp \
 	&& sed -e '1d' -e 's/$$/ ./' -i $@.tmp \
