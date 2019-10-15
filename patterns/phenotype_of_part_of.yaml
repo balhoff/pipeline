@@ -6,14 +6,13 @@ classes:
 
 relations:
   phenotype_of: http://purl.org/phenoscape/vocab.owl#phenotype_of
-  part_of: BFO:0000050
+  reflexive_part_of: http://purl.org/phenoscape/vocab.owl#reflexive_part_of
 
 vars:
   anatomical_entity: thing
 
 equivalentTo:
-  text: "'phenotype_of' some (%s or ('part_of' some %s))"
+  text: "'phenotype_of' some ('reflexive_part_of' some %s)"
   vars:
     - anatomical_entity
     - anatomical_entity
-
