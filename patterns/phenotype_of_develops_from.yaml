@@ -6,13 +6,13 @@ classes:
 
 relations:
   phenotype_of: http://purl.org/phenoscape/vocab.owl#phenotype_of
-  develops_from: http://purl.obolibrary.org/obo/RO_0002202
+  reflexive_develops_from: http://purl.org/phenoscape/vocab.owl#reflexive_develops_from
 
 vars:
   anatomical_entity: thing
 
 equivalentTo:
-  text: "'phenotype_of' some (%s or ('develops_from' some %s))"
+  text: "'phenotype_of' some ('reflexive_develops_from' some %s)"
   vars:
     - anatomical_entity
     - anatomical_entity
