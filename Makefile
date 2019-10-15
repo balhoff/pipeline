@@ -99,7 +99,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-c
 
 # Extract ontology metadata
 # ## Query for ontologies' version information
-$(BUILD_DIR)/ontology-metadata.ttl: $(BIO-ONTOLOGIES) $(SPARQL)/ontology-versions.sparql
+$(BUILD_DIR)/ontology-metadata.ttl: $(BIO-ONTOLOGIES) $(BUILD_DIR)/mirror $(SPARQL)/ontology-versions.sparql
 	$(ROBOT) query \
 	--catalog $(BUILD_DIR)/mirror/catalog-v001.xml \
 	-i $< \
