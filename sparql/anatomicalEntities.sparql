@@ -1,10 +1,9 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT DISTINCT ?anatomical_entity
-
+SELECT DISTINCT (STR(?anatomical_entity_iri) AS ?anatomical_entity)
 WHERE
 {
-?anatomical_entity rdfs:subClassOf* <http://purl.obolibrary.org/obo/UBERON_0001062> .
-?anatomical_entity rdfs:isDefinedBy ?ontology .
+?anatomical_entity_iri rdfs:subClassOf* <http://purl.obolibrary.org/obo/UBERON_0001062> .
+?anatomical_entity_iri rdfs:isDefinedBy ?ontology .
 VALUES ?ontology { <http://purl.obolibrary.org/obo/cl.owl> <http://purl.obolibrary.org/obo/uberon.owl> <http://purl.obolibrary.org/obo/bspo.owl> }
 }
