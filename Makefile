@@ -346,7 +346,7 @@ $(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged.ttl $(B
     	--data=$(BUILD_DIR)/defined-by-links.ttl \
     	--results=TSV \
     	--query=$(SPARQL)/anatomicalEntities.sparql > $@.tmp \
-    	&& sed -i '1d' $@.tmp \
+    	&& sed 's/^\?//' -i $@.tmp \
     	&& mv $@.tmp $@
 
 # Generate qualities.txt
