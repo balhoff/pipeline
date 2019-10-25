@@ -4,9 +4,9 @@
 BUILD_DIR=build
 RESOURCES=resources
 SPARQL=sparql
-ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx128G
+ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx80G
 ROBOT=$(ROBOT_ENV) robot
-JVM_ARGS=JVM_ARGS=-Xmx128G
+JVM_ARGS=JVM_ARGS=-Xmx80G
 ARQ=$(JVM_ARGS) arq
 RIOT=riot
 BLAZEGRAPH-RUNNER=blazegraph-runner
@@ -346,7 +346,7 @@ $(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged.ttl $(B
     	--data=$(BUILD_DIR)/defined-by-links.ttl \
     	--results=TSV \
     	--query=$(SPARQL)/anatomicalEntities.sparql > $@.tmp \
-    	&& sed -i '1d' $@.tmp \
+        && sed 's/^\?//' -i $@.tmp \
     	&& mv $@.tmp $@
 
 # Generate qualities.txt
@@ -421,19 +421,19 @@ $(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfi
 # Download mgi_slim.ttl
 $(BUILD_DIR)/mgi_slim.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://data.monarchinitiative.org/ttl/mgi_slim.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/release/ttl/mgi_slim.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download zfinslim.ttl
 $(BUILD_DIR)/zfinslim.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://data.monarchinitiative.org/ttl/zfinslim.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/release/ttl/zfinslim.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download hpoa.ttl
 $(BUILD_DIR)/hpoa.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://data.monarchinitiative.org/ttl/hpoa.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/release/ttl/hpoa.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # ##########

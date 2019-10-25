@@ -8,4 +8,4 @@
 ##slurm-<id>.out - contains output log
 
 source ./env.sh
-sbatch --mail-user=spshriva@renci.org ./slurm-script/kb_init.sh
+sbatch --mail-user=balhoff@renci.org ./slurm-script/kb_init.sh
