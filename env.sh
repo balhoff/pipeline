@@ -15,7 +15,7 @@ tar -zxf kb-owl-tools-$KBOT.tgz
 curl -O -L https://github.com/INCATools/dosdp-tools/releases/download/v$DOSDP/dosdp-tools-$DOSDP.tgz
 tar -zxf dosdp-tools-$DOSDP.tgz
 
-curl -O -L https://www-us.apache.org/dist/jena/binaries/apache-jena-$JENA.tar.gz
+curl -O -L https://www-eu.apache.org/dist/jena/binaries/apache-jena-$JENA.tar.gz
 tar -zxf apache-jena-$JENA.tar.gz
 
 curl -O -L https://github.com/balhoff/blazegraph-runner/releases/download/v$BGR/blazegraph-runner-$BGR.tgz
