@@ -1,6 +1,6 @@
 #!/bin/sh
 
-KBOT=1.8
+KBOT=1.9.1
 DOSDP=0.13.1
 JENA=3.12.0
 BGR=1.4
