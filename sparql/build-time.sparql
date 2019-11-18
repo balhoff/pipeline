@@ -1,0 +1,6 @@
+
+SELECT NOW()
+WHERE {
+?s ?p ?o .
+}
+LIMIT 1
