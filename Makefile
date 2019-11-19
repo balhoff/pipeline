@@ -653,7 +653,7 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(BUILD_DIR)/g
 $(BUILD_DIR)/build-time.ttl: $(SPARQL)/build-time.sparql $(BUILD_DIR)/phenoscape-kb.ttl
 	$(ARQ) \
 	--data=$(BUILD_DIR)/phenoscape-kb.ttl \
-	--results=NTRIPLES
+	--results=NTRIPLES \
 	--query=$< > $@.tmp \
 	&& mv $@.tmp $@
 
