@@ -651,7 +651,7 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(BUILD_DIR)/g
 
 # Insert KB build time in DB
 $(BUILD_DIR)/build-time.ttl: $(SPARQL)/build-time.sparql
-	echo "<http://kb.phenoscape.org/> <http://www.w3.org/2000/01/rdf-schema#label> \"Phenoscape Knowledgebase\"" > $(BUILD_DIR)/kb-label.ttl && \
+	echo "<http://kb.phenoscape.org/> <http://www.w3.org/2000/01/rdf-schema#label> \"Phenoscape Knowledgebase\" ." > $(BUILD_DIR)/kb-label.ttl && \
 	$(ARQ) \
 	--data=$(BUILD_DIR)/kb-label.ttl \
 	--results=NTRIPLES \
