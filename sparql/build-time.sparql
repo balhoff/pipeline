@@ -1,0 +1,7 @@
+
+CONSTRUCT {
+<http://kb.phenoscape.org/>  <http://purl.org/dc/terms/created>  ?time .
+}
+WHERE {
+    BIND (NOW() AS ?time)
+}

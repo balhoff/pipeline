@@ -647,12 +647,23 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(BUILD_DIR)/g
 # 2. Closures = subclass + instance)
 # 3. taxa-sim = taxa-ics + taxa-expect-scores + taxa-pairwise-sim
 # 4. gene-sim = gene-ics + gene-expect-scores + gene-pairwise-sim
+# 5. build-time
+
+# Insert KB build time in DB
+$(BUILD_DIR)/build-time.ttl: $(SPARQL)/build-time.sparql
+	echo "<http://kb.phenoscape.org/> <http://www.w3.org/2000/01/rdf-schema#label> \"Phenoscape Knowledgebase\" ." > $(BUILD_DIR)/kb-label.ttl && \
+	$(ARQ) \
+	--data=$(BUILD_DIR)/kb-label.ttl \
+	--results=NTRIPLES \
+	--query=$< > $@.tmp \
+	&& mv $@.tmp $@
 
 $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
 			$(BUILD_DIR)/phenoscape-kb.ttl \
 			$(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl \
 			$(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-expect-scores.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl \
-			$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-expect-scores.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
+			$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-expect-scores.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl \
+			$(BUILD_DIR)/build-time.ttl
 	rm -f $@ && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/phenoscape-kb.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/subclass-closure.ttl && \
@@ -662,7 +673,8 @@ $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/taxa" $(BUILD_DIR)/taxa-pairwise-sim.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene" $(BUILD_DIR)/corpus-ics-genes.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene" $(BUILD_DIR)/gene-expect-scores.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene" $(BUILD_DIR)/gene-pairwise-sim.ttl
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene" $(BUILD_DIR)/gene-pairwise-sim.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/build-time.ttl
 
 # ##########
 
