@@ -421,19 +421,19 @@ $(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfi
 # Download mgi_slim.ttl
 $(BUILD_DIR)/mgi_slim.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/release/ttl/mgi_slim.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/latest/ttl/mgi_slim.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download zfinslim.ttl
 $(BUILD_DIR)/zfinslim.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/release/ttl/zfinslim.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/latest/ttl/zfinslim.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download hpoa.ttl
 $(BUILD_DIR)/hpoa.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/release/ttl/hpoa.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/latest/ttl/hpoa.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # ##########
