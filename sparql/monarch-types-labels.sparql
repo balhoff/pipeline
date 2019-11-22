@@ -1,0 +1,15 @@
+PREFIX OBAN: <http://purl.org/oban/>
+PREFIX OBO: <http://purl.obolibrary.org/obo/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+CONSTRUCT {
+    ?gene rdfs:label ?gene_label
+}
+WHERE {
+    ?association a OBAN:association .
+    ?association OBAN:association_has_predicate OBO:RO_0002200 .
+    ?association OBAN:association_has_subject ?gene .
+    ?gene rdf:type ?gene_type .
+    ?gene rdfs:label ?gene_label
+}
