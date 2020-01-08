@@ -426,7 +426,7 @@ $(BUILD_DIR)/monarch-types-labels.ttl: $(SPARQL)/monarch-types-labels.sparql $(B
 	--data=$(BUILD_DIR)/zfin.ttl \
 	--data=$(BUILD_DIR)/hpoa.ttl \
 	--query=$< \
-	--results=ttl > $@.tmp \
+	--results=NTRIPLES > $@.tmp \
 	&& mv $@.tmp $@
 
 # Download mgi_slim.ttl
