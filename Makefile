@@ -409,13 +409,24 @@ $(BUILD_DIR)/phenex-tbox.ofn: $(BUILD_DIR)/phenex-data-merged.ofn
 # 3. HPOA
 
 # Merge monarch data files
-$(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfinslim.ttl $(BUILD_DIR)/hpoa.ttl
+$(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/mgi_slim.ttl $(BUILD_DIR)/zfinslim.ttl $(BUILD_DIR)/hpoa.ttl $(BUILD_DIR)/monarch-types-labels.ttl
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/mgi_slim.ttl \
 	-i $(BUILD_DIR)/zfinslim.ttl \
 	-i $(BUILD_DIR)/hpoa.ttl \
+	-i $(BUILD_DIR)/monarch-types-labels.ttl \
 	convert --format ttl \
 	-o $@.tmp \
+	&& mv $@.tmp $@
+
+# Query monarch data for types and labels
+$(BUILD_DIR)/monarch-types-labels.ttl: $(SPARQL)/monarch-types-labels.sparql $(BUILD_DIR)/mgi.ttl $(BUILD_DIR)/zfin.ttl $(BUILD_DIR)/hpoa.ttl
+	$(ARQ) \
+	--data=$(BUILD_DIR)/mgi.ttl \
+	--data=$(BUILD_DIR)/zfin.ttl \
+	--data=$(BUILD_DIR)/hpoa.ttl \
+	--query=$< \
+	--results=NTRIPLES > $@.tmp \
 	&& mv $@.tmp $@
 
 # Download mgi_slim.ttl
@@ -424,10 +435,22 @@ $(BUILD_DIR)/mgi_slim.ttl:
 	curl -L https://archive.monarchinitiative.org/latest/ttl/mgi_slim.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
+# Download mgi.ttl
+$(BUILD_DIR)/mgi.ttl:
+	mkdir -p $(BUILD_DIR)
+	curl -L https://archive.monarchinitiative.org/latest/ttl/mgi.ttl -o $@.tmp \
+	&& mv $@.tmp $@
+
 # Download zfinslim.ttl
 $(BUILD_DIR)/zfinslim.ttl:
 	mkdir -p $(BUILD_DIR)
 	curl -L https://archive.monarchinitiative.org/latest/ttl/zfinslim.ttl -o $@.tmp \
+	&& mv $@.tmp $@
+
+# Download zfin.ttl
+$(BUILD_DIR)/zfin.ttl:
+	mkdir -p $(BUILD_DIR)
+	curl -L https://archive.monarchinitiative.org/latest/ttl/zfin.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download hpoa.ttl
