@@ -5,9 +5,11 @@ PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 CONSTRUCT {
     ?gene rdfs:label ?gene_label .
-    ?gene rdf:type OBO:SO_0000704
+    ?gene rdf:type OBO:SO_0000704 .
+    ?gene OBO:RO_0002162 ?taxon
 }
 WHERE {
     ?gene rdf:type OBO:SO_0000704 .
-    ?gene rdfs:label ?gene_label
+    ?gene rdfs:label ?gene_label .
+    ?gene OBO:RO_0002162 ?taxon
 }
