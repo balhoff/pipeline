@@ -1,6 +1,7 @@
 pipeline {
     agent {
         dockerfile true
+        label("node-zeppo")
     }
     stages {
         stage('Build') {
