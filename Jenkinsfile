@@ -1,5 +1,6 @@
 pipeline {
     agent {
+        label 'zeppo'
         dockerfile true
     }
     stages {
