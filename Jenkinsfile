@@ -8,7 +8,7 @@ pipeline {
      stages {
          stage('Build') {
              steps {
-                 sh 'make all'
+                 'make all'
              }
          }
          stage('Test') {
