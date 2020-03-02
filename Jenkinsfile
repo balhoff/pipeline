@@ -2,7 +2,7 @@ pipeline {
      agent {
          dockerfile {
              filename 'Dockerfile'
-//              label 'zeppo'
+             label 'zeppo'
          }
      }
      stages {
