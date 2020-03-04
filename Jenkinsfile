@@ -6,6 +6,7 @@ pipeline {
                       dockerfile {
                           filename 'Dockerfile'
                           label 'zeppo'
+                          args '-u root:root'
                        }
               }
              steps {
