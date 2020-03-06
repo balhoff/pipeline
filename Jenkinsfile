@@ -1,14 +1,13 @@
 pipeline {
-    agent any
+    agent {
+        dockerfile {
+          filename 'Dockerfile'
+          label 'zeppo'
+          args '-u root:root'
+        }
+    }
      stages {
          stage('Build') {
-             agent {
-                      dockerfile {
-                          filename 'Dockerfile'
-                          label 'zeppo'
-                          args '-u root:root'
-                       }
-              }
              steps {
                  sh 'make all'
              }
