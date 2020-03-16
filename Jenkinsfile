@@ -9,6 +9,7 @@ pipeline {
                     image 'obolibrary/odkfull:v1.2.22'
                     // Reset Jenkins Docker agent default to original
                     // root.
+                    label 'zeppo'
                     args '-u root:root'
             }
     }
