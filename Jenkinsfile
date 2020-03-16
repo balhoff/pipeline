@@ -15,7 +15,8 @@ pipeline {
          }
          stage('Test') {
              steps {
-                 sh 'make test'
+//                  sh 'make test'
+                    echo "test print ss 2"
              }
          }
          stage('Deploy') {
