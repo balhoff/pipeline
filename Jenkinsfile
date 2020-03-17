@@ -11,7 +11,7 @@ pipeline {
              steps {
 
                     echo "test print ss "
-                    pwd
+                    sh 'pwd'
                      make all
              }
          }
