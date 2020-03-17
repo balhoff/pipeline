@@ -16,8 +16,9 @@ pipeline {
      stages {
          stage('Build') {
              steps {
-                 sh 'make all'
+
                     echo "test print ss "
+                    sh 'make all'
              }
          }
          stage('Test') {
