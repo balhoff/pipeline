@@ -1,17 +1,17 @@
 pipeline {
     agent {
-        dockerfile {
-          filename 'Dockerfile'
-          label 'zeppo'
-          args '-u root:root'
-        }
-//             docker {
-//                     image 'node:7-alpine'
-//                     // Reset Jenkins Docker agent default to original
-//                     // root.
-//                     label 'zeppo'
-//                     args '-u root:root'
-//             }
+//         dockerfile {
+//           filename 'Dockerfile'
+//           label 'zeppo'
+//           args '-u root:root'
+//         }
+            docker {
+                    image 'node:7-alpine'
+                    // Reset Jenkins Docker agent default to original
+                    // root.
+                    label 'zeppo'
+                    args '-u root:root'
+            }
     }
      stages {
          stage('Build') {
