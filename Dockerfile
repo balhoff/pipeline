@@ -53,4 +53,4 @@ RUN curl -O -L https://github.com/phenoscape/phenoscape-owl-tools/releases/downl
 
 RUN chmod +x /tools/*
 
-CMD echo "test ss 3"
+ENTRYPOINT echo "test ss 3"
