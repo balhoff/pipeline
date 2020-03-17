@@ -11,8 +11,7 @@ pipeline {
              steps {
 
                     echo "test print ss "
-                    sh 'pwd'
-                     make all
+                    sh 'make all'
              }
          }
          stage('Test') {
