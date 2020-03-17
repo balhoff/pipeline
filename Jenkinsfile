@@ -1,11 +1,11 @@
 pipeline {
     agent {
-        dockerfile {
-            true
+        dockerfile { true }
+
 //           filename 'Dockerfile'
 //           label 'zeppo'
 //           args '-u root:root'
-        }
+//         }
     }
      stages {
          stage('Build') {
