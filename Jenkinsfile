@@ -18,7 +18,7 @@ pipeline {
              steps {
 
                     echo "test print ss "
-                    sh 'make all'
+                     make all
              }
          }
          stage('Test') {
