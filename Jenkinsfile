@@ -1,29 +1,27 @@
 pipeline {
     agent {
-        dockerfile  true
-
-//           filename 'Dockerfile'
-//           label 'zeppo'
-//           args '-u root:root'
-//         }
+        docker {
+            image 'obolibrary/odkfull:v1.2.22'
+            label 'zeppo'
+            args '-u root:root'
+        }
     }
      stages {
          stage('Build') {
              steps {
-
-                    echo "test print ss "
                     sh 'make all'
              }
          }
          stage('Test') {
              steps {
-//                  sh 'make test'
-                    echo "test print ss 2"
+                    echo "make test"
+//                     sh 'make test'
              }
          }
          stage('Deploy') {
              steps {
-                 sh 'make publish'
+                 echo "make publish"
+//                  sh 'make publish'
              }
          }
      }
