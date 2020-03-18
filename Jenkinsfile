@@ -10,6 +10,10 @@ pipeline {
          stage('Build') {
              steps {
                     echo "test print: make all"
+                    sh "whoami"
+                    sh "env" 
+                    sh "groups"
+                    sh "pwd"
                     sh 'make all'
              }
          }
