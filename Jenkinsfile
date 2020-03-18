@@ -9,7 +9,8 @@ pipeline {
      stages {
          stage('Build') {
              steps {
-                    sh 'make all'
+                    echo "make all"
+//                     sh 'make all'
              }
          }
          stage('Test') {
