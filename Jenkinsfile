@@ -14,6 +14,7 @@ pipeline {
                     sh "env" 
                     sh "groups"
                     sh "pwd"
+                    sh "ls -AlF"
                     sh 'make all'
              }
          }
