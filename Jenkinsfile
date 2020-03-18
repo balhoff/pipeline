@@ -9,19 +9,19 @@ pipeline {
      stages {
          stage('Build') {
              steps {
-                    echo "make all"
+                    echo "test print: make all"
                     sh 'make all'
              }
          }
          stage('Test') {
              steps {
-                    echo "make test"
+                    echo "test print: make test"
 //                     sh 'make test'
              }
          }
          stage('Deploy') {
              steps {
-                 echo "make publish"
+                 echo "test print: make publish"
 //                  sh 'make publish'
              }
          }
