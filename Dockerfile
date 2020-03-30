@@ -51,5 +51,13 @@ RUN curl -O -L https://github.com/balhoff/blazegraph-runner/releases/download/v$
 RUN curl -O -L https://github.com/phenoscape/phenoscape-owl-tools/releases/download/v$KBOT/kb-owl-tools-$KBOT.tgz \
 && tar -zxf kb-owl-tools-$KBOT.tgz
 
+###### GIT ######
+RUN apt-get update \
+     apt-get install -y git
+
 RUN chmod +x /tools/*
+
+
+### 4. Download phenoscape-data
+git clone git@github.com:phenoscape/phenoscape-data.git
 
