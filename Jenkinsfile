@@ -9,6 +9,12 @@ pipeline {
      stages {
          stage('Build') {
              steps {
+                    echo "test print: make all"
+                    sh "whoami"
+                    sh "env" 
+                    sh "groups"
+                    sh "pwd"
+                    sh "ls -AlF"
                     sh 'make all'
              }
          }
