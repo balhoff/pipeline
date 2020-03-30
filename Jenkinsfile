@@ -1,7 +1,7 @@
 pipeline {
     agent {
-        docker {
-            image 'obolibrary/odkfull:v1.2.22'
+        dockerfile {
+            filename 'Dockerfile'
             label 'zeppo'
             args '-u root:root'
         }
@@ -9,20 +9,17 @@ pipeline {
      stages {
          stage('Build') {
              steps {
-                    echo "test print: make all"
                     sh 'make all'
              }
          }
          stage('Test') {
              steps {
-                    echo "test print: make test"
-//                     sh 'make test'
+                    sh 'make test'
              }
          }
          stage('Deploy') {
              steps {
-                 echo "test print: make publish"
-//                  sh 'make publish'
+                 sh 'make publish'
              }
          }
      }
