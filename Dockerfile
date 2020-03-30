@@ -55,5 +55,5 @@ RUN chmod +x /tools/*
 
 
 ### 4. Download phenoscape-data
-RUN git clone git@github.com:phenoscape/phenoscape-data.git
+RUN git clone https://github.com/phenoscape/phenoscape-data.git
 
