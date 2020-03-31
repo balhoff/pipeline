@@ -20,18 +20,20 @@ RUN apt-get update && apt-get upgrade -y \
 RUN apt-get update \
     && apt-get install -y make curl git wget tar
 
-### 3. Install custom tools
-#WORKDIR /tools
-
-###### JENA ######
-RUN curl -O -L http://archive.apache.org/dist/jena/binaries/apache-jena-$JENA.tar.gz \
-    && tar -zxf apache-jena-$JENA.tar.gz
 
 ###### ROBOT ######
 RUN curl -O -L https://github.com/ontodev/robot/releases/download/v$ROBOT/robot.jar \
     && curl -O -L https://github.com/ontodev/robot/raw/v$ROBOT/bin/robot \
     && chmod +x robot
 #ENV PATH "/tools/robot:$PATH"
+
+
+### 3. Install custom tools
+WORKDIR /tools
+
+###### JENA ######
+RUN curl -O -L http://archive.apache.org/dist/jena/binaries/apache-jena-$JENA.tar.gz \
+    && tar -zxf apache-jena-$JENA.tar.gz
 
 # Avoid repeated downloads of script dependencies by mounting the local coursier cache:
 # docker run -v $HOME/.coursier/cache/v1:/tools/.coursier-cache ...
