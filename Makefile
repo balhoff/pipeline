@@ -5,7 +5,7 @@ BUILD_DIR=build
 RESOURCES=resources
 SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx80G
-ROBOT=$(ROBOT_ENV) tools/robot
+ROBOT=$(ROBOT_ENV) robot
 JVM_ARGS=JVM_ARGS=-Xmx80G
 ARQ=$(JVM_ARGS) arq
 RIOT=riot
