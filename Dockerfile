@@ -40,7 +40,7 @@ ENV COURSIER_CACHE "/tools/.coursier-cache"
 RUN curl -O -L https://github.com/ontodev/robot/releases/download/v$ROBOT/robot.jar \
     && curl -O -L https://github.com/ontodev/robot/raw/v$ROBOT/bin/robot \
     && chmod +x robot
-#ENV PATH "/tools/robot:$PATH"
+ENV PATH "/tools/robot:$PATH"
 
 
 ###### DOSDPTOOLS ######
@@ -63,4 +63,6 @@ RUN chmod +x /tools/*
 
 ### 4. Download phenoscape-data
 RUN git clone https://github.com/phenoscape/phenoscape-data.git
+RUN pwd
+RUN ls -Alf
 
