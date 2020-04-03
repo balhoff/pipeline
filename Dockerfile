@@ -65,7 +65,7 @@ RUN chmod +x /tools/*
 WORKDIR /data
 RUN pwd
 RUN git clone https://github.com/phenoscape/phenoscape-data.git
-ENV PATH "/data:$PATH"
+ENV PATH "/data/phenoscape-data:$PATH"
 RUN pwd
 RUN ls -Alf ..
 
