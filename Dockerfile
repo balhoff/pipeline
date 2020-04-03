@@ -62,9 +62,8 @@ RUN chmod +x /tools/*
 
 
 ### 4. Download phenoscape-data
-RUN cd ..
-RUN pwd
 WORKDIR /data
+RUN pwd
 RUN git clone https://github.com/phenoscape/phenoscape-data.git
 ENV PATH "/data:$PATH"
 RUN pwd
