@@ -60,12 +60,12 @@ RUN curl -O -L https://github.com/phenoscape/phenoscape-owl-tools/releases/downl
 
 RUN chmod +x /tools/*
 
-
-### 4. Download phenoscape-data
-WORKDIR /data
-RUN pwd
-RUN git clone https://github.com/phenoscape/phenoscape-data.git
-ENV PATH "/data/phenoscape-data:$PATH"
-RUN pwd
-RUN ls -Alf ..
-
+#
+#### 4. Download phenoscape-data
+#WORKDIR /data
+#RUN pwd
+#RUN git clone https://github.com/phenoscape/phenoscape-data.git
+#ENV PATH "/data:$PATH"
+#RUN pwd
+#RUN ls -Alf ..
+#
