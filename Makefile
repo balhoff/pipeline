@@ -148,7 +148,7 @@ NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(NEXML_DATA)/%, $(BUILD_DIR)/
 # Convert a single NeXML file to its counterpart OFN
 $(BUILD_DIR)/phenex-data-owl/%.ofn: $(NEXML_DATA)/%.xml $(BUILD_DIR)/bio-ontologies-merged.ttl
 	mkdir -p $(dir $@) \
-	kb-owl-tools convert-nexml $(BUILD_DIR)/bio-ontologies-merged.ttl $< $@.tmp \
+	&& kb-owl-tools convert-nexml $(BUILD_DIR)/bio-ontologies-merged.ttl $< $@.tmp \
 	&& mv $@.tmp $@
 
 
