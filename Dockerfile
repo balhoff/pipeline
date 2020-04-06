@@ -2,13 +2,13 @@
 ### 1. Get Linux
 FROM ubuntu:18.04
 
-ENV ROBOT v1.5.0
+ENV ROBOT 1.5.0
 ARG ROBOT_JAR=https://github.com/ontodev/robot/releases/download/$ROBOT/robot.jar
 ENV ROBOT_JAR ${ROBOT_JAR}
-ENV DOSDPVERSION=0.13.1
-ENV JENA=3.12.0
-ENV BGR=1.4
-ENV KBOT=1.9.1
+ENV DOSDPVERSION 0.13.1
+ENV JENA 3.12.0
+ENV BGR 1.4
+ENV KBOT 1.9.1
 
 
 ### 2. Get Java and all required system libraries
