@@ -10,7 +10,7 @@ pipeline {
          stage('Build') {
              steps {
                     echo "test print: make all"
-                    sh "git clone https://github.com/phenoscape/phenoscape-data.git"
+                    sh "rm -rf phenoscape-data && git clone https://github.com/phenoscape/phenoscape-data.git"
                     sh "whoami"
                     sh "env" 
                     sh "groups"
