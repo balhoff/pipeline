@@ -53,12 +53,12 @@ ENV PATH "/tools/dosdp-tools/bin:$PATH"
 ###### BLAZEGRPAH-RUNNER ######
 RUN curl -O -L https://github.com/balhoff/blazegraph-runner/releases/download/v$BGR/blazegraph-runner-$BGR.tgz \
 && tar -zxf blazegraph-runner-$BGR.tgz
-ENV PATH "blazegraph-runner-$BGR/bin:$PATH"
+ENV PATH "/tools/blazegraph-runner-$BGR/bin:$PATH"
 
 ###### KB-OWL-TOOLS ######
 RUN curl -O -L https://github.com/phenoscape/phenoscape-owl-tools/releases/download/v$KBOT/kb-owl-tools-$KBOT.tgz \
 && tar -zxf kb-owl-tools-$KBOT.tgz
-ENV PATH "kb-owl-tools-$KBOT/bin:$PATH"
+ENV PATH "/tools/kb-owl-tools-$KBOT/bin:$PATH"
 
 RUN chmod +x /tools/*
 
