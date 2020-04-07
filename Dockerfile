@@ -27,13 +27,15 @@ WORKDIR /tools
 
 RUN pwd
 
-###### JENA ######
-RUN curl -O -L http://archive.apache.org/dist/jena/binaries/apache-jena-$JENA.tar.gz \
-    && tar -zxf apache-jena-$JENA.tar.gz
-
 # Avoid repeated downloads of script dependencies by mounting the local coursier cache:
 # docker run -v $HOME/.coursier/cache/v1:/tools/.coursier-cache ...
 #ENV COURSIER_CACHE "/tools/.coursier-cache"
+
+
+###### JENA ######
+RUN curl -O -L http://archive.apache.org/dist/jena/binaries/apache-jena-$JENA.tar.gz \
+    && tar -zxf apache-jena-$JENA.tar.gz
+ENV PATH "/tools/apache-jena-$JENA/bin:$PATH"
 
 
 ###### ROBOT ######
@@ -62,12 +64,3 @@ ENV PATH "/tools/kb-owl-tools-$KBOT/bin:$PATH"
 
 RUN chmod +x /tools/*
 
-#
-#### 4. Download phenoscape-data
-#WORKDIR /data
-#RUN pwd
-#RUN git clone https://github.com/phenoscape/phenoscape-data.git
-#ENV PATH "/data:$PATH"
-#RUN pwd
-#RUN ls -Alf ..
-#
