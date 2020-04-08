@@ -432,31 +432,31 @@ $(BUILD_DIR)/monarch-types-labels.ttl: $(SPARQL)/monarch-types-labels.sparql $(B
 # Download mgi_slim.ttl
 $(BUILD_DIR)/mgi_slim.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/latest/ttl/mgi_slim.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/latest/rdf/mgi_slim.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download mgi.ttl
 $(BUILD_DIR)/mgi.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/latest/ttl/mgi.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/latest/rdf/mgi.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download zfinslim.ttl
 $(BUILD_DIR)/zfinslim.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/latest/ttl/zfinslim.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/latest/rdf/zfinslim.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download zfin.ttl
 $(BUILD_DIR)/zfin.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/latest/ttl/zfin.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/latest/rdf/zfin.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download hpoa.ttl
 $(BUILD_DIR)/hpoa.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/latest/ttl/hpoa.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/latest/rdf/hpoa.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # ##########
