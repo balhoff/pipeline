@@ -16,6 +16,7 @@ pipeline {
                     sh "groups"
                     sh "pwd"
                     sh "ls -AlF"
+                    sh "rm build/mgi* build/zfin* build/hpoa*"
                     sh 'make all'
              }
          }
