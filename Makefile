@@ -432,7 +432,7 @@ $(BUILD_DIR)/monarch-types-labels.ttl: $(SPARQL)/monarch-types-labels.sparql $(B
 # Download mgislim.ttl
 $(BUILD_DIR)/mgislim.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/latest/ttl/mgislim.ttl -o $@.tmp \
+	curl -L https://archive.monarchinitiative.org/latest/rdf/mgislim.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download mgi.ttl
