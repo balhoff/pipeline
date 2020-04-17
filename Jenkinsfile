@@ -1,7 +1,7 @@
 pipeline {
     agent {
         dockerfile {
-            filename 'obolibrary/odkfull'
+            image 'obolibrary/odkfull:v1.1.7'
             label 'zeppo'
             args '-u root:root'
         }
