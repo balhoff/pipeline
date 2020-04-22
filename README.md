@@ -28,19 +28,18 @@ Current version of the [pipeline](https://github.com/phenoscape/phenoscape-owl-t
 ***
 
 ## Deployment
+1. Download docker image `phenoscape/pipeline-tools` from [here](https://hub.docker.com/r/phenoscape/pipeline-tools).
+2. Execute `run.sh` to launch the container. Pass in commands to build different targets as arguments to `run.sh`. Pass `make all` to run the entire pipeline. 
+3. `run.sh` also launches a `bash` shell in the container to interactively work with the pipeline. 
 
-### Dependencies
-To successfully build and run the project, you need to have the following softwares installed and added to `PATH`:
+### Example
 
-1. [Robot v1.4.0](https://github.com/ontodev/robot)
-2. [Phenoscape OWL tools v1.8](https://github.com/phenoscape/phenoscape-owl-tools) 
-3. [Jena ARQ v3.10](http://jena.apache.org/)
-4. [DOSDP v0.13.1](https://github.com/INCATools/dosdp-tools/releases)
+```
+docker pull phenoscape/pipeline-tools:v1.0.2
 
-### Usage
-
-Execute `make all` on commandline to build the pipeline.
-
+./run.sh make all
+```
+Update `IMAGE_VERSION` in `run.sh` to launch the appropriate docker image. 
 
 # Documentation
 
