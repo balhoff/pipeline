@@ -3,6 +3,7 @@
 
 BUILD_DIR=build
 RESOURCES=resources
+REGRESSION=/tools
 SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx80G
 ROBOT=$(ROBOT_ENV) robot
@@ -591,8 +592,8 @@ $(BUILD_DIR)/taxa-expect-scores.ttl: $(BUILD_DIR)/taxa-rank-statistics.txt
 	&& mv $@.tmp $@
 
 
-$(BUILD_DIR)/taxa-rank-statistics.txt: $(BUILD_DIR)/taxa-scores.tsv $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt
-	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@.tmp \
+$(BUILD_DIR)/taxa-rank-statistics.txt: $(BUILD_DIR)/taxa-scores.tsv $(REGRESSION)/regression.py $(BUILD_DIR)/profile-sizes.txt
+	python $(REGRESSION)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@.tmp \
 	&& mv $@.tmp $@
 
 $(BUILD_DIR)/taxa-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl
@@ -609,8 +610,8 @@ $(BUILD_DIR)/gene-expect-scores.ttl: $(BUILD_DIR)/gene-rank-statistics.txt
 	kb-owl-tools expects-to-triples $< $@.tmp \
 	&& mv $@.tmp $@
 
-$(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(RESOURCES)/regression.py $(BUILD_DIR)/profile-sizes.txt
-	python $(RESOURCES)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@.tmp \
+$(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(REGRESSION)/regression.py $(BUILD_DIR)/profile-sizes.txt
+	python $(REGRESSION)/regression.py `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@.tmp \
 	&& mv $@.tmp $@
 
 $(BUILD_DIR)/gene-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
