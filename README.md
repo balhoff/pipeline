@@ -29,10 +29,17 @@ Current version of the [pipeline](https://github.com/phenoscape/phenoscape-owl-t
 
 ## Deployment
 
+Docker image `phenoscape/pipeline-tools` packages the software tools required to run the KB build pipeline.
+
+To build the entire pipeline:
 ```
 ./run.sh make all
 ```
-Update `IMAGE_VERSION` in `run.sh` to launch the appropriate docker image. 
+To build a specific component of pipeline, like for instance `semantic similarity scores`:
+```
+./run.sh ss-scores-gen
+```
+
 
 # Documentation
 
