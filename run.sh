@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# Convenience script to launch docker container
-# Launches container with interactive bash shell
-# And runs command passed in by the user
+# Convenience script to launch docker container.
+# Launches container and runs command passed in by the user.
+# The current working directory is mounted within the container.
 
 # Usage example
 # ./run.sh make all
