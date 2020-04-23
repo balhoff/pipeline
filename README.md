@@ -28,15 +28,8 @@ Current version of the [pipeline](https://github.com/phenoscape/phenoscape-owl-t
 ***
 
 ## Deployment
-1. Download docker image `phenoscape/pipeline-tools` from [here](https://hub.docker.com/r/phenoscape/pipeline-tools).
-2. Execute `run.sh` to launch the container. Pass in commands to build different targets as arguments to `run.sh`. Pass `make all` to run the entire pipeline. 
-3. `run.sh` also launches a `bash` shell in the container to interactively work with the pipeline. 
-
-### Example
 
 ```
-docker pull phenoscape/pipeline-tools:v1.0.2
-
 ./run.sh make all
 ```
 Update `IMAGE_VERSION` in `run.sh` to launch the appropriate docker image. 
