@@ -37,7 +37,7 @@ To build the entire pipeline:
 ```
 To build a specific component of pipeline, like for instance `semantic similarity scores`:
 ```
-./run.sh ss-scores-gen
+./run.sh make ss-scores-gen
 ```
 
 
