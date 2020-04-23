@@ -31,6 +31,8 @@ Current version of the [pipeline](https://github.com/phenoscape/phenoscape-owl-t
 
 Docker image `phenoscape/pipeline-tools` packages the software tools required to run the KB build pipeline.
 
+`run.sh` pulls the image and launches the container with the specified command to build the pipeline.
+
 To build the entire pipeline:
 ```
 ./run.sh make all
