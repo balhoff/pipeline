@@ -1,9 +1,13 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX OBAN: <http://purl.org/oban/>
-PREFIX OBO: <http://purl.obolibrary.org/obo/> 
+PREFIX OBO: <http://purl.obolibrary.org/obo/>
+PREFIX ps: <http://purl.org/phenoscape/vocab.owl#>
 
 CONSTRUCT {
 ?geneProfile a ?phenotype .
-?gene <http://purl.org/phenoscape/vocab.owl#has_phenotypic_profile> ?geneProfile
+?gene ps:has_phenotypic_profile ?geneProfile .
+?gene rdf:type ps:AnnotatedGene .
 }
 WHERE {
 ?association a OBAN:association .
