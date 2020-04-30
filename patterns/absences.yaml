@@ -9,6 +9,7 @@ relations:
   inheres_in: http://purl.obolibrary.org/obo/BFO_0000052
   has_part: http://purl.obolibrary.org/obo/BFO_0000051
   towards: http://purl.obolibrary.org/obo/RO_0002503
+  implies_presence_of: http://purl.org/phenoscape/vocab.owl#implies_presence_of
 
 annotationProperties:
   absence_of: http://purl.org/phenoscape/vocab.owl#absence_of
@@ -28,7 +29,7 @@ equivalentTo:
     - anatomical_entity
 
 GCI:
-  text: "(LacksAllPartsOfType and ('towards' value %s)) EquivalentTo ('inheres_in' some (not ('has_part' some %s)))"
+  text: "('has_part' some (LacksAllPartsOfType and ('towards' value %s))) EquivalentTo (not ('implies_presence_of' some %s))"
   vars:
     - anatomical_entity
     - anatomical_entity
