@@ -386,12 +386,11 @@ $(BUILD_DIR)/bio-ontologies-merged.ttl: $(BIO-ONTOLOGIES) $(BUILD_DIR)/mirror
 # ----------
 
 # Generate phenex-tbox.ofn
-# Extract tbox and rbox from phenex-data-merged.ofn
+# Remove abox axioms from phenex-data-merged.ofn
 $(BUILD_DIR)/phenex-tbox.ofn: $(BUILD_DIR)/phenex-data-merged.ofn
-	$(ROBOT) filter \
+	$(ROBOT) remove \
 	-i $< \
-	--axioms tbox \
-	--axioms rbox \
+	--axioms abox \
 	convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
