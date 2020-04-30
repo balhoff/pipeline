@@ -6,7 +6,7 @@ classes:
   LacksAllPartsOfType: http://purl.obolibrary.org/obo/PATO_0002000
 
 relations:
-  inheres_in: http://purl.obolibrary.org/obo/BFO_0000052
+  inheres_in: http://purl.obolibrary.org/obo/RO_0000052
   has_part: http://purl.obolibrary.org/obo/BFO_0000051
   towards: http://purl.obolibrary.org/obo/RO_0002503
 
