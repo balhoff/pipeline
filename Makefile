@@ -212,7 +212,6 @@ $(BUILD_DIR)/anatomical-entity-absences.ofn \
 $(BUILD_DIR)/anatomical-entity-partOf.ofn \
 $(BUILD_DIR)/hasParts.ofn \
 $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
-$(BUILD_DIR)/developsFromRulesForAbsence.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
@@ -225,7 +224,6 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
     -i $(BUILD_DIR)/anatomical-entity-partOf.ofn \
     -i $(BUILD_DIR)/hasParts.ofn \
     -i $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
-    -i $(BUILD_DIR)/developsFromRulesForAbsence.ofn \
     -i $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
     -i $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
     -i $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn \
@@ -294,16 +292,6 @@ $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn: $(BUILD_DIR)/anatomical-
     	--generate-defined-class=true \
     	--obo-prefixes=true \
     	--template=patterns/has_part_inhering_in.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/developsFromRulesForAbsence.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/develops_from_rule.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/develops_from_rule.yaml \
     	--infile=$< \
     	--outfile=$@.tmp \
     	&& mv $@.tmp $@
