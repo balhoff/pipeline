@@ -169,11 +169,13 @@ $(BUILD_DIR)/phenex-data-merged.ofn: $(NEXML_OWLS)
 # Compute final inferred classification of Phenoscape KB Tbox
 $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified-plus-absence.ttl
 	$(ROBOT) reason \
-    	--reasoner ELK \
-    	--i $< \
-    	convert --format ttl \
-    	-o $@.tmp \
-    	&& mv $@.tmp $@
+	--reasoner ELK \
+	--exclude-duplicate-axioms true \
+	--exclude-tautologies structural \
+	--i $< \
+	convert --format ttl \
+	-o $@.tmp \
+	&& mv $@.tmp $@
 
 # Generate phenoscape-kb-tbox-classified-plus-absence.ttl
 $(BUILD_DIR)/phenoscape-kb-tbox-classified-plus-absence.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn $(BUILD_DIR)/negation-hierarchy.ofn
@@ -197,6 +199,9 @@ $(BUILD_DIR)/negation-hierarchy.ofn: $(BUILD_DIR)/phenoscape-kb-tbox-classified-
 $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DIR)/phenoscape-kb-tbox.ofn
 	$(ROBOT) reason \
 	-i $< \
+	--reasoner ELK \
+	--exclude-duplicate-axioms true \
+	--exclude-tautologies structural \
 	convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
@@ -356,11 +361,14 @@ $(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)
 # the input ontologies are not 100% compatible.
 $(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)/bio-ontologies-merged.ttl
 	$(ROBOT) remove -i $< --axioms 'disjoint' --trim true \
-    remove --term 'owl:Nothing' --trim true \
-    reason --reasoner ELK \
-    convert --format ofn \
-    -o $@.tmp \
-    && mv $@.tmp $@
+	remove --term 'owl:Nothing' --trim true \
+	reason \
+	--reasoner ELK \
+	--exclude-duplicate-axioms true \
+	--exclude-tautologies structural \
+	convert --format ofn \
+	-o $@.tmp \
+	&& mv $@.tmp $@
 
 # Merge imported ontologies
 $(BUILD_DIR)/bio-ontologies-merged.ttl: $(BIO-ONTOLOGIES) $(BUILD_DIR)/mirror
