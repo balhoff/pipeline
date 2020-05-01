@@ -210,7 +210,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 # ----------
 
 # Generate phenoscape-kb-tbox.ofn
-$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ofn \
+$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ttl \
 $(BUILD_DIR)/defined-by-links.ttl \
 $(BUILD_DIR)/phenex-tbox.ofn \
 $(BUILD_DIR)/anatomical-entity-presences.ofn \
@@ -222,7 +222,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 	$(ROBOT) merge \
-	-i $(BUILD_DIR)/bio-ontologies-classified.ofn \
+	-i $(BUILD_DIR)/bio-ontologies-classified.ttl \
 	-i $(BUILD_DIR)/defined-by-links.ttl \
 	-i $(BUILD_DIR)/phenex-tbox.ofn \
     -i $(BUILD_DIR)/anatomical-entity-presences.ofn \
@@ -243,7 +243,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 
 # -----
 
-$(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)/isDefinedBy.sparql
+$(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-merged.ttl $(SPARQL)/isDefinedBy.sparql
 	$(ROBOT) query \
 	--use-graphs true \
 	--format ttl \
@@ -335,7 +335,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatom
 # -----
 
 # Generate anatomical-entities.txt
-$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged.ttl $(BUILD_DIR)/defined-by-links.ttl $(SPARQL)/anatomicalEntities.sparql
+$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl $(BUILD_DIR)/defined-by-links.ttl $(SPARQL)/anatomicalEntities.sparql
 	$(ARQ) \
     	--data=$< \
     	--data=$(BUILD_DIR)/defined-by-links.ttl \
@@ -345,7 +345,7 @@ $(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged.ttl $(B
     	&& mv $@.tmp $@
 
 # Generate qualities.txt
-$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)/qualities.sparql
+$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl $(SPARQL)/qualities.sparql
 	$(ROBOT) query \
     	-i $< \
     	--use-graphs true \
@@ -356,18 +356,18 @@ $(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/bio-ontologies-classified.ofn $(SPARQL)
 
 # ----------
 
-# Generate bio-ontologies-classified.ofn
+# Generate bio-ontologies-classified.ttl
 # Compute inferred classification of just the input ontologies.
 # We need to remove axioms that can infer unsatisfiability, since
 # the input ontologies are not 100% compatible.
-$(BUILD_DIR)/bio-ontologies-classified.ofn: $(BUILD_DIR)/bio-ontologies-merged.ttl
+$(BUILD_DIR)/bio-ontologies-classified.ttl: $(BUILD_DIR)/bio-ontologies-merged.ttl
 	$(ROBOT) remove -i $< --axioms 'disjoint' --trim true \
 	remove --term 'owl:Nothing' --trim true \
 	reason \
 	--reasoner ELK \
 	--exclude-duplicate-axioms true \
 	--exclude-tautologies structural \
-	convert --format ofn \
+	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
