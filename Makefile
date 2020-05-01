@@ -141,6 +141,7 @@ $(shell find $(NEXML_DATA)/curation-files/fin_limb-incomplete-files -type f -nam
 $(shell find $(NEXML_DATA)/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") \
 $(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") \
 $(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") \
+$(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Dillman_Supermatrix_Files -type f -name "*.xml") \
 $(shell find $(NEXML_DATA)/curation-files/matrix-vs-monograph -type f -name "*.xml")
 
 # Store paths to all OFN files which will be produced from NeXML files in NEXML_OWLS variable
