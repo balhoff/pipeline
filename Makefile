@@ -63,24 +63,16 @@ kb-build: $(BUILD_DIR)/phenoscape-kb.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarc
 # ##########
 # 1. Phenoscape KB
 
-$(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl \
-                                $(BUILD_DIR)/phenex-data+tbox.ttl \
-                                $(BUILD_DIR)/monarch-data-merged.ttl \
-                                $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/evolutionary-profiles.ttl \
-                                $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl
+$(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl $(BUILD_DIR)/phenex-data+tbox.ttl $(BUILD_DIR)/monarch-data-merged.ttl $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/absences.ttl $(BUILD_DIR)/presences.ttl $(BUILD_DIR)/evolutionary-profiles.ttl
 	$(RIOT) --verbose --nocheck --output=NTRIPLES \
-    	$(BUILD_DIR)/ontology-metadata.ttl \
-    	$(BUILD_DIR)/phenex-data+tbox.ttl \
-    	$(BUILD_DIR)/monarch-data-merged.ttl \
-    	$(BUILD_DIR)/gene-profiles.ttl \
-    	$(BUILD_DIR)/absences.ttl \
-    	$(BUILD_DIR)/presences.ttl \
-    	$(BUILD_DIR)/evolutionary-profiles.ttl \
-    	$(BUILD_DIR)/subclass-closure.ttl \
-    	$(BUILD_DIR)/instance-closure.ttl \
-    	> $@.tmp \
-      && mv $@.tmp $@
-      
+	$(BUILD_DIR)/ontology-metadata.ttl \
+	$(BUILD_DIR)/phenex-data+tbox.ttl \
+	$(BUILD_DIR)/monarch-data-merged.ttl \
+	$(BUILD_DIR)/gene-profiles.ttl \
+	$(BUILD_DIR)/absences.ttl \
+	$(BUILD_DIR)/presences.ttl \
+	$(BUILD_DIR)/evolutionary-profiles.ttl \
+	> $@.tmp && mv $@.tmp $@
 
 
 # ----------
