@@ -556,8 +556,8 @@ $(BUILD_DIR)/gene-expect-scores.ttl
 # Pairwise similarity for taxa
 
 $(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
-	kb-owl-tools pairwise-sim 1 1 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< taxa $@.tmp \
-	&& mv $@.tmp $@
+	kb-owl-tools pairwise-sim 1 1 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< taxa $@.tmp $(BUILD_DIR)/taxa-scores.tsv.tmp \
+	&& mv $@.tmp $@ && mv $(BUILD_DIR)/taxa-scores.tsv.tmp $(BUILD_DIR)/taxa-scores.tsv
 
 # ##########
 
@@ -566,8 +566,8 @@ $(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/pheno
 # Pairwise similarity for genes
 
 $(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
-	kb-owl-tools pairwise-sim 1 1 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< genes $@.tmp \
-	&& mv $@.tmp $@
+	kb-owl-tools pairwise-sim 1 1 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< genes $@.tmp  $(BUILD_DIR)/gene-scores.tsv.tmp \
+	&& mv $@.tmp $@ && mv $(BUILD_DIR)/gene-scores.tsv.tmp $(BUILD_DIR)/gene-scores.tsv
 
 # ##########
 
@@ -584,13 +584,9 @@ $(BUILD_DIR)/taxa-rank-statistics.txt: $(BUILD_DIR)/taxa-scores.tsv $(BUILD_DIR)
 	python $(REGRESSION) `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@.tmp \
 	&& mv $@.tmp $@
 
-$(BUILD_DIR)/taxa-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl
-	$(ARQ) \
-	--data=$(BUILD_DIR)/corpus-ics-taxa.ttl \
-	--data=$(BUILD_DIR)/taxa-pairwise-sim.ttl \
-	--results=TSV \
-	--query=$< > $@.tmp \
-	&& mv $@.tmp $@
+# Built along with $(BUILD_DIR)/taxa-pairwise-sim.ttl
+$(BUILD_DIR)/taxa-scores.tsv: $(BUILD_DIR)/taxa-pairwise-sim.ttl
+	touch $@
 
 # ----------
 
@@ -602,13 +598,9 @@ $(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(BUILD_DIR)
 	python $(REGRESSION) `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@.tmp \
 	&& mv $@.tmp $@
 
-$(BUILD_DIR)/gene-scores.tsv: $(SPARQL)/get-scores.rq $(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl
-	$(ARQ) \
-	--data=$(BUILD_DIR)/corpus-ics-genes.ttl \
-	--data=$(BUILD_DIR)/gene-pairwise-sim.ttl \
-	--results=TSV \
-	--query=$< > $@.tmp \
-	&& mv $@.tmp $@
+# Built along with $(BUILD_DIR)/gene-pairwise-sim.ttl
+$(BUILD_DIR)/gene-scores.tsv: $(BUILD_DIR)/gene-pairwise-sim.ttl
+	touch $@
 
 # ----------
 
