@@ -10,7 +10,7 @@ ROBOT=$(ROBOT_ENV) robot
 JVM_ARGS=JVM_ARGS=-Xmx80G
 ARQ=$(JVM_ARGS) arq
 RIOT=riot
-BLAZEGRAPH-RUNNER=blazegraph-runner
+BLAZEGRAPH-RUNNER=JAVA_OPTS=-Xmx80G blazegraph-runner
 
 BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
@@ -581,7 +581,7 @@ $(BUILD_DIR)/taxa-expect-scores.ttl: $(BUILD_DIR)/taxa-rank-statistics.txt
 
 
 $(BUILD_DIR)/taxa-rank-statistics.txt: $(BUILD_DIR)/taxa-scores.tsv $(BUILD_DIR)/profile-sizes.txt
-	python $(REGRESSION) `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@.tmp \
+	python $(REGRESSION) `grep 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@.tmp \
 	&& mv $@.tmp $@
 
 # Built along with $(BUILD_DIR)/taxa-pairwise-sim.ttl
