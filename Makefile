@@ -10,7 +10,7 @@ ROBOT=$(ROBOT_ENV) robot
 JVM_ARGS=JVM_ARGS=-Xmx80G
 ARQ=$(JVM_ARGS) arq
 RIOT=riot
-BLAZEGRAPH-RUNNER=blazegraph-runner
+BLAZEGRAPH-RUNNER=JAVA_OPTS=-Xmx80G blazegraph-runner
 
 BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
