@@ -1,14 +1,17 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ps: <http://purl.org/phenoscape/vocab.owl#>
 
-SELECT ?taxon (ps:has_absence_of AS ?p) ?entity
+SELECT DISTINCT ?taxon (ps:has_absence_of AS ?p) ?entity
 WHERE {
-
-?taxon <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.obolibrary.org/obo/vto.owl> .
-?entity <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.obolibrary.org/obo/uberon.owl> .
-
-?taxon <http://purl.org/phenoscape/vocab.owl#exhibits_state>/<http://purl.org/phenoscape/vocab.owl#describes_phenotype>/(<http://www.w3.org/2000/01/rdf-schema#subClassOf>)/<http://purl.org/phenoscape/vocab.owl#absence_of> ?entity .
-
-#?taxon rdfs:subClassOf* <http://purl.obolibrary.org/obo/VTO_0000001> .
-#?entity rdfs:subClassOf* <http://purl.obolibrary.org/obo/UBERON_0001062>
+?taxon rdfs:isDefinedBy <http://purl.obolibrary.org/obo/vto.owl> .
+?entity rdfs:isDefinedBy <http://purl.obolibrary.org/obo/uberon.owl> .
+?taxon ps:exhibits_state/ps:describes_phenotype ?phenotype .
+?phenotype owl:equivalentClass/owl:intersectionOf/rdf:rest*/rdf:first ?hasPartRestriction .
+?hasPartRestriction owl:onProperty obo:BFO_0000051 .
+?hasPartRestriction owl:someValuesFrom/owl:intersectionOf ?operands .
+?operands rdf:rest*/rdf:first obo:PATO_0002000 .
+?operands rdf:rest*/rdf:first ?valueRestriction .
+?valueRestriction owl:onProperty obo:RO_0002503 .
+?valueRestriction owl:hasValue ?phenotypeEntity .
+?entity ^ps:implies_presence_of_some/rdfs:subClassOf/ps:implies_presence_of_some ?phenotypeEntity .
 }
