@@ -6,15 +6,6 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 
 SELECT DISTINCT ?taxon (ps:has_absence_of AS ?p) ?entity
 WHERE {
-?taxon rdfs:isDefinedBy <http://purl.obolibrary.org/obo/vto.owl> .
-?entity rdfs:isDefinedBy <http://purl.obolibrary.org/obo/uberon.owl> .
-?taxon ps:exhibits_state/ps:describes_phenotype ?phenotype .
-?phenotype owl:equivalentClass/owl:intersectionOf/rdf:rest*/rdf:first ?hasPartRestriction .
-?hasPartRestriction owl:onProperty obo:BFO_0000051 .
-?hasPartRestriction owl:someValuesFrom/owl:intersectionOf ?operands .
-?operands rdf:rest*/rdf:first obo:PATO_0002000 .
-?operands rdf:rest*/rdf:first ?valueRestriction .
-?valueRestriction owl:onProperty obo:RO_0002503 .
-?valueRestriction owl:hasValue ?phenotypeEntity .
+?taxon ps:exhibits_state/ps:describes_phenotype/rdfs:subClassOf/ps:absence_of ?phenotypeEntity .
 ?entity ^ps:implies_presence_of_some/rdfs:subClassOf/ps:implies_presence_of_some ?phenotypeEntity .
 }
