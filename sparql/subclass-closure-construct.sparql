@@ -7,6 +7,6 @@ SELECT ?s (rdfs:subClassOf AS ?p) ?o
 WHERE {
     ?s rdf:type owl:Class .
     FILTER(isIRI(?s))
-    ?s rdfs:subClassOf*|owl:equivalentClass ?o .
+    ?s rdfs:subClassOf*|owl:equivalentClass|^owl:equivalentClass ?o .
     FILTER(isIRI(?o))
 }
