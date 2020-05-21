@@ -4,6 +4,7 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX ps: <http://purl.org/phenoscape/vocab.owl#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 
+# Assumes reflexive rdfs:subClassOf closure
 SELECT DISTINCT ?taxon (ps:has_absence_of AS ?p) ?entity
 WHERE {
 ?taxon ps:exhibits_state/ps:describes_phenotype/rdfs:subClassOf/ps:absence_of ?phenotypeEntity .
