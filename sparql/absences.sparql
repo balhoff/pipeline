@@ -8,4 +8,5 @@ SELECT DISTINCT ?taxon (ps:has_absence_of AS ?p) ?entity
 WHERE {
 ?taxon ps:exhibits_state/ps:describes_phenotype/rdfs:subClassOf/ps:absence_of ?phenotypeEntity .
 ?entity ^ps:implies_presence_of_some/rdfs:subClassOf/ps:implies_presence_of_some ?phenotypeEntity .
+?entity <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.obolibrary.org/obo/uberon.owl> .
 }
