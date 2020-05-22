@@ -1,14 +1,14 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX ps: <http://purl.org/phenoscape/vocab.owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
 
-SELECT ?taxon (ps:has_absence_of AS ?p) ?entity
+# Assumes reflexive rdfs:subClassOf closure
+SELECT DISTINCT ?taxon (ps:has_absence_of AS ?p) ?entity
 WHERE {
-
-?taxon <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.obolibrary.org/obo/vto.owl> .
-?entity <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.obolibrary.org/obo/uberon.owl> .
-
-?taxon <http://purl.org/phenoscape/vocab.owl#exhibits_state>/<http://purl.org/phenoscape/vocab.owl#describes_phenotype>/(<http://www.w3.org/2000/01/rdf-schema#subClassOf>)/<http://purl.org/phenoscape/vocab.owl#absence_of> ?entity .
-
-#?taxon rdfs:subClassOf* <http://purl.obolibrary.org/obo/VTO_0000001> .
-#?entity rdfs:subClassOf* <http://purl.obolibrary.org/obo/UBERON_0001062>
+?taxon ps:exhibits_state/ps:describes_phenotype/rdfs:subClassOf/ps:absence_of ?phenotypeEntity .
+?entity ^ps:implies_presence_of_some/rdfs:subClassOf/ps:implies_presence_of_some ?phenotypeEntity .
+?entity rdfs:isDefinedBy <http://purl.obolibrary.org/obo/uberon.owl> .
+?taxon rdfs:isDefinedBy <http://purl.obolibrary.org/obo/vto.owl> .
 }

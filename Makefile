@@ -163,6 +163,7 @@ $(BUILD_DIR)/phenex-data-merged.ofn: $(NEXML_OWLS)
 $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified-plus-absence.ttl
 	$(ROBOT) reason \
 	--reasoner ELK \
+	--axiom-generators "SubClass EquivalentClass" \
 	--exclude-duplicate-axioms true \
 	--exclude-tautologies structural \
 	--i $< \
@@ -193,6 +194,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 	$(ROBOT) reason \
 	-i $< \
 	--reasoner ELK \
+	--axiom-generators "SubClass EquivalentClass" \
 	--exclude-duplicate-axioms true \
 	--exclude-tautologies structural \
 	convert --format ofn \
@@ -357,6 +359,7 @@ $(BUILD_DIR)/bio-ontologies-classified.ttl: $(BUILD_DIR)/bio-ontologies-merged.t
 	remove --term 'owl:Nothing' --trim true \
 	reason \
 	--reasoner ELK \
+	--axiom-generators "SubClass EquivalentClass" \
 	--exclude-duplicate-axioms true \
 	--exclude-tautologies structural \
 	convert --format ttl \
