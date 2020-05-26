@@ -12,5 +12,5 @@ IMAGE_VERSION=v1.1
 # cd pipeline_dir
 # docker pull phenoscape/pipeline-tools:$IMAGE_VERSION
 
-docker run --volume "$(pwd)":/pipeline --workdir /pipeline --rm -ti phenoscape/pipeline-tools:$IMAGE_VERSION "$@"
+docker run --volume "$(pwd)":/pipeline --workdir /pipeline --rm -ti --user $(id -u):$(id -g) phenoscape/pipeline-tools:$IMAGE_VERSION "$@"
 
