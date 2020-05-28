@@ -3,7 +3,6 @@ pipeline {
         docker {
             image 'phenoscape/pipeline-tools:v1.1'
             label 'zeppo'
-            args '--user $(id -u):$(id -g)'
         }
     }
      stages {
