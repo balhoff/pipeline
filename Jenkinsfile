@@ -8,9 +8,7 @@ pipeline {
      stages {
          stage('Build') {
              steps {
-                    sh "whoami"
                     sh "env" 
-                    sh "groups"
                     sh "pwd"
                     sh "ls -AlF"
                     sh "if [ ! -d phenoscape-data ]; then git clone --depth 1 https://github.com/phenoscape/phenoscape-data.git; fi"
