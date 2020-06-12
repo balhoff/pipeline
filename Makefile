@@ -367,10 +367,13 @@ $(BUILD_DIR)/bio-ontologies-classified.ttl: $(BUILD_DIR)/bio-ontologies-merged.t
 	&& mv $@.tmp $@
 
 # Merge imported ontologies
-$(BUILD_DIR)/bio-ontologies-merged.ttl: $(BIO-ONTOLOGIES) $(BUILD_DIR)/mirror
+$(BUILD_DIR)/bio-ontologies-merged.ttl: $(BIO-ONTOLOGIES) $(BUILD_DIR)/mirror $(SPARQL)/update_zfa_labels.ru $(SPARQL)/update_xao_labels.ru 
 	$(ROBOT) merge \
 	--catalog $(BUILD_DIR)/mirror/catalog-v001.xml \
 	-i $< \
+	query \
+	--update $(SPARQL)/update_zfa_labels.ru \
+	--update $(SPARQL)/update_xao_labels.ru \
 	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
@@ -639,7 +642,11 @@ $(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(BUILD_DIR)/g
 # ########## # ##########
 
 
+$(BUILD_DIR)/phylopics.owl: $(NEXML_DATA)/KB_static_data/phylopics.owl
+	cp $< $@
 
+$(BUILD_DIR)/vto_ncbi_common_names.owl: $(NEXML_DATA)/KB_static_data/vto_ncbi_common_names.owl
+	cp $< $@
 
 
 # ########## # ##########
@@ -670,6 +677,8 @@ $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
 			$(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl \
 			$(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-expect-scores.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl \
 			$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-expect-scores.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl \
+			$(BUILD_DIR)/phylopics.owl \
+			$(BUILD_DIR)/vto_ncbi_common_names.owl \
 			$(BUILD_DIR)/build-time.ttl
 	rm -f $@ && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/phenoscape-kb.ttl && \
@@ -681,6 +690,8 @@ $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene" $(BUILD_DIR)/corpus-ics-genes.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene" $(BUILD_DIR)/gene-expect-scores.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/gene" $(BUILD_DIR)/gene-pairwise-sim.ttl && \
+	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://purl.org/phenoscape/phylopics.owl" $(BUILD_DIR)/phylopics.owl && \
+	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/vto_ncbi_common_names.owl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/build-time.ttl
 
 # ##########
