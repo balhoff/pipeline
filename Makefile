@@ -367,10 +367,11 @@ $(BUILD_DIR)/bio-ontologies-classified.ttl: $(BUILD_DIR)/bio-ontologies-merged.t
 	&& mv $@.tmp $@
 
 # Merge imported ontologies
-$(BUILD_DIR)/bio-ontologies-merged.ttl: $(BIO-ONTOLOGIES) $(BUILD_DIR)/mirror $(SPARQL)/update_zfa_labels.ru $(SPARQL)/update_xao_labels.ru 
+$(BUILD_DIR)/bio-ontologies-merged.ttl: $(BIO-ONTOLOGIES) mod_taxa.ttl $(BUILD_DIR)/mirror $(SPARQL)/update_zfa_labels.ru $(SPARQL)/update_xao_labels.ru 
 	$(ROBOT) merge \
 	--catalog $(BUILD_DIR)/mirror/catalog-v001.xml \
 	-i $< \
+	-i mod_taxa.ttl \
 	query \
 	--update $(SPARQL)/update_zfa_labels.ru \
 	--update $(SPARQL)/update_xao_labels.ru \

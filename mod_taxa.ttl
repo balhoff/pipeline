@@ -1,0 +1,14 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix obo:  <http://purl.obolibrary.org/obo/> .
+
+_:ont a owl:Ontology .
+
+obo:NCBITaxon_10090 rdfs:label "Mus musculus"^^xsd:string .
+obo:NCBITaxon_7955 rdfs:label "Danio rerio"^^xsd:string .
+obo:NCBITaxon_8355 rdfs:label "Xenopus laevis"^^xsd:string .
+obo:NCBITaxon_8364 rdfs:label "Xenopus tropicalis"^^xsd:string .
+obo:NCBITaxon_8353 rdfs:label "Xenopus"^^xsd:string .
+obo:NCBITaxon_9606 rdfs:label "Homo sapiens"^^xsd:string .
