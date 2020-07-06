@@ -81,7 +81,7 @@ $(BUILD_DIR)/phenoscape-kb.ttl: $(BUILD_DIR)/ontology-metadata.ttl $(BUILD_DIR)/
 
 # Compute Tbox hierarchy
 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl $(SPARQL)/subclassHierarchy.sparql
-	$(ARQ) --data=$< --query=$(SPARQL)/subclassHierarchy.sparql --results=ttl > $@.tmp \
+	$(ARQ) -q --data=$< --query=$(SPARQL)/subclassHierarchy.sparql --results=ttl > $@.tmp \
 	&& mv $@.tmp $@
 
 # ##########
@@ -331,6 +331,7 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatom
 # Generate anatomical-entities.txt
 $(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl $(BUILD_DIR)/defined-by-links.ttl $(SPARQL)/anatomicalEntities.sparql
 	$(ARQ) \
+		-q \
     	--data=$< \
     	--data=$(BUILD_DIR)/defined-by-links.ttl \
     	--results=TSV \
@@ -418,6 +419,7 @@ $(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/mgislim.ttl $(BUILD_DIR)/zfin
 # Query monarch data for types and labels
 $(BUILD_DIR)/monarch-types-labels.ttl: $(SPARQL)/monarch-types-labels.sparql $(BUILD_DIR)/mgi.ttl $(BUILD_DIR)/zfin.ttl $(BUILD_DIR)/hpoa.ttl
 	$(ARQ) \
+	-q \
 	--data=$(BUILD_DIR)/mgi.ttl \
 	--data=$(BUILD_DIR)/zfin.ttl \
 	--data=$(BUILD_DIR)/hpoa.ttl \
@@ -472,6 +474,7 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data-merged.ttl $(SPARQL)/g
 # Generate absences.ttl
 $(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closure.ttl  $(BUILD_DIR)/phenex-data+tbox.ttl 
 	$(ARQ) \
+	-q \
 	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
 	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
@@ -483,6 +486,7 @@ $(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closu
 # Generate presences.ttl
 $(BUILD_DIR)/presences.ttl: $(SPARQL)/presences.sparql $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/phenex-data+tbox.ttl
 	$(ARQ) \
+	-q \
 	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
 	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
@@ -509,6 +513,7 @@ $(BUILD_DIR)/evolutionary-profiles.ttl: $(BUILD_DIR)/phenex-data+tbox.ttl
 # Compute subclass closures
 $(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl $(SPARQL)/subclass-closure-construct.sparql
 	$(ARQ) \
+	-q \
 	--data=$< \
 	--optimize=off \
 	--results=TSV \
@@ -520,6 +525,7 @@ $(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.tt
 # Compute instance closures
 $(BUILD_DIR)/instance-closure.ttl: $(SPARQL)/profile-instance-closure-construct.sparql $(BUILD_DIR)/phenex-data+tbox.ttl $(BUILD_DIR)/gene-profiles.ttl $(BUILD_DIR)/evolutionary-profiles.ttl
 	$(ARQ) \
+	-q \
 	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
 	--data=$(BUILD_DIR)/gene-profiles.ttl \
 	--data=$(BUILD_DIR)/evolutionary-profiles.ttl \
@@ -668,6 +674,7 @@ $(BUILD_DIR)/vto_ncbi_common_names.owl: $(NEXML_DATA)/KB_static_data/vto_ncbi_co
 $(BUILD_DIR)/build-time.ttl: $(SPARQL)/build-time.sparql
 	echo "<http://kb.phenoscape.org/> <http://www.w3.org/2000/01/rdf-schema#label> \"Phenoscape Knowledgebase\" ." > $(BUILD_DIR)/kb-label.ttl && \
 	$(ARQ) \
+	-q \
 	--data=$(BUILD_DIR)/kb-label.ttl \
 	--results=NTRIPLES \
 	--query=$< > $@.tmp \
