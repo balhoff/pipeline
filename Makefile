@@ -17,6 +17,7 @@ BIO-ONTOLOGIES=ontologies.ofn
 NEXML_DATA=phenoscape-data
 DB_FILE=$(BUILD_DIR)/blazegraph-loaded-all.jnl
 BLAZEGRAPH_PROPERTIES=$(RESOURCES)/blazegraph.properties
+MONARCH=https://data.monarchinitiative.org/dev
 
 
 
@@ -406,55 +407,57 @@ $(BUILD_DIR)/phenex-tbox.ofn: $(BUILD_DIR)/phenex-data-merged.ofn
 # 3. HPOA
 
 # Merge monarch data files
-$(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/mgislim.ttl $(BUILD_DIR)/zfinslim.ttl $(BUILD_DIR)/hpoa.ttl $(BUILD_DIR)/monarch-types-labels.ttl
+$(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/mgislim.ttl $(BUILD_DIR)/zfinslim.ttl #$(BUILD_DIR)/hpoa.ttl $(BUILD_DIR)/monarch-types-labels.ttl
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/mgislim.ttl \
 	-i $(BUILD_DIR)/zfinslim.ttl \
-	-i $(BUILD_DIR)/hpoa.ttl \
 	-i $(BUILD_DIR)/monarch-types-labels.ttl \
 	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
+	# disabled from above command line:
+	# -i $(BUILD_DIR)/hpoa.ttl \
 
 # Query monarch data for types and labels
-$(BUILD_DIR)/monarch-types-labels.ttl: $(SPARQL)/monarch-types-labels.sparql $(BUILD_DIR)/mgi.ttl $(BUILD_DIR)/zfin.ttl $(BUILD_DIR)/hpoa.ttl
+$(BUILD_DIR)/monarch-types-labels.ttl: $(SPARQL)/monarch-types-labels.sparql $(BUILD_DIR)/mgi.ttl $(BUILD_DIR)/zfin.ttl #$(BUILD_DIR)/hpoa.ttl
 	$(ARQ) \
 	-q \
 	--data=$(BUILD_DIR)/mgi.ttl \
 	--data=$(BUILD_DIR)/zfin.ttl \
-	--data=$(BUILD_DIR)/hpoa.ttl \
 	--query=$< \
 	--results=NTRIPLES > $@.tmp \
 	&& mv $@.tmp $@
+	# disabled from above command line:
+	# --data=$(BUILD_DIR)/hpoa.ttl \
 
 # Download mgislim.ttl
 $(BUILD_DIR)/mgislim.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/latest/rdf/mgislim.ttl -o $@.tmp \
+	curl -L $(MONARCH)/mgislim.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download mgi.ttl
 $(BUILD_DIR)/mgi.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/latest/rdf/mgi.ttl -o $@.tmp \
+	curl -L $(MONARCH)/mgi.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download zfinslim.ttl
 $(BUILD_DIR)/zfinslim.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/latest/rdf/zfinslim.ttl -o $@.tmp \
+	curl -L $(MONARCH)/zfinslim.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download zfin.ttl
 $(BUILD_DIR)/zfin.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/latest/rdf/zfin.ttl -o $@.tmp \
+	curl -L $(MONARCH)/zfin.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # Download hpoa.ttl
 $(BUILD_DIR)/hpoa.ttl:
 	mkdir -p $(BUILD_DIR)
-	curl -L https://archive.monarchinitiative.org/latest/rdf/hpoa.ttl -o $@.tmp \
+	curl -L $(MONARCH)/hpoa.ttl -o $@.tmp \
 	&& mv $@.tmp $@
 
 # ##########
