@@ -407,7 +407,7 @@ $(BUILD_DIR)/phenex-tbox.ofn: $(BUILD_DIR)/phenex-data-merged.ofn
 # 3. HPOA
 
 # Merge monarch data files
-$(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/mgislim.ttl $(BUILD_DIR)/zfinslim.ttl #$(BUILD_DIR)/hpoa.ttl $(BUILD_DIR)/monarch-types-labels.ttl
+$(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/mgislim.ttl $(BUILD_DIR)/zfinslim.ttl $(BUILD_DIR)/monarch-types-labels.ttl #$(BUILD_DIR)/hpoa.ttl 
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/mgislim.ttl \
 	-i $(BUILD_DIR)/zfinslim.ttl \
