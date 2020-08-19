@@ -205,38 +205,15 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 # ----------
 
 # Generate phenoscape-kb-tbox.ofn
-$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ttl \
-$(BUILD_DIR)/defined-by-links.ttl \
-$(BUILD_DIR)/phenex-tbox.ofn \
-$(BUILD_DIR)/anatomical-entity-presences.ofn \
-$(BUILD_DIR)/anatomical-entity-absences.ofn \
-$(BUILD_DIR)/anatomical-entity-partOf.ofn \
-$(BUILD_DIR)/hasParts.ofn \
-$(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
+$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ttl $(BUILD_DIR)/defined-by-links.ttl $(BUILD_DIR)/phenex-tbox.ofn
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/bio-ontologies-classified.ttl \
 	-i $(BUILD_DIR)/defined-by-links.ttl \
 	-i $(BUILD_DIR)/phenex-tbox.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-presences.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-absences.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-partOf.ofn \
-    -i $(BUILD_DIR)/hasParts.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn \
     convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
-# ----------
-
-# *** Subsumers ***
-
-# -----
 
 $(BUILD_DIR)/bio-ontologies-property-graphs.ttl : $(BUILD_DIR)/bio-ontologies-merged.ttl
 	relation-graph --ontology-file $< \
@@ -251,110 +228,6 @@ $(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-merged.ttl $(SPAR
 	--input $< \
 	--query $(SPARQL)/isDefinedBy.sparql $@
 
-$(BUILD_DIR)/anatomical-entity-presences.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/implies_presence_of.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/implies_presence_of.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/absences.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/absences.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-partOf.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/part_of.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/part_of.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/hasParts.ofn: $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities.txt patterns/has_part.yaml
-	mkdir -p $(dir $@) \
-	&& sed '1d' $(BUILD_DIR)/qualities.txt > $(BUILD_DIR)/qualities--header.txt \
-	&& cat $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities--header.txt > $(BUILD_DIR)/anatomical-entities++qualities.txt \
-	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/has_part.yaml \
-    	--infile=$(BUILD_DIR)/anatomical-entities++qualities.txt \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/has_part_inhering_in.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/has_part_inhering_in.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/phenotype_of.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/phenotype_of.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/phenotype_of_part_of.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/phenotype_of_part_of.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/phenotype_of_develops_from.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/phenotype_of_develops_from.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-# -----
-
-# Generate anatomical-entities.txt
-$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl $(BUILD_DIR)/defined-by-links.ttl $(SPARQL)/anatomicalEntities.sparql
-	$(ARQ) \
-		-q \
-    	--data=$< \
-    	--data=$(BUILD_DIR)/defined-by-links.ttl \
-    	--results=TSV \
-    	--query=$(SPARQL)/anatomicalEntities.sparql > $@.tmp \
-    	&& sed 's/^\?//' -i $@.tmp \
-    	&& mv $@.tmp $@
-
-# Generate qualities.txt
-$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl $(SPARQL)/qualities.sparql
-	$(ROBOT) query \
-    	-i $< \
-    	--use-graphs true \
-    	--query $(SPARQL)/qualities.sparql $@.tmp \
-    	&& mv $@.tmp $@
-
-# -----
 
 # ----------
 
