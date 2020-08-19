@@ -238,6 +238,12 @@ $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
 
 # -----
 
+$(BUILD_DIR)/bio-ontologies-property-graphs.ttl : $(BUILD_DIR)/bio-ontologies-merged.ttl
+	relation-graph --ontology-file $< \
+	--non-redundant-output-file $@ \
+	--redundant-output-file $(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl \
+	--mode rdf
+
 $(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-merged.ttl $(SPARQL)/isDefinedBy.sparql
 	$(ROBOT) query \
 	--use-graphs true \
