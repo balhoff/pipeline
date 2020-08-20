@@ -575,8 +575,8 @@ $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/phenoscape-kb.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/subclass-closure.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/instance-closure.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/property_graphs" $(BUILD_DIR)/bio-ontologies-property-graphs.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/property_graphs" $(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/property_graphs/non-redundant" $(BUILD_DIR)/bio-ontologies-property-graphs.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/property_graphs/redundant" $(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/corpus-ics-taxa.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/taxa-expect-scores.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/taxa-pairwise-sim.ttl && \
