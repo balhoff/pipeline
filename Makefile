@@ -221,6 +221,10 @@ $(BUILD_DIR)/bio-ontologies-property-graphs.ttl : $(BUILD_DIR)/bio-ontologies-me
 	--redundant-output-file $(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl \
 	--mode rdf
 
+# Built along with $(BUILD_DIR)/bio-ontologies-property-graphs.ttl
+$(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl: $(BUILD_DIR)/bio-ontologies-property-graphs.ttl
+	touch $@
+
 $(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-merged.ttl $(SPARQL)/isDefinedBy.sparql
 	$(ROBOT) query \
 	--use-graphs true \
