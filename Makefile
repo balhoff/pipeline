@@ -232,6 +232,27 @@ $(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-merged.ttl $(SPAR
 	--input $< \
 	--query $(SPARQL)/isDefinedBy.sparql $@
 
+$(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/absences.yaml
+	mkdir -p $(dir $@) \
+    	&& dosdp-tools generate \
+    	--generate-defined-class=true \
+    	--obo-prefixes=true \
+    	--template=patterns/absences.yaml \
+    	--infile=$< \
+    	--outfile=$@.tmp \
+    	&& mv $@.tmp $@
+
+# Generate anatomical-entities.txt
+$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl $(BUILD_DIR)/defined-by-links.ttl $(SPARQL)/anatomicalEntities.sparql
+	$(ARQ) \
+		-q \
+    	--data=$< \
+    	--data=$(BUILD_DIR)/defined-by-links.ttl \
+    	--results=TSV \
+    	--query=$(SPARQL)/anatomicalEntities.sparql > $@.tmp \
+    	&& sed 's/^\?//' -i $@.tmp \
+    	&& mv $@.tmp $@
+
 
 # ----------
 
