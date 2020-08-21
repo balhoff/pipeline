@@ -11,6 +11,7 @@ JVM_ARGS=JVM_ARGS=-Xmx80G
 ARQ=$(JVM_ARGS) arq
 RIOT=riot
 BLAZEGRAPH-RUNNER=JAVA_OPTS=-Xmx80G blazegraph-runner
+RELATIONGRAPH=JAVA_OPTS=-Xmx80G relation-graph
 
 BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
@@ -216,7 +217,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ttl 
 
 
 $(BUILD_DIR)/bio-ontologies-property-graphs.ttl : $(BUILD_DIR)/bio-ontologies-merged.ttl
-	relation-graph --ontology-file $< \
+	$(RELATIONGRAPH) --ontology-file $< \
 	--non-redundant-output-file $@ \
 	--redundant-output-file $(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl \
 	--mode rdf
