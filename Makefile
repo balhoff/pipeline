@@ -11,7 +11,7 @@ JVM_ARGS=JVM_ARGS=-Xmx80G
 ARQ=$(JVM_ARGS) arq
 RIOT=riot
 BLAZEGRAPH-RUNNER=JAVA_OPTS=-Xmx80G blazegraph-runner
-RELATIONGRAPH=JAVA_OPTS=-Xmx80G relation-graph
+RELATIONGRAPH=JAVA_OPTS=-Xmx160G relation-graph
 
 BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
