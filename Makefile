@@ -206,10 +206,11 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 # ----------
 
 # Generate phenoscape-kb-tbox.ofn
-$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ttl $(BUILD_DIR)/defined-by-links.ttl $(BUILD_DIR)/phenex-tbox.ofn
+$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ttl $(BUILD_DIR)/defined-by-links.ttl $(BUILD_DIR)/anatomical-entity-absences.ofn $(BUILD_DIR)/phenex-tbox.ofn
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/bio-ontologies-classified.ttl \
 	-i $(BUILD_DIR)/defined-by-links.ttl \
+	-i $(BUILD_DIR)/anatomical-entity-absences.ofn \
 	-i $(BUILD_DIR)/phenex-tbox.ofn \
     convert --format ofn \
 	-o $@.tmp \
