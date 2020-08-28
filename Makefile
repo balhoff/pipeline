@@ -11,6 +11,7 @@ JVM_ARGS=JVM_ARGS=-Xmx80G
 ARQ=$(JVM_ARGS) arq
 RIOT=riot
 BLAZEGRAPH-RUNNER=JAVA_OPTS=-Xmx80G blazegraph-runner
+RELATIONGRAPH=JAVA_OPTS=-Xmx160G relation-graph
 
 BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
@@ -34,8 +35,8 @@ clean:
 # 1. KB build
 # 2. Semantic similarity
 
-
-all: kb-build ss-scores-gen $(DB_FILE)
+# disabled semantic similarity component
+all: kb-build $(DB_FILE)
 
 # ########## # ##########
 # ########## # ##########
@@ -205,38 +206,26 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 # ----------
 
 # Generate phenoscape-kb-tbox.ofn
-$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ttl \
-$(BUILD_DIR)/defined-by-links.ttl \
-$(BUILD_DIR)/phenex-tbox.ofn \
-$(BUILD_DIR)/anatomical-entity-presences.ofn \
-$(BUILD_DIR)/anatomical-entity-absences.ofn \
-$(BUILD_DIR)/anatomical-entity-partOf.ofn \
-$(BUILD_DIR)/hasParts.ofn \
-$(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
+$(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ttl $(BUILD_DIR)/defined-by-links.ttl $(BUILD_DIR)/anatomical-entity-absences.ofn $(BUILD_DIR)/phenex-tbox.ofn
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/bio-ontologies-classified.ttl \
 	-i $(BUILD_DIR)/defined-by-links.ttl \
+	-i $(BUILD_DIR)/anatomical-entity-absences.ofn \
 	-i $(BUILD_DIR)/phenex-tbox.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-presences.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-absences.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-partOf.ofn \
-    -i $(BUILD_DIR)/hasParts.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn \
     convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
-# ----------
 
-# *** Subsumers ***
+$(BUILD_DIR)/bio-ontologies-property-graphs.ttl : $(BUILD_DIR)/bio-ontologies-merged.ttl
+	$(RELATIONGRAPH) --ontology-file $< \
+	--non-redundant-output-file $@ \
+	--redundant-output-file $(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl \
+	--mode rdf
 
-# -----
+# Built along with $(BUILD_DIR)/bio-ontologies-property-graphs.ttl
+$(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl: $(BUILD_DIR)/bio-ontologies-property-graphs.ttl
+	touch $@
 
 $(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-merged.ttl $(SPARQL)/isDefinedBy.sparql
 	$(ROBOT) query \
@@ -244,16 +233,6 @@ $(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-merged.ttl $(SPAR
 	--format ttl \
 	--input $< \
 	--query $(SPARQL)/isDefinedBy.sparql $@
-
-$(BUILD_DIR)/anatomical-entity-presences.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/implies_presence_of.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/implies_presence_of.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
 
 $(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/absences.yaml
 	mkdir -p $(dir $@) \
@@ -264,70 +243,6 @@ $(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical-entities.tx
     	--infile=$< \
     	--outfile=$@.tmp \
     	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-partOf.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/part_of.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/part_of.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/hasParts.ofn: $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities.txt patterns/has_part.yaml
-	mkdir -p $(dir $@) \
-	&& sed '1d' $(BUILD_DIR)/qualities.txt > $(BUILD_DIR)/qualities--header.txt \
-	&& cat $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities--header.txt > $(BUILD_DIR)/anatomical-entities++qualities.txt \
-	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/has_part.yaml \
-    	--infile=$(BUILD_DIR)/anatomical-entities++qualities.txt \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/has_part_inhering_in.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/has_part_inhering_in.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/phenotype_of.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/phenotype_of.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/phenotype_of_part_of.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/phenotype_of_part_of.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/phenotype_of_develops_from.yaml
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--template=patterns/phenotype_of_develops_from.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-# -----
 
 # Generate anatomical-entities.txt
 $(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl $(BUILD_DIR)/defined-by-links.ttl $(SPARQL)/anatomicalEntities.sparql
@@ -340,15 +255,6 @@ $(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl
     	&& sed 's/^\?//' -i $@.tmp \
     	&& mv $@.tmp $@
 
-# Generate qualities.txt
-$(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl $(SPARQL)/qualities.sparql
-	$(ROBOT) query \
-    	-i $< \
-    	--use-graphs true \
-    	--query $(SPARQL)/qualities.sparql $@.tmp \
-    	&& mv $@.tmp $@
-
-# -----
 
 # ----------
 
@@ -686,21 +592,16 @@ $(BUILD_DIR)/build-time.ttl: $(SPARQL)/build-time.sparql
 $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
 			$(BUILD_DIR)/phenoscape-kb.ttl \
 			$(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl \
-			$(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-expect-scores.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl \
-			$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-expect-scores.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl \
+			$(BUILD_DIR)/bio-ontologies-property-graphs.ttl $(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl \
 			$(BUILD_DIR)/phylopics.owl \
-			$(BUILD_DIR)/vto_ncbi_common_names.owl \
-			$(BUILD_DIR)/build-time.ttl
+            $(BUILD_DIR)/vto_ncbi_common_names.owl \
+            $(BUILD_DIR)/build-time.ttl
 	rm -f $@ && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/phenoscape-kb.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/subclass-closure.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/instance-closure.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/corpus-ics-taxa.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/taxa-expect-scores.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/taxa-pairwise-sim.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/gene" $(BUILD_DIR)/corpus-ics-genes.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/gene" $(BUILD_DIR)/gene-expect-scores.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/gene" $(BUILD_DIR)/gene-pairwise-sim.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/property_graphs/non-redundant" $(BUILD_DIR)/bio-ontologies-property-graphs.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/property_graphs/redundant" $(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl && \
 	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://purl.org/phenoscape/phylopics.owl" $(BUILD_DIR)/phylopics.owl && \
 	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/vto_ncbi_common_names.owl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/build-time.ttl

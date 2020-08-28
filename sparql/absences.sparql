@@ -8,7 +8,7 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 SELECT DISTINCT ?taxon (ps:has_absence_of AS ?p) ?entity
 WHERE {
 ?taxon ps:exhibits_state/ps:describes_phenotype/rdfs:subClassOf/ps:absence_of ?phenotypeEntity .
-?entity ^ps:implies_presence_of_some/rdfs:subClassOf/ps:implies_presence_of_some ?phenotypeEntity .
+?phenotypeEntity ps:implies_presence_of|^rdfs:subClassOf ?entity .
 ?entity rdfs:isDefinedBy <http://purl.obolibrary.org/obo/uberon.owl> .
 ?taxon rdfs:isDefinedBy <http://purl.obolibrary.org/obo/vto.owl> .
 }
