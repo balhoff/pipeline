@@ -381,10 +381,11 @@ $(BUILD_DIR)/gene-profiles.ttl: $(BUILD_DIR)/monarch-data-merged.ttl $(SPARQL)/g
     	&& mv $@.tmp $@
 
 # Generate absences.ttl
-$(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closure.ttl  $(BUILD_DIR)/phenex-data+tbox.ttl 
+$(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl $(BUILD_DIR)/phenex-data+tbox.ttl
 	$(ARQ) \
 	-q \
 	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
+	--data=$(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl \
 	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
 	--query=$< > $@.tmp \
@@ -393,10 +394,11 @@ $(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closu
 	
 
 # Generate presences.ttl
-$(BUILD_DIR)/presences.ttl: $(SPARQL)/presences.sparql $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/phenex-data+tbox.ttl
+$(BUILD_DIR)/presences.ttl: $(SPARQL)/presences.sparql $(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl $(BUILD_DIR)/phenex-data+tbox.ttl
 	$(ARQ) \
 	-q \
 	--data=$(BUILD_DIR)/phenex-data+tbox.ttl \
+	--data=$(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl \
 	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
 	--query=$< > $@.tmp \
