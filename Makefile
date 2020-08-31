@@ -217,7 +217,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ttl 
 	&& mv $@.tmp $@
 
 
-$(BUILD_DIR)/bio-ontologies-property-graphs.ttl : $(BUILD_DIR)/bio-ontologies-merged.ttl
+$(BUILD_DIR)/bio-ontologies-property-graphs.ttl : $(BUILD_DIR)/phenoscape-kb-tbox-classified.ttl
 	$(RELATIONGRAPH) --ontology-file $< \
 	--non-redundant-output-file $@ \
 	--redundant-output-file $(BUILD_DIR)/bio-ontologies-redundant-property-graphs.ttl \
