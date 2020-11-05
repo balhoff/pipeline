@@ -199,6 +199,7 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 	--axiom-generators "SubClass EquivalentClass" \
 	--exclude-duplicate-axioms true \
 	--exclude-tautologies structural \
+	-D debug.ofn \
 	convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
