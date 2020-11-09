@@ -3,7 +3,5 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT (STR(?anatomical_entity_iri) AS ?anatomical_entity)
 WHERE
 {
- { ?anatomical_entity_iri rdfs:subClassOf* <http://purl.obolibrary.org/obo/UBERON_0001062> . }
- UNION
- { <http://purl.obolibrary.org/obo/UBERON_0001062> rdfs:subClassOf* ?anatomical_entity_iri . }
+ ?anatomical_entity_iri rdfs:subClassOf* <http://purl.obolibrary.org/obo/UBERON_0001062> .
 }
