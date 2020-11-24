@@ -14,7 +14,7 @@ pipeline {
                     sh "rm -rf phenoscape-data"
                     sh "rm -rf build"
                     sh "if [ ! -d phenoscape-data ]; then git clone --depth 1 https://github.com/phenoscape/phenoscape-data.git; fi"
-                    sh 'make -j 16 all'
+                    sh 'make all'
              }
          }
      }
