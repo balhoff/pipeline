@@ -369,6 +369,7 @@ $(BUILD_DIR)/bio-ontologies-classified.ttl: $(BUILD_DIR)/bio-ontologies-merged.t
 	&& mv $@.tmp $@
 
 # Merge imported ontologies
+# Remove root ZP phenotype because it attracts anything related to 'abnormal' (sizes) during semantic similarity calculations
 $(BUILD_DIR)/bio-ontologies-merged.ttl: $(BIO-ONTOLOGIES) mod_taxa.ttl $(BUILD_DIR)/mirror $(SPARQL)/update_zfa_labels.ru $(SPARQL)/update_xao_labels.ru 
 	$(ROBOT) merge \
 	--catalog $(BUILD_DIR)/mirror/catalog-v001.xml \
@@ -377,6 +378,7 @@ $(BUILD_DIR)/bio-ontologies-merged.ttl: $(BIO-ONTOLOGIES) mod_taxa.ttl $(BUILD_D
 	query \
 	--update $(SPARQL)/update_zfa_labels.ru \
 	--update $(SPARQL)/update_xao_labels.ru \
+	remove --term 'ZP:00000000' --trim true \
 	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
