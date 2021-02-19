@@ -7,7 +7,7 @@
 # Usage example
 # ./run.sh make all
 
-IMAGE_VERSION=v1.4
+IMAGE_VERSION=v1.5.2
 
 # cd pipeline_dir
 # docker pull phenoscape/pipeline-tools:$IMAGE_VERSION
