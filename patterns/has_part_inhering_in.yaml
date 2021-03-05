@@ -17,6 +17,11 @@ annotations:
   - annotationProperty: has_part_inhering_in_some
     var: anatomical_entity
 
+name:
+  text: "phenotype inhering in %s"
+  vars:
+   - anatomical_entity
+
 equivalentTo:
   text: "'has_part_inhering_in' some %s"
   vars:

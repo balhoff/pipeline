@@ -17,6 +17,11 @@ annotations:
   - annotationProperty: phenotype_of_some
     var: anatomical_entity
 
+name:
+  text: "phenotype of %s"
+  vars:
+   - anatomical_entity
+
 equivalentTo:
   text: "'phenotype_of' some %s"
   vars:
