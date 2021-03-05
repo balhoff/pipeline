@@ -17,6 +17,11 @@ annotations:
   - annotationProperty: implies_presence_of_some
     var: anatomical_entity
 
+name:
+  text: "%s presence"
+  vars:
+   - anatomical_entity
+
 equivalentTo:
   text: "'implies_presence_of' some %s"
   vars:

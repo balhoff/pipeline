@@ -11,8 +11,13 @@ relations:
 vars:
   anatomical_entity: thing
 
+name:
+  text: "phenotype of develops from some %s"
+  vars:
+   - anatomical_entity
+
+
 equivalentTo:
   text: "'phenotype_of' some ('reflexive_develops_from' some %s)"
   vars:
-    - anatomical_entity
     - anatomical_entity

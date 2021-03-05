@@ -17,6 +17,11 @@ annotations:
   - annotationProperty: part_of_some
     var: anatomical_entity
 
+name:
+  text: "part of some %s"
+  vars:
+   - anatomical_entity
+
 equivalentTo:
   text: "'part_of' some %s"
   vars:

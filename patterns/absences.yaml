@@ -17,11 +17,14 @@ annotationProperties:
 vars:
   anatomical_entity: thing
 
-
 annotations:
   - annotationProperty: absence_of
     var: anatomical_entity
 
+name:
+  text: "%s absent"
+  vars:
+   - anatomical_entity
 
 equivalentTo:
   text: "'has_part' some (LacksAllPartsOfType and ('towards' value %s))"
