@@ -708,9 +708,9 @@ $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/corpus-ics-taxa.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/taxa-expect-scores.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/taxa-pairwise-sim.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/gene" $(BUILD_DIR)/corpus-ics-genes.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/gene" $(BUILD_DIR)/gene-expect-scores.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/gene" $(BUILD_DIR)/gene-pairwise-sim.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/genes" $(BUILD_DIR)/corpus-ics-genes.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/genes" $(BUILD_DIR)/gene-expect-scores.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/genes" $(BUILD_DIR)/gene-pairwise-sim.ttl && \
 	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://purl.org/phenoscape/phylopics.owl" $(BUILD_DIR)/phylopics.owl && \
 	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/vto_ncbi_common_names.owl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/build-time.ttl
