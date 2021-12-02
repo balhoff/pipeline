@@ -21,7 +21,7 @@ MONARCH=https://data.monarchinitiative.org/dev
 
 ANATOMICAL_ENTTY_PATTERNS=implies_presence_of implies_presence_of absences part_of has_part_inhering_in \
 	phenotype_of phenotype_of_part_of phenotype_of_develops_from
-ANATOMICAL_ENTTY_OFNS=$(patsubst %:$(BUILD_DIR)/anatomical-entity-%.ofn)
+ANATOMICAL_ENTTY_OFNS=$(patsubst %,$(BUILD_DIR)/anatomical-entity-%.ofn,$(ANATOMICAL_ENTTY_PATTERNS))
 
 # ---------------------------------------------------------------------
 
