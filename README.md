@@ -50,7 +50,7 @@ The build workflow can be found [here](https://github.com/phenoscape/pipeline/bl
 The build process involves 
 
 1. Importing/mirroring ontologies given in [ontologies.ofn](https://github.com/phenoscape/pipeline/blob/master/ontologies.ofn)
-2. Downloading data annotated by curators using Phenex (NeXML files)
+2. Downloading [data] (https://github.com/phenoscape/phenoscape-data) annotated by curators using [Phenex] (https://github.com/phenoscape/Phenex) (NeXML files)
 3. Downloading ontologies developed by the [MONARCH Initiative](https://monarchinitiative.org/) - MGI, ZFIN, HPOA
 
 All these ontologies are merged into a single ontology, reasoned over to generate tbox and abox axioms, and finally combined together to form the Phenoscape-KB.
