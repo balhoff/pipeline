@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+var helper = require('./helper.js')
+
+console.log("Running fake python command.")
+
+const argv = helper.getArgv()
+// first positional argument is a python script
+const script = argv._[0]
+switch (script) {
+  case "/tools/regression.py":
+    helper.createFile(argv._[argv._.length - 1])
+    break
+  default:
+    console.log("Unknown python script:", script)
+    process.exit(1)
+}

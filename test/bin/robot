@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var helper = require('./helper.js')
+
+console.log("Running fake robot command.")
+
+const argv = helper.getArgv()
+// first positional argument is a command
+const cmd = argv._[0]
+switch (cmd) {
+  case "query":
+    helper.createFile(argv._[1])
+    break
+  case "mirror":
+  case "merge":
+  case "reason":
+  case "remove":
+    helper.createFile(argv.o)
+    break
+  default:
+    console.log("Unknown command:", cmd)
+    process.exit(1)
+}

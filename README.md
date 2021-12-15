@@ -56,3 +56,27 @@ The build process involves
 All these ontologies are merged into a single ontology, reasoned over to generate tbox and abox axioms, and finally combined together to form the Phenoscape-KB.
 
 `ontology-versions.ttl` contains metadata about the ontologies used in a particular kb build.
+
+# Testing
+
+## Makefile Testing
+The Makefile can be tested using placeholder programs via the test/test-makefile.sh script.
+The placeholder scripts are in the test/bin directory and create empty output files.
+
+### Requirements
+To run this script requires [nodejs](https://nodejs.org/) and GNU sed in your PATH.
+The placeholder scripts requirements can be installed like os:
+```
+npm install yargs
+```
+
+### Running
+The Makefile test can be run as follows:
+```
+./tests/test-makefile.sh
+```
+If the exit status of the above script is 0 the tests succeeded.
+The script will also print the following message when everything passed:
+```
+SUCCESS: Makefile tests passed.
+```

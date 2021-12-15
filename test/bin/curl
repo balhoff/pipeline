@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+var helper = require('./helper.js')
+
+console.log("Running fake curl command.")
+
+const argv = helper.getArgv()
+// first positional argument is a command
+helper.createFile(argv.o)
+

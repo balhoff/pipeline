@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+var helper = require('./helper.js')
+
+console.log("Running fake dosdp-tools command.")
+
+const argv = helper.getArgv()
+helper.createFile(argv.outfile)

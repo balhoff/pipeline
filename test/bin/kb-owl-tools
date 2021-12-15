@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+var helper = require('./helper.js')
+
+console.log("Running fake kb-owl-tools command.")
+
+const argv = helper.getArgv()
+// first positional argument is a command
+const cmd = argv._[0]
+switch (cmd) {
+  case "convert-nexml":
+  case "assert-negation-hierarchy":
+  case "output-evolutionary-profiles":
+  case "expects-to-triples":
+  case "output-profile-sizes":
+  case "output-ics":
+    const outfile = argv._[argv._.length - 1]
+    helper.createFile(outfile)
+    break
+  case "pairwise-sim":
+    // last two positional arguments are files to create
+    helper.createFile(argv._[argv._.length - 1])
+    helper.createFile(argv._[argv._.length - 2])
+    break
+  default:
+    console.log("Unknown command:", cmd)
+    process.exit(1)
+}
