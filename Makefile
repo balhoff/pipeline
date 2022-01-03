@@ -345,8 +345,8 @@ $(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl
     	--data=$(BUILD_DIR)/defined-by-links.ttl \
     	--results=TSV \
     	--query=$(SPARQL)/anatomicalEntities.sparql > $@.tmp \
-    	&& sed 's/^\?//' -i $@.tmp \
-    	&& mv $@.tmp $@
+	&& sed 's/^\?//' $@.tmp > $@.tmp2 \
+	&& rm $@.tmp && mv $@.tmp2 $@
 
 # Generate qualities.txt
 $(BUILD_DIR)/qualities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl $(SPARQL)/qualities.sparql
@@ -492,8 +492,8 @@ $(BUILD_DIR)/absences.ttl: $(SPARQL)/absences.sparql $(BUILD_DIR)/subclass-closu
 	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
 	--query=$< > $@.tmp \
-	&& sed -e '1d' -e 's/$$/ ./' -i $@.tmp \
-	&& mv $@.tmp $@
+	&& sed -e '1d' -e 's/$$/ ./' $@.tmp > $@.tmp2 \
+	&& rm $@.tmp && mv $@.tmp2 $@
 	
 
 # Generate presences.ttl
@@ -504,8 +504,8 @@ $(BUILD_DIR)/presences.ttl: $(SPARQL)/presences.sparql $(BUILD_DIR)/subclass-clo
 	--data=$(BUILD_DIR)/subclass-closure.ttl \
 	--results=TSV \
 	--query=$< > $@.tmp \
-	&& sed -e '1d' -e 's/$$/ ./' -i $@.tmp \
-	&& mv $@.tmp $@
+	&& sed -e '1d' -e 's/$$/ ./' $@.tmp > $@.tmp2 \
+	&& rm $@.tmp && mv $@.tmp2 $@
 
 
 
@@ -531,8 +531,8 @@ $(BUILD_DIR)/subclass-closure.ttl: $(BUILD_DIR)/phenoscape-kb-tbox-classified.tt
 	--optimize=off \
 	--results=TSV \
 	--query=$(SPARQL)/subclass-closure-construct.sparql > $@.tmp \
-	&& sed -e '1d' -e 's/$$/ ./' -i $@.tmp \
-	&& mv $@.tmp $@
+	&& sed -e '1d' -e 's/$$/ ./' $@.tmp > $@.tmp2 \
+	&& rm $@.tmp && mv $@.tmp2 $@
 
 
 # Compute instance closures
