@@ -7,6 +7,11 @@ CONSTRUCT {
 WHERE {
 ?s ?p ?o .
 
+
+# Construct IRIs representing source ontologies for the given subject
+# Example:
+# <http://purl.obolibrary.org/obo/bfo.owl> constructed from <http://purl.obolibrary.org/obo/BFO_0000002>
+  
 FILTER isIRI(?s) .
 FILTER STRSTARTS(STR(?s), "http://purl.obolibrary.org/obo/") .
 BIND (LCASE(REPLACE(STRAFTER(STR(?s), "http://purl.obolibrary.org/obo/"), "_[^_]+$", "")) AS ?ont) 
