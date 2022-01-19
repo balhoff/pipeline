@@ -208,26 +208,26 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ttl \
 $(BUILD_DIR)/defined-by-links.ttl \
 $(BUILD_DIR)/phenex-tbox.ofn \
-$(BUILD_DIR)/anatomical-entity-presences.ofn \
+$(BUILD_DIR)/anatomical-entity-implies_presence_of.ofn \
 $(BUILD_DIR)/anatomical-entity-absences.ofn \
-$(BUILD_DIR)/anatomical-entity-partOf.ofn \
+$(BUILD_DIR)/anatomical-entity-part_of.ofn \
 $(BUILD_DIR)/hasParts.ofn \
-$(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn
+$(BUILD_DIR)/anatomical-entity-has_part_inhering_in.ofn \
+$(BUILD_DIR)/anatomical-entity-phenotype_of.ofn \
+$(BUILD_DIR)/anatomical-entity-phenotype_of_part_of.ofn \
+$(BUILD_DIR)/anatomical-entity-phenotype_of_develops_from.ofn
 	$(ROBOT) merge \
 	-i $(BUILD_DIR)/bio-ontologies-classified.ttl \
 	-i $(BUILD_DIR)/defined-by-links.ttl \
 	-i $(BUILD_DIR)/phenex-tbox.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-presences.ofn \
+    -i $(BUILD_DIR)/anatomical-entity-implies_presence_of.ofn \
     -i $(BUILD_DIR)/anatomical-entity-absences.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-partOf.ofn \
+    -i $(BUILD_DIR)/anatomical-entity-part_of.ofn \
     -i $(BUILD_DIR)/hasParts.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn \
+    -i $(BUILD_DIR)/anatomical-entity-has_part_inhering_in.ofn \
+    -i $(BUILD_DIR)/anatomical-entity-phenotype_of.ofn \
+    -i $(BUILD_DIR)/anatomical-entity-phenotype_of_part_of.ofn \
+    -i $(BUILD_DIR)/anatomical-entity-phenotype_of_develops_from.ofn \
     convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
@@ -245,36 +245,14 @@ $(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-merged.ttl $(SPAR
 	--input $< \
 	--query $(SPARQL)/isDefinedBy.sparql $@
 
-$(BUILD_DIR)/anatomical-entity-presences.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/implies_presence_of.yaml $(BUILD_DIR)/bio-ontologies-merged.ttl
+$(BUILD_DIR)/anatomical-entity-%.ofn: patterns/%.yaml $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/bio-ontologies-merged.ttl
 	mkdir -p $(dir $@) \
     	&& dosdp-tools generate \
     	--generate-defined-class=true \
     	--obo-prefixes=true \
     	--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
-    	--template=patterns/implies_presence_of.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-absences.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/absences.yaml $(BUILD_DIR)/bio-ontologies-merged.ttl
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
-    	--template=patterns/absences.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-partOf.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/part_of.yaml $(BUILD_DIR)/bio-ontologies-merged.ttl
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
-    	--template=patterns/part_of.yaml \
-    	--infile=$< \
+	--template=$< \
+	--infile=$(BUILD_DIR)/anatomical-entities.txt \
     	--outfile=$@.tmp \
     	&& mv $@.tmp $@
 
@@ -288,50 +266,6 @@ $(BUILD_DIR)/hasParts.ofn: $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qua
     	--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
     	--template=patterns/has_part.yaml \
     	--infile=$(BUILD_DIR)/anatomical-entities++qualities.txt \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-hasPartsInheringIns.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/has_part_inhering_in.yaml $(BUILD_DIR)/bio-ontologies-merged.ttl
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
-    	--template=patterns/has_part_inhering_in.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-phenotypeOfs.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/phenotype_of.yaml $(BUILD_DIR)/bio-ontologies-merged.ttl
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
-    	--template=patterns/phenotype_of.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-partOf.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/phenotype_of_part_of.yaml $(BUILD_DIR)/bio-ontologies-merged.ttl
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
-    	--template=patterns/phenotype_of_part_of.yaml \
-    	--infile=$< \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
-$(BUILD_DIR)/anatomical-entity-phenotypeOf-developsFrom.ofn: $(BUILD_DIR)/anatomical-entities.txt patterns/phenotype_of_develops_from.yaml $(BUILD_DIR)/bio-ontologies-merged.ttl
-	mkdir -p $(dir $@) \
-    	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
-    	--template=patterns/phenotype_of_develops_from.yaml \
-    	--infile=$< \
     	--outfile=$@.tmp \
     	&& mv $@.tmp $@
 
@@ -566,66 +500,40 @@ $(BUILD_DIR)/instance-closure.ttl: $(SPARQL)/profile-instance-closure-construct.
 
 # Products
 # 1. taxa-pairwise-sim.ttl
-# 2. gene-pairwise-sim.ttl
+# 2. genes-pairwise-sim.ttl
 # 3. taxa-expect-scores.ttl
-# 4. gene-expect-scores.ttl
+# 4. genes-expect-scores.ttl
 
 ss-scores-gen: $(BUILD_DIR)/taxa-pairwise-sim.ttl \
-$(BUILD_DIR)/gene-pairwise-sim.ttl \
+$(BUILD_DIR)/genes-pairwise-sim.ttl \
 $(BUILD_DIR)/taxa-expect-scores.ttl \
-$(BUILD_DIR)/gene-expect-scores.ttl
+$(BUILD_DIR)/genes-expect-scores.ttl
 
 
 # ########## # ##########
 
 # ##########
-# Pairwise similarity for taxa
+# Pairwise similarity for taxa/genes
 
-$(BUILD_DIR)/taxa-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
-	kb-owl-tools pairwise-sim 1 1 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< taxa $@.tmp $(BUILD_DIR)/taxa-scores.tsv.tmp \
-	&& mv $@.tmp $@ && mv $(BUILD_DIR)/taxa-scores.tsv.tmp $(BUILD_DIR)/taxa-scores.tsv
-
-# ##########
-
-
-# ##########
-# Pairwise similarity for genes
-
-$(BUILD_DIR)/gene-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
-	kb-owl-tools pairwise-sim 1 1 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< genes $@.tmp  $(BUILD_DIR)/gene-scores.tsv.tmp \
-	&& mv $@.tmp $@ && mv $(BUILD_DIR)/gene-scores.tsv.tmp $(BUILD_DIR)/gene-scores.tsv
+$(BUILD_DIR)/%-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
+	kb-owl-tools pairwise-sim 1 1 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< $* $@.tmp $(BUILD_DIR)/$*-scores.tsv.tmp \
+	&& mv $@.tmp $@ && mv $(BUILD_DIR)/$*-scores.tsv.tmp $(BUILD_DIR)/$*-scores.tsv
 
 # ##########
 
-
-# ##########
 # Generate expect scores for taxa and genes
 
-$(BUILD_DIR)/taxa-expect-scores.ttl: $(BUILD_DIR)/taxa-rank-statistics.txt
+$(BUILD_DIR)/%-expect-scores.ttl: $(BUILD_DIR)/%-rank-statistics.txt
 	kb-owl-tools expects-to-triples $< $@.tmp \
 	&& mv $@.tmp $@
 
 
-$(BUILD_DIR)/taxa-rank-statistics.txt: $(BUILD_DIR)/taxa-scores.tsv $(BUILD_DIR)/profile-sizes.txt
-	python $(REGRESSION) `grep 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@.tmp \
+$(BUILD_DIR)/%-rank-statistics.txt: $(BUILD_DIR)/%-scores.tsv $(BUILD_DIR)/%-profile-sizes.txt
+	python $(REGRESSION) `cat $(BUILD_DIR)/$*-profile-sizes.txt | wc -l` $< $@.tmp \
 	&& mv $@.tmp $@
 
 # Built along with $(BUILD_DIR)/taxa-pairwise-sim.ttl
-$(BUILD_DIR)/taxa-scores.tsv: $(BUILD_DIR)/taxa-pairwise-sim.ttl
-	touch $@
-
-# ----------
-
-$(BUILD_DIR)/gene-expect-scores.ttl: $(BUILD_DIR)/gene-rank-statistics.txt
-	kb-owl-tools expects-to-triples $< $@.tmp \
-	&& mv $@.tmp $@
-
-$(BUILD_DIR)/gene-rank-statistics.txt: $(BUILD_DIR)/gene-scores.tsv $(BUILD_DIR)/profile-sizes.txt
-	python $(REGRESSION) `grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt | wc -l` $< $@.tmp \
-	&& mv $@.tmp $@
-
-# Built along with $(BUILD_DIR)/gene-pairwise-sim.ttl
-$(BUILD_DIR)/gene-scores.tsv: $(BUILD_DIR)/gene-pairwise-sim.ttl
+$(BUILD_DIR)/%-scores.tsv: $(BUILD_DIR)/%-pairwise-sim.ttl
 	touch $@
 
 # ----------
@@ -635,14 +543,18 @@ $(BUILD_DIR)/profile-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $(
 	kb-owl-tools output-profile-sizes $< $(BUILD_DIR)/profiles.ttl $@.tmp \
 	&& mv $@.tmp $@
 
-# ----------
-
-$(BUILD_DIR)/corpus-ics-taxa.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
-	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< taxa $@.tmp \
+$(BUILD_DIR)/genes-profile-sizes.txt: $(BUILD_DIR)/profile-sizes.txt
+	grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt > $@.tmp || true \
 	&& mv $@.tmp $@
 
-$(BUILD_DIR)/corpus-ics-genes.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
-	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< genes $@.tmp \
+$(BUILD_DIR)/taxa-profile-sizes.txt: $(BUILD_DIR)/profile-sizes.txt
+	grep 'VTO_' $(BUILD_DIR)/profile-sizes.txt > $@.tmp || true \
+	&& mv $@.tmp $@
+
+# ----------
+
+$(BUILD_DIR)/corpus-ics-%.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
+	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< $* $@.tmp \
 	&& mv $@.tmp $@
 
 # ----------
@@ -697,7 +609,7 @@ $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
 			$(BUILD_DIR)/phenoscape-kb.ttl \
 			$(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl \
 			$(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-expect-scores.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl \
-			$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/gene-expect-scores.ttl $(BUILD_DIR)/gene-pairwise-sim.ttl \
+			$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/genes-expect-scores.ttl $(BUILD_DIR)/genes-pairwise-sim.ttl \
 			$(BUILD_DIR)/phylopics.owl \
 			$(BUILD_DIR)/vto_ncbi_common_names.owl \
 			$(BUILD_DIR)/build-time.ttl
@@ -709,8 +621,8 @@ $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/taxa-expect-scores.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/taxa-pairwise-sim.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/genes" $(BUILD_DIR)/corpus-ics-genes.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/genes" $(BUILD_DIR)/gene-expect-scores.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/genes" $(BUILD_DIR)/gene-pairwise-sim.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/genes" $(BUILD_DIR)/genes-expect-scores.ttl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/genes" $(BUILD_DIR)/genes-pairwise-sim.ttl && \
 	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://purl.org/phenoscape/phylopics.owl" $(BUILD_DIR)/phylopics.owl && \
 	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/vto_ncbi_common_names.owl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/build-time.ttl
