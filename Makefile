@@ -348,61 +348,34 @@ $(BUILD_DIR)/phenex-tbox.ofn: $(BUILD_DIR)/phenex-data-merged.ofn
 # Monarch data
 # 1. MGI
 # 2. ZFIN
-# 3. HPOA
 
 # Merge monarch data files
-$(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/mgislim.ttl $(BUILD_DIR)/zfinslim.ttl $(BUILD_DIR)/monarch-types-labels.ttl #$(BUILD_DIR)/hpoa.ttl 
+$(BUILD_DIR)/monarch-data-merged.ttl: $(BUILD_DIR)/monarch/mgislim.ttl $(BUILD_DIR)/monarch/zfinslim.ttl $(BUILD_DIR)/monarch-types-labels.ttl
 	$(ROBOT) merge \
-	-i $(BUILD_DIR)/mgislim.ttl \
-	-i $(BUILD_DIR)/zfinslim.ttl \
+	-i $(BUILD_DIR)/monarch/mgislim.ttl \
+	-i $(BUILD_DIR)/monarch/zfinslim.ttl \
 	-i $(BUILD_DIR)/monarch-types-labels.ttl \
 	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
-	# disabled from above command line:
-	# -i $(BUILD_DIR)/hpoa.ttl \
 
 # Query monarch data for types and labels
-$(BUILD_DIR)/monarch-types-labels.ttl: $(SPARQL)/monarch-types-labels.sparql $(BUILD_DIR)/mgi.ttl $(BUILD_DIR)/zfin.ttl #$(BUILD_DIR)/hpoa.ttl
+$(BUILD_DIR)/monarch-types-labels.ttl: $(SPARQL)/monarch-types-labels.sparql $(BUILD_DIR)/monarch/mgi.ttl $(BUILD_DIR)/monarch/zfin.ttl
 	$(ARQ) \
 	-q \
-	--data=$(BUILD_DIR)/mgi.ttl \
-	--data=$(BUILD_DIR)/zfin.ttl \
+	--data=$(BUILD_DIR)/monarch/mgi.ttl \
+	--data=$(BUILD_DIR)/monarch/zfin.ttl \
 	--query=$< \
 	--results=NTRIPLES > $@.tmp \
 	&& mv $@.tmp $@
-	# disabled from above command line:
-	# --data=$(BUILD_DIR)/hpoa.ttl \
 
-# Download mgislim.ttl
-$(BUILD_DIR)/mgislim.ttl:
-	mkdir -p $(BUILD_DIR)
-	curl -L $(MONARCH)/mgislim.ttl -o $@.tmp \
+
+# Download MONARCH files
+$(BUILD_DIR)/monarch/%:
+	mkdir -p $(BUILD_DIR)/monarch
+	curl -L $(MONARCH)/$* -o $@.tmp \
 	&& mv $@.tmp $@
 
-# Download mgi.ttl
-$(BUILD_DIR)/mgi.ttl:
-	mkdir -p $(BUILD_DIR)
-	curl -L $(MONARCH)/mgi.ttl -o $@.tmp \
-	&& mv $@.tmp $@
-
-# Download zfinslim.ttl
-$(BUILD_DIR)/zfinslim.ttl:
-	mkdir -p $(BUILD_DIR)
-	curl -L $(MONARCH)/zfinslim.ttl -o $@.tmp \
-	&& mv $@.tmp $@
-
-# Download zfin.ttl
-$(BUILD_DIR)/zfin.ttl:
-	mkdir -p $(BUILD_DIR)
-	curl -L $(MONARCH)/zfin.ttl -o $@.tmp \
-	&& mv $@.tmp $@
-
-# Download hpoa.ttl
-$(BUILD_DIR)/hpoa.ttl:
-	mkdir -p $(BUILD_DIR)
-	curl -L $(MONARCH)/hpoa.ttl -o $@.tmp \
-	&& mv $@.tmp $@
 
 # ##########
 
