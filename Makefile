@@ -217,17 +217,7 @@ $(BUILD_DIR)/anatomical-entity-phenotype_of.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotype_of_part_of.ofn \
 $(BUILD_DIR)/anatomical-entity-phenotype_of_develops_from.ofn
 	$(ROBOT) merge \
-	-i $(BUILD_DIR)/bio-ontologies-classified.ttl \
-	-i $(BUILD_DIR)/defined-by-links.ttl \
-	-i $(BUILD_DIR)/phenex-tbox.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-implies_presence_of.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-absences.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-part_of.ofn \
-    -i $(BUILD_DIR)/hasParts.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-has_part_inhering_in.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotype_of.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotype_of_part_of.ofn \
-    -i $(BUILD_DIR)/anatomical-entity-phenotype_of_develops_from.ofn \
+	$(addprefix -i ,$^) \
     convert --format ofn \
 	-o $@.tmp \
 	&& mv $@.tmp $@
