@@ -1,1 +1,0 @@
-Script to run the pipeline on slurm. To be called as argument to `sbatch` command.
