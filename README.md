@@ -42,6 +42,11 @@ To build a specific component of pipeline, like for instance `semantic similarit
 ./run.sh make ss-scores-gen
 ```
 
+The pipeline can also be run on a [Slurm](https://slurm.schedmd.com/) Cluster that has [Singularity](https://sylabs.io/singularity) installed.
+To build the entire pipeline on a slurm cluster:
+```
+sbatch run.sh make all
+```
 
 # Documentation
 
