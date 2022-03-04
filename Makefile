@@ -15,6 +15,7 @@ BLAZEGRAPH-RUNNER=JAVA_OPTS=-Xmx80G blazegraph-runner
 BIO-ONTOLOGIES=ontologies.ofn
 # Path to data repo; must be separately downloaded/cloned
 NEXML_DATA=phenoscape-data
+NEXML_SUBDIRS_FILE=nexml-subdirs.txt
 DB_FILE=$(BUILD_DIR)/blazegraph-loaded-all.jnl
 BLAZEGRAPH_PROPERTIES=$(RESOURCES)/blazegraph.properties
 MONARCH=https://data.monarchinitiative.org/dev
@@ -128,14 +129,8 @@ $(BUILD_DIR)/phenex-data+tbox.ttl: $(BUILD_DIR)/phenex-data-merged.ofn $(BUILD_D
 # ----------
 
 # Store paths to all needed Phenex NeXML files in NEXMLS variable
-NEXMLS := $(shell mkdir -p $(BUILD_DIR)) \
-$(shell find $(NEXML_DATA)/curation-files/completed-phenex-files -type f -name "*.xml") \
-$(shell find $(NEXML_DATA)/curation-files/fin_limb-incomplete-files -type f -name "*.xml") \
-$(shell find $(NEXML_DATA)/curation-files/Jackson_Dissertation_Files -type f -name "*.xml") \
-$(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniature_Monographs -type f -name "*.xml") \
-$(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Miniatures_Matrix_Files -type f -name "*.xml") \
-$(shell find $(NEXML_DATA)/curation-files/teleost-incomplete-files/Dillman_Supermatrix_Files -type f -name "*.xml") \
-$(shell find $(NEXML_DATA)/curation-files/matrix-vs-monograph -type f -name "*.xml")
+NEXML_SUBDIRS := $(addprefix ${NEXML_DATA}/, $(shell cat ${NEXML_SUBDIRS_FILE}))
+NEXMLS := $(shell find $(NEXML_SUBDIRS) -type f -name "*.xml")
 
 # Store paths to all OFN files which will be produced from NeXML files in NEXML_OWLS variable
 NEXML_OWLS := $(patsubst %.xml, %.ofn, $(patsubst $(NEXML_DATA)/%, $(BUILD_DIR)/phenex-data-owl/%, $(NEXMLS)))
