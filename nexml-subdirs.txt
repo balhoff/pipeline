@@ -1,0 +1,7 @@
+curation-files/completed-phenex-files
+curation-files/fin_limb-incomplete-files
+curation-files/Jackson_Dissertation_Files
+curation-files/teleost-incomplete-files/Miniature_Monographs
+curation-files/teleost-incomplete-files/Miniatures_Matrix_Files
+curation-files/teleost-incomplete-files/Dillman_Supermatrix_Files
+curation-files/matrix-vs-monograph
