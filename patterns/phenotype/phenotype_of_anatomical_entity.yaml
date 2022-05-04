@@ -1,8 +1,8 @@
-pattern_name: phenotype_of
-pattern_iri: http://purl.org/phenoscape/kb/patterns/phenotype_of.yaml
+pattern_name: phenotype_of_entity
+pattern_iri: http://purl.org/phenoscape/kb/patterns/phenotype_of_entity.yaml
 
 classes:
-  thing: owl:Thing
+  anatomical_entity: UBERON:0001062
 
 relations:
   phenotype_of: http://purl.org/phenoscape/vocab.owl#phenotype_of
@@ -11,7 +11,7 @@ annotationProperties:
   phenotype_of_some: http://purl.org/phenoscape/vocab.owl#phenotype_of_some
 
 vars:
-  anatomical_entity: thing
+  anatomical_entity: anatomical_entity
 
 annotations:
   - annotationProperty: phenotype_of_some

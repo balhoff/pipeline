@@ -1,0 +1,28 @@
+pattern_name: develops_from
+pattern_iri: http://purl.org/phenoscape/kb/patterns/develops_from.yaml
+
+classes:
+  anatomical_entity: UBERON:0001062
+
+relations:
+  develops_from: RO:0002202
+
+annotationProperties:
+  develops_from_some: RO:0002202_some
+
+vars:
+  anatomical_entity: anatomical_entity
+
+annotations:
+  - annotationProperty: develops_from_some
+    var: anatomical_entity
+
+name:
+  text: "anatomical entity and develops from some %s"
+  vars:
+   - anatomical_entity
+
+equivalentTo:
+  text: "'anatomical_entity' and 'develops_from' some %s"
+  vars:
+    - anatomical_entity

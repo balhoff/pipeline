@@ -199,18 +199,28 @@ $(BUILD_DIR)/phenoscape-kb-tbox-classified-pre-absence-reasoning.ofn: $(BUILD_DI
 
 # ----------
 
+$(BUILD_DIR)/bio-ontologies-merged-expanded-entities.ttl: $(BUILD_DIR)/bio-ontologies-classified.ttl \
+$(BUILD_DIR)/anatomical-entity/part_of.ofn \
+$(BUILD_DIR)/anatomical-entity/develops_from.ofn
+	$(ROBOT) merge \
+	$(addprefix -i ,$^) \
+	reason --reasoner ELK \
+	--exclude-duplicate-axioms true \
+	--exclude-tautologies structural \
+	convert --format ofn \
+	-o $@.tmp \
+	&& mv $@.tmp $@
+
 # Generate phenoscape-kb-tbox.ofn
 $(BUILD_DIR)/phenoscape-kb-tbox.ofn: $(BUILD_DIR)/bio-ontologies-classified.ttl \
 $(BUILD_DIR)/defined-by-links.ttl \
 $(BUILD_DIR)/phenex-tbox.ofn \
 $(BUILD_DIR)/anatomical-entity-implies_presence_of.ofn \
 $(BUILD_DIR)/anatomical-entity-absences.ofn \
-$(BUILD_DIR)/anatomical-entity-part_of.ofn \
-$(BUILD_DIR)/hasParts.ofn \
-$(BUILD_DIR)/anatomical-entity-has_part_inhering_in.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotype_of.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotype_of_part_of.ofn \
-$(BUILD_DIR)/anatomical-entity-phenotype_of_develops_from.ofn
+$(BUILD_DIR)/anatomical-entity/part_of.ofn \
+$(BUILD_DIR)/anatomical-entity/develops_from.ofn \
+$(BUILD_DIR)/phenotype/phenotype_of_anatomical_entity.ofn \
+$(BUILD_DIR)/phenotype/phenotype_of_quality.ofn
 	$(ROBOT) merge \
 	$(addprefix -i ,$^) \
     convert --format ofn \
@@ -230,6 +240,40 @@ $(BUILD_DIR)/defined-by-links.ttl: $(BUILD_DIR)/bio-ontologies-merged.ttl $(SPAR
 	--input $< \
 	--query $(SPARQL)/isDefinedBy.sparql $@
 
+$(BUILD_DIR)/anatomical-entity/%.ofn: patterns/anatomical-entity/%.yaml $(BUILD_DIR)/core-anatomical-entities.txt $(BUILD_DIR)/bio-ontologies-merged.ttl
+	mkdir -p $(BUILD_DIR)/anatomical-entity &&\
+	dosdp-tools generate \
+		--generate-defined-class=true \
+		--obo-prefixes=true \
+		--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
+		--template=$< \
+		--infile=$(BUILD_DIR)/core-anatomical-entities.txt \
+		--outfile=$@.tmp &&\
+	mv $@.tmp $@
+
+$(BUILD_DIR)/phenotype/phenotype_of_anatomical_entity.ofn: patterns/phenotype/phenotype_of_anatomical_entity.yaml $(BUILD_DIR)/expanded-anatomical-entities.txt $(BUILD_DIR)/bio-ontologies-merged-expanded-entities.ttl
+	mkdir -p $(BUILD_DIR)/phenotype &&\
+	dosdp-tools generate \
+		--generate-defined-class=true \
+		--obo-prefixes=true \
+		--ontology=$(BUILD_DIR)/bio-ontologies-merged-expanded-entities.ttl \
+		--template=$< \
+		--infile=$(BUILD_DIR)/expanded-anatomical-entities.txt \
+		--outfile=$@.tmp &&\
+	mv $@.tmp $@
+
+$(BUILD_DIR)/phenotype/phenotype_of_quality.ofn: patterns/phenotype/phenotype_of_quality.yaml $(BUILD_DIR)/qualities.txt $(BUILD_DIR)/bio-ontologies-merged.ttl
+	mkdir -p $(BUILD_DIR)/phenotype &&\
+	dosdp-tools generate \
+		--generate-defined-class=true \
+		--obo-prefixes=true \
+		--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
+		--template=$< \
+		--infile=$(BUILD_DIR)/qualities.txt \
+		--outfile=$@.tmp &&\
+	mv $@.tmp $@
+
+
 $(BUILD_DIR)/anatomical-entity-%.ofn: patterns/%.yaml $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/bio-ontologies-merged.ttl
 	mkdir -p $(dir $@) \
     	&& dosdp-tools generate \
@@ -241,23 +285,20 @@ $(BUILD_DIR)/anatomical-entity-%.ofn: patterns/%.yaml $(BUILD_DIR)/anatomical-en
     	--outfile=$@.tmp \
     	&& mv $@.tmp $@
 
-$(BUILD_DIR)/hasParts.ofn: $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities.txt patterns/has_part.yaml $(BUILD_DIR)/bio-ontologies-merged.ttl
-	mkdir -p $(dir $@) \
-	&& sed '1d' $(BUILD_DIR)/qualities.txt > $(BUILD_DIR)/qualities--header.txt \
-	&& cat $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/qualities--header.txt > $(BUILD_DIR)/anatomical-entities++qualities.txt \
-	&& dosdp-tools generate \
-    	--generate-defined-class=true \
-    	--obo-prefixes=true \
-    	--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
-    	--template=patterns/has_part.yaml \
-    	--infile=$(BUILD_DIR)/anatomical-entities++qualities.txt \
-    	--outfile=$@.tmp \
-    	&& mv $@.tmp $@
-
 # -----
 
 # Generate anatomical-entities.txt
-$(BUILD_DIR)/anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl $(BUILD_DIR)/defined-by-links.ttl $(SPARQL)/anatomicalEntities.sparql
+$(BUILD_DIR)/core-anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classified.ttl $(SPARQL)/anatomicalEntities.sparql
+	$(ARQ) \
+		-q \
+    	--data=$< \
+    	--data=$(BUILD_DIR)/defined-by-links.ttl \
+    	--results=TSV \
+    	--query=$(SPARQL)/anatomicalEntities.sparql > $@.tmp \
+	&& sed 's/^\?//' $@.tmp > $@.tmp2 \
+	&& rm $@.tmp && mv $@.tmp2 $@
+
+$(BUILD_DIR)/expanded-anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merged-expanded-entities.ttl $(SPARQL)/anatomicalEntities.sparql
 	$(ARQ) \
 		-q \
     	--data=$< \
