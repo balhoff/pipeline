@@ -274,7 +274,7 @@ $(BUILD_DIR)/phenotype/phenotype_of_quality.ofn: patterns/phenotype/phenotype_of
 	mv $@.tmp $@
 
 
-$(BUILD_DIR)/anatomical-entity-%.ofn: patterns/%.yaml $(BUILD_DIR)/anatomical-entities.txt $(BUILD_DIR)/bio-ontologies-merged.ttl
+$(BUILD_DIR)/anatomical-entity-%.ofn: patterns/%.yaml $(BUILD_DIR)/core-anatomical-entities.txt $(BUILD_DIR)/bio-ontologies-merged.ttl
 	mkdir -p $(dir $@) \
     	&& dosdp-tools generate \
     	--generate-defined-class=true \
