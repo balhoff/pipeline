@@ -3,7 +3,6 @@
 
 BUILD_DIR=build
 RESOURCES=resources
-REGRESSION=/tools/regression.py
 SPARQL=sparql
 ROBOT_ENV=ROBOT_JAVA_ARGS=-Xmx80G
 ROBOT=$(ROBOT_ENV) robot
@@ -480,99 +479,6 @@ $(BUILD_DIR)/instance-closure.ttl: $(SPARQL)/profile-instance-closure-construct.
 	&& mv $@.tmp $@
 
 
-# ##########
-
-
-# ########## # ##########
-# ########## # ##########
-
-
-# ********** * **********
-
-
-# ########## # ##########
-# ########## # ##########
-
-# Module 2 ---> Semantic similarity
-
-# ########## # ##########
-
-# Products
-# 1. taxa-pairwise-sim.ttl
-# 2. genes-pairwise-sim.ttl
-# 3. taxa-expect-scores.ttl
-# 4. genes-expect-scores.ttl
-
-ss-scores-gen: $(BUILD_DIR)/taxa-pairwise-sim.ttl \
-$(BUILD_DIR)/genes-pairwise-sim.ttl \
-$(BUILD_DIR)/taxa-expect-scores.ttl \
-$(BUILD_DIR)/genes-expect-scores.ttl
-
-
-# ########## # ##########
-
-# ##########
-# Pairwise similarity for taxa/genes
-
-$(BUILD_DIR)/%-pairwise-sim.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
-	kb-owl-tools pairwise-sim 1 1 $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< $* $@.tmp $(BUILD_DIR)/$*-scores.tsv.tmp \
-	&& mv $@.tmp $@ && mv $(BUILD_DIR)/$*-scores.tsv.tmp $(BUILD_DIR)/$*-scores.tsv
-
-# ##########
-
-# Generate expect scores for taxa and genes
-
-$(BUILD_DIR)/%-expect-scores.ttl: $(BUILD_DIR)/%-rank-statistics.txt
-	kb-owl-tools expects-to-triples $< $@.tmp \
-	&& mv $@.tmp $@
-
-
-$(BUILD_DIR)/%-rank-statistics.txt: $(BUILD_DIR)/%-scores.tsv $(BUILD_DIR)/%-profile-sizes.txt
-	python $(REGRESSION) `cat $(BUILD_DIR)/$*-profile-sizes.txt | wc -l` $< $@.tmp \
-	&& mv $@.tmp $@
-
-# Built along with $(BUILD_DIR)/taxa-pairwise-sim.ttl
-$(BUILD_DIR)/%-scores.tsv: $(BUILD_DIR)/%-pairwise-sim.ttl
-	touch $@
-
-# ----------
-
-# Output profile sizes
-$(BUILD_DIR)/profile-sizes.txt: $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $(BUILD_DIR)/profiles.ttl
-	kb-owl-tools output-profile-sizes $< $(BUILD_DIR)/profiles.ttl $@.tmp \
-	&& mv $@.tmp $@
-
-$(BUILD_DIR)/genes-profile-sizes.txt: $(BUILD_DIR)/profile-sizes.txt
-	grep -v 'VTO_' $(BUILD_DIR)/profile-sizes.txt > $@.tmp || true \
-	&& mv $@.tmp $@
-
-$(BUILD_DIR)/taxa-profile-sizes.txt: $(BUILD_DIR)/profile-sizes.txt
-	grep 'VTO_' $(BUILD_DIR)/profile-sizes.txt > $@.tmp || true \
-	&& mv $@.tmp $@
-
-# ----------
-
-$(BUILD_DIR)/corpus-ics-%.ttl: $(BUILD_DIR)/profiles.ttl $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl
-	kb-owl-tools output-ics $(BUILD_DIR)/phenoscape-kb-tbox-hierarchy.ttl $< $* $@.tmp \
-	&& mv $@.tmp $@
-
-# ----------
-
-# Generate profiles.ttl for genes and taxa
-$(BUILD_DIR)/profiles.ttl: $(BUILD_DIR)/evolutionary-profiles.ttl $(BUILD_DIR)/gene-profiles.ttl
-	$(ROBOT) merge \
-	-i $(BUILD_DIR)/evolutionary-profiles.ttl \
-	-i $(BUILD_DIR)/gene-profiles.ttl \
-	convert --format ttl \
-	-o $@.tmp \
-	&& mv $@.tmp $@
-
-# ##########
-
-# ########## # ##########
-# ########## # ##########
-
-
 $(BUILD_DIR)/phylopics.owl: $(NEXML_DATA)/KB_static_data/phylopics.owl
 	cp $< $@
 
@@ -607,8 +513,6 @@ $(BUILD_DIR)/build-time.ttl: $(SPARQL)/build-time.sparql
 $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
 			$(BUILD_DIR)/phenoscape-kb.ttl \
 			$(BUILD_DIR)/subclass-closure.ttl $(BUILD_DIR)/instance-closure.ttl \
-			$(BUILD_DIR)/corpus-ics-taxa.ttl $(BUILD_DIR)/taxa-expect-scores.ttl $(BUILD_DIR)/taxa-pairwise-sim.ttl \
-			$(BUILD_DIR)/corpus-ics-genes.ttl $(BUILD_DIR)/genes-expect-scores.ttl $(BUILD_DIR)/genes-pairwise-sim.ttl \
 			$(BUILD_DIR)/phylopics.owl \
 			$(BUILD_DIR)/vto_ncbi_common_names.owl \
 			$(BUILD_DIR)/build-time.ttl
@@ -616,13 +520,7 @@ $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/phenoscape-kb.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/subclass-closure.ttl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/closure" $(BUILD_DIR)/instance-closure.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/corpus-ics-taxa.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/taxa-expect-scores.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/taxa" $(BUILD_DIR)/taxa-pairwise-sim.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/genes" $(BUILD_DIR)/corpus-ics-genes.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/genes" $(BUILD_DIR)/genes-expect-scores.ttl && \
- 	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/sim/genes" $(BUILD_DIR)/genes-pairwise-sim.ttl && \
-	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://purl.org/phenoscape/phylopics.owl" $(BUILD_DIR)/phylopics.owl && \
+ 	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://purl.org/phenoscape/phylopics.owl" $(BUILD_DIR)/phylopics.owl && \
 	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/vto_ncbi_common_names.owl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/build-time.ttl
 
