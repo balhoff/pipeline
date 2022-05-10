@@ -280,7 +280,7 @@ $(BUILD_DIR)/anatomical-entity-%.ofn: patterns/%.yaml $(BUILD_DIR)/core-anatomic
     	--obo-prefixes=true \
     	--ontology=$(BUILD_DIR)/bio-ontologies-merged.ttl \
 	--template=$< \
-	--infile=$(BUILD_DIR)/anatomical-entities.txt \
+	--infile=$(BUILD_DIR)/core-anatomical-entities.txt \
     	--outfile=$@.tmp \
     	&& mv $@.tmp $@
 
