@@ -291,7 +291,6 @@ $(BUILD_DIR)/core-anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-classifie
 	$(ARQ) \
 		-q \
     	--data=$< \
-    	--data=$(BUILD_DIR)/defined-by-links.ttl \
     	--results=TSV \
     	--query=$(SPARQL)/anatomicalEntities.sparql > $@.tmp \
 	&& sed 's/^\?//' $@.tmp > $@.tmp2 \
@@ -301,7 +300,6 @@ $(BUILD_DIR)/expanded-anatomical-entities.txt: $(BUILD_DIR)/bio-ontologies-merge
 	$(ARQ) \
 		-q \
     	--data=$< \
-    	--data=$(BUILD_DIR)/defined-by-links.ttl \
     	--results=TSV \
     	--query=$(SPARQL)/anatomicalEntities.sparql > $@.tmp \
 	&& sed 's/^\?//' $@.tmp > $@.tmp2 \
