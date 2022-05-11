@@ -17,7 +17,7 @@ NEXML_DATA=phenoscape-data
 NEXML_SUBDIRS_FILE=nexml-subdirs.txt
 DB_FILE=$(BUILD_DIR)/blazegraph-loaded-all.jnl
 BLAZEGRAPH_PROPERTIES=$(RESOURCES)/blazegraph.properties
-MONARCH=https://data.monarchinitiative.org/dev
+MONARCH=https://data.monarchinitiative.org/latest/rdf
 
 
 
