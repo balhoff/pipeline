@@ -206,7 +206,7 @@ $(BUILD_DIR)/anatomical-entity/develops_from.ofn
 	reason --reasoner ELK \
 	--exclude-duplicate-axioms true \
 	--exclude-tautologies structural \
-	convert --format ofn \
+	convert --format ttl \
 	-o $@.tmp \
 	&& mv $@.tmp $@
 
