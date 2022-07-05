@@ -218,6 +218,7 @@ $(BUILD_DIR)/anatomical-entity-implies_presence_of.ofn \
 $(BUILD_DIR)/anatomical-entity-absences.ofn \
 $(BUILD_DIR)/anatomical-entity/part_of.ofn \
 $(BUILD_DIR)/anatomical-entity/develops_from.ofn \
+$(BUILD_DIR)/anatomical-entity/has_part_inhering_in.ofn \
 $(BUILD_DIR)/phenotype/phenotype_of_anatomical_entity.ofn \
 $(BUILD_DIR)/phenotype/phenotype_of_quality.ofn
 	$(ROBOT) merge \
