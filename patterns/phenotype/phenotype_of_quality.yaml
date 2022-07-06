@@ -2,7 +2,7 @@ pattern_name: has_part
 pattern_iri: http://purl.org/phenoscape/kb/patterns/has_part.yaml
 
 classes:
-  thing: owl:Thing
+  quality: PATO:0000001
 
 relations:
   has_part: BFO:0000051
@@ -11,18 +11,18 @@ annotationProperties:
   has_part_some: BFO:0000051_some
 
 vars:
-  anatomical_entity: thing
+  quality: "'quality'"
 
 annotations:
   - annotationProperty: has_part_some
-    var: anatomical_entity
+    var: quality
 
 name:
-  text: "has part some %s"
+  text: "phenotype of %s"
   vars:
-   - anatomical_entity
+   - quality
 
 equivalentTo:
   text: "'has_part' some %s"
   vars:
-    - anatomical_entity
+    - quality

@@ -2,7 +2,7 @@ pattern_name: part_of
 pattern_iri: http://purl.org/phenoscape/kb/patterns/part_of.yaml
 
 classes:
-  thing: owl:Thing
+  anatomical_entity: UBERON:0001062
 
 relations:
   part_of: BFO:0000050
@@ -11,18 +11,18 @@ annotationProperties:
   part_of_some: BFO:0000050_some
 
 vars:
-  anatomical_entity: thing
+  anatomical_entity: anatomical_entity
 
 annotations:
   - annotationProperty: part_of_some
     var: anatomical_entity
 
 name:
-  text: "part of some %s"
+  text: "anatomical entity and part of some %s"
   vars:
    - anatomical_entity
 
 equivalentTo:
-  text: "'part_of' some %s"
+  text: "'anatomical_entity' and 'part_of' some %s"
   vars:
     - anatomical_entity
