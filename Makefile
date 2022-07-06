@@ -35,7 +35,7 @@ clean:
 # 2. Semantic similarity
 
 
-all: kb-build $(DB_FILE)
+all: kb-build $(DB_FILE) phenoscape-all.ttl
 
 # ########## # ##########
 # ########## # ##########
@@ -522,6 +522,9 @@ $(DB_FILE): $(BLAZEGRAPH_PROPERTIES) \
  	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://purl.org/phenoscape/phylopics.owl" $(BUILD_DIR)/phylopics.owl && \
 	$(BLAZEGRAPH-RUNNER) load --informat=rdfxml --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/vto_ncbi_common_names.owl && \
  	$(BLAZEGRAPH-RUNNER) load --informat=turtle --journal=$@ --properties=$< --graph="http://kb.phenoscape.org/" $(BUILD_DIR)/build-time.ttl
+
+phenoscape-all.ttl: $(DB_FILE)
+	$(BLAZEGRAPH-RUNNER) dump --journal=$< --properties=$(BLAZEGRAPH_PROPERTIES) --outformat=ntriples $@
 
 # ##########
 
